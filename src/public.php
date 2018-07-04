@@ -4,7 +4,6 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
-
 chdir(__DIR__);
 
 define("PROJECT_PATH", __DIR__);
@@ -24,20 +23,31 @@ if (!empty($_SERVER["HTTP_STRIPE_SIGNATURE"])) {
   // ## If payload has servicePlans - servicePlans == true
 } elseif (!empty($payload_decoded->servicePlans)) {
     // ## Instantiate handler
-    $handler = new StripeHandler;
+    $handler = new UcrmHandler;
     // ## Return service plans
-    echo json_response($handler->getPricingPlans(), 200, true);
+    echo json_response($handler->getServicePlans(), 200, true);
+
+  // ## If payload has country_id
+} elseif (!empty($payload_decoded->country_id)) {
+    // ## Instantiate handler
+    $handler = new UcrmHandler;
+    // ## Return countries
+    echo json_response($handler->getStatesByCountry($payload_decoded->country_id), 200, true);
+
+  // ## If payload has countries - countries == true
+} elseif (!empty($payload_decoded->countries)) {
+    // ## Instantiate handler
+    $handler = new UcrmHandler;
+    // ## Return countries
+    echo json_response($handler->getCountries(), 200, true);
     
 // ## Only run if app key exists
 } elseif (!empty($payload_decoded->pluginAppKey)) {
-  // ## If payload includes client
-  if (!empty($payload_decoded->client)) {
-    // ## Instantiate handler
-    $handler = new UcrmHandler;
-    // ## Create Client
-    $handler->createClient($payload_decoded->client, true);
-  } 
-  
+  // ## Instantiate handler
+  $handler = new StripeHandler;
+  // ## Attempt to build Services
+  $handler->buildServices($payload);
+  echo json_response($handler->getResponse(), 200);
   
   // ## Else, return form
 } else {
@@ -52,16 +62,17 @@ if (!empty($_SERVER["HTTP_STRIPE_SIGNATURE"])) {
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup%22%2C%22host%22%3A%22<?php echo PLUGIN_PUBLIC_URL; ?>%22%2C%22completionText%22%3A%22<?php echo rawurlencode((string)COMPLETION_TEXT); ?>%22%2C%22pluginAppKey%22%3A%22<?php echo FRONTEND_PUBLIC_KEY; ?>%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+bdc8ead4%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+    <meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup%22%2C%22host%22%3A%22<?php echo rawurlencode((string)PLUGIN_PUBLIC_URL); ?>%22%2C%22completionText%22%3A%22<?php echo rawurlencode((string)COMPLETION_TEXT); ?>%22%2C%22pluginAppKey%22%3A%22<?php echo FRONTEND_PUBLIC_KEY; ?>%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+84bc7820%22%7D%2C%22stripe%22%3A%7B%22publishableKey%22%3A%22<?php echo STRIPE_PUBLIC_KEY; ?>%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
 
     <style type="text/css">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
-      <?php include(PROJECT_PATH.'/assets/vendor-d3aa84b783735f00b7be359e81298bf2.css'); ?>
-      <?php include(PROJECT_PATH.'/assets/ucrm-client-signup-form-9a21c280b24385946f336cb12efa56fe.css'); ?>
+      <?php include(PROJECT_PATH.'/assets/vendor-463d4d71894dfde19d720aa6b937502f.css'); ?>
+      <?php include(PROJECT_PATH.'/assets/ucrm-client-signup-form-500a5c0e9df67704f365edc02f483591.css'); ?>
     </style>
     
   </head>
   <body>
+    <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 
     <?php if (!empty(LOGO_URL)) { ?>
       <img src="<?php echo LOGO_URL; ?>" class="logo">
@@ -82,8 +93,8 @@ if (!empty($_SERVER["HTTP_STRIPE_SIGNATURE"])) {
     <div id="ember-signup"></div>
     <script type="text/javascript">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
-      <?php include(PROJECT_PATH.'/assets/vendor-1716fefcfca3e53fa332dd1a1c3eeead.js'); ?>
-      <?php include(PROJECT_PATH.'/assets/ucrm-client-signup-form-be3bda63c1dd28be4ae04cb1304c6c78.js'); ?>
+      <?php include(PROJECT_PATH.'/assets/vendor-9bfe2b44f19210a7c1959ef10ea382e2.js'); ?>
+      <?php include(PROJECT_PATH.'/assets/ucrm-client-signup-form-69e8f3d0a7e87afbdf3705063a42feeb.js'); ?>
     </script>
 
     <div id="ember-bootstrap-wormhole"></div>

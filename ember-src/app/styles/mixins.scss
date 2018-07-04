@@ -3,3 +3,49 @@
   margin: $margin;
   display: $display;
 }
+
+@mixin borderRadius($type: all, $radius: 5px) {
+
+  @if $type == 'bottom' {
+    border-bottom-right-radius: $radius;
+    -moz-border-bottom-right-radius: $radius;
+    -ie-border-bottom-right-radius: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
+    -moz-border-bottom-left-radius: $radius;
+    -ie-border-bottom-left-radius: $radius;
+    -webkit-border-bottom-left-radius: $radius;
+  } @elseif $type == 'top' {
+    border-top-right-radius: $radius;
+    -moz-border-top-right-radius: $radius;
+    -ie-border-top-right-radius: $radius;
+    -webkit-border-top-right-radius: $radius;
+    border-top-left-radius: $radius;
+    -moz-border-top-left-radius: $radius;
+    -ie-border-top-left-radius: $radius;
+    -webkit-border-top-left-radius: $radius;
+  } @elseif $type == 'left' {
+    border-bottom-left-radius: $radius;
+    -moz-border-bottom-left-radius: $radius;
+    -ie-border-bottom-left-radius: $radius;
+    -webkit-border-bottom-left-radius: $radius;
+    border-top-left-radius: $radius;
+    -moz-border-top-left-radius: $radius;
+    -ie-border-top-left-radius: $radius;
+    -webkit-border-top-left-radius: $radius;
+  } @elseif $type == 'right' {
+    border-top-right-radius: $radius;
+    -moz-border-top-right-radius: $radius;
+    -ie-border-top-right-radius: $radius;
+    -webkit-border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+    -moz-border-bottom-right-radius: $radius;
+    -ie-border-bottom-right-radius: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+  } @else {
+    border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ie-border-radius: $radius;
+    -webkit-border-radius: $radius;
+  }
+}

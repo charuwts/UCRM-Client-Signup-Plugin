@@ -5,12 +5,12 @@
 
 @import "ember-bootstrap/bootstrap";
 
-body { font-family: $latoFont; }
+body, h1, h2, h3, h4, h5 { font-family: $latoFont; }
 
 .logo {
   display: block;
   margin: 20px auto;
-  max-width: 400px;
+  max-width: 100%;
   height: auto;
 }
 .application-wrapper {
@@ -23,3 +23,22 @@ body { font-family: $latoFont; }
   font-size: 1.3rem;
   padding: 0.5rem 1rem;
 }
+#service-details {
+  h2, .h2 {
+    font-size: 1.1rem;
+  }
+  h3 {
+    font-size: 0.9rem;
+  }
+}
+#payment-wrapper {
+  .StripeElement {
+    border: 1px solid #eee;
+    padding: 5px;
+    @include borderRadius;
+  }
+}
+
+@import "ember-power-select/themes/bootstrap";
+
+@import "ember-power-select";

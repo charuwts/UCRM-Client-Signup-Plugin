@@ -1,29 +1,58 @@
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { computed } from '@ember/object';
-const { attr } = DS;
+import ENV from "../config/environment";
 
-const Validations = buildValidations({
-  firstName: [
-    validator('presence', true),
-    validator('length', {
-      min: 3,
-    })
-  ],
-  lastName: [
-    validator('presence', true),
-    validator('length', {
-      min: 3,
-    })
-  ],
-  email: [
-    validator('presence', true),
-    validator('format', { type: 'email' })
-  ],
-  phone: [
-    validator('presence', true),
-  ]
-});
+const { attr } = DS;
+var Validations;
+if (ENV.APP.useCountrySelect === 'TRUE') {
+  Validations = buildValidations({
+    firstName: [
+      validator('presence', true),
+      validator('length', {
+        min: 3,
+      })
+    ],
+    lastName: [
+      validator('presence', true),
+      validator('length', {
+        min: 3,
+      })
+    ],
+    email: [
+      validator('presence', true),
+      validator('format', { type: 'email' })
+    ],
+    phone: [
+      validator('presence', true),
+    ],
+    countryId: [
+      validator('presence', true),
+    ]
+  });
+} else {
+  Validations = buildValidations({
+    firstName: [
+      validator('presence', true),
+      validator('length', {
+        min: 3,
+      })
+    ],
+    lastName: [
+      validator('presence', true),
+      validator('length', {
+        min: 3,
+      })
+    ],
+    email: [
+      validator('presence', true),
+      validator('format', { type: 'email' })
+    ],
+    phone: [
+      validator('presence', true),
+    ]
+  });
+}
 
 export default DS.Model.extend(Validations, {
   firstName: attr('string'),
@@ -38,20 +67,16 @@ export default DS.Model.extend(Validations, {
   phone: attr('string'),
 
   // state: belongsTo('state'),
-  stateId: attr('number', {defaultValue: 6}),
-  countryId: attr('number', {defaultValue: 249}),
+  state: attr(),
+  country: attr(),
 
   agreedToTAC: attr('boolean', {defaultValue: false}),
 
-  fullAddress: computed('street1', 'zipCode', 'city', function() {
-    return this.get('street1') + ', ' + this.get('city') + ', CO. ' + this.get('zipCode')
+  stateId: computed('state', function() {
+    return this.get('state.id');
   }),
-
-  // stateId: computed('state', function() {
-  //   return this.get('state.id');
-  // }),
-  // country: belongsTo('country'),
-  // countryId: computed('country', function() {
-  //   return this.get('country.id');
-  // }),
+  // // country: belongsTo('country'),
+  countryId: computed('country', function() {
+    return this.get('country.id');
+  }),
 });

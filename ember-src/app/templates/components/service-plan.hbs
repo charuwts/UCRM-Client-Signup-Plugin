@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-header text-center bg-primary text-white">
+    <h5 class="card-title">{{plan.name}}</h5>
+  </div>
+  <div class="card-body">
+    {{#each plan.periods as |period|}}
+      {{#if period.enabled}}
+        <div class="row no-gutters">
+          <div class="col-sm-8 text-center">
+            {{period-text period.period}}<br>
+            <div class="h4">${{period.price}}</div>
+          </div>
+          {{#if (is-value model.servicePlanPeriodId period.id)}}
+            <div class="col-sm-4 btn btn-success text-center my-2" style="font-size:1rem;">Selected</div>
+          {{else}}
+            <div class="col-sm-4 btn btn-light text-center my-2" style="font-size:1rem;" {{action 'selectServicePlan' plan period.id period.price period.period}}>Select</div>
+          {{/if}}
+        </div>
+        <hr>
+      {{/if}}
+    {{/each}}
+  </div>
+</div>

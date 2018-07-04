@@ -12,9 +12,10 @@ export default Route.extend({
     if (params.expired === true) {
       this.set('controller.expired', true);
     }
-    return hash({
+    return this.modelFor('signup');
+    // return hash({
       // countries: this.get('store').findAll('country'),
-      client: this.modelFor('signup').client
-    })
+      // client: this.modelFor('signup').client
+    // })
   },
 });

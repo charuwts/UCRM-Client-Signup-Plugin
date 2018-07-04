@@ -24,6 +24,7 @@ module.exports = function(environment) {
       host: 'http://plugin/src/public.php',
       completionText: 'completiontextinformation',
       pluginAppKey: 'development_key',
+      useCountrySelect: 'TRUE',
     }
   };
 
@@ -33,9 +34,16 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.stripe = {
+      publishableKey: 'pk_test_qsnFvCBr4Zc41K7EpEYWvYTh'
+    };
+
   }
 
   if (environment === 'test') {
+    ENV.APP.host = 'http =//plugin/src/public.php';
+    ENV.APP.completionText = 'completiontextinformation';
+    ENV.APP.pluginAppKey = 'development_key';
     // Testem prefers this...
     ENV.locationType = 'none';
 
@@ -45,10 +53,18 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+
+    ENV.stripe = {
+      publishableKey: 'pk_test_qsnFvCBr4Zc41K7EpEYWvYTh'
+    };
   }
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    ENV.stripe = {
+      publishableKey: 'pk_test_qsnFvCBr4Zc41K7EpEYWvYTh'
+    };
+
   }
 
   return ENV;

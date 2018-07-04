@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('account', {path: '/'});
     this.route('complete');
     this.route('services');
+    this.route('payment');
   });
 });
 

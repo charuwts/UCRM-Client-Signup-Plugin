@@ -24,9 +24,18 @@ if (file_exists($config_path)) {
   $config_string = file_get_contents($config_path);
   $config_json = json_decode($config_string);
 
-  define("STRIPE_SECRET_KEY", $config_json->requiredStripeSecretKey);
-  define("STRIPE_ENDPOINT_SECRET", $config_json->requiredStripeEndpointSecret);
+  define("CUSTOM_ATTRIBUTE_ID", $config_json->requiredCustomAttributeId);
 
+
+  // ## Check if Stripe configuration is set, if so USE_STRIPE=true
+  if (!empty($config_json->optionalStripeSecretKey) && !empty($config_json->optionalStripePublicKey) && !empty($config_json->optionalStripeEndpointSecret)) {
+    define("USE_STRIPE", true);
+    define("STRIPE_SECRET_KEY", $config_json->optionalStripeSecretKey);
+    define("STRIPE_PUBLIC_KEY", $config_json->optionalStripePublicKey);
+    define("STRIPE_ENDPOINT_SECRET", $config_json->optionalStripeEndpointSecret);
+  } else {
+    define("USE_STRIPE", false);
+  }
 
   if (!empty($config_json->optionalLogoUrl)) {
     define("LOGO_URL", $config_json->optionalLogoUrl);
@@ -48,10 +57,14 @@ if (file_exists($config_path)) {
   } else {
     define("COMPLETION_TEXT", 'Thank you for signing up! You will receive an invitation to access your account upon approval.');
   }
-  if (!empty($config_json->optionalAutoInvoice)) {
-    define("AUTO_INVOICE", $config_json->optionalAutoInvoice);
+  if (!empty($config_json->optionalCountrySelect)) {
+    if ($config_json->optionalCountrySelect === 'TRUE') {
+      define("USE_COUNTRY_SELECT", 'TRUE');
+    } else {
+      define("USE_COUNTRY_SELECT", 'FALSE');
+    }
   } else {
-    define("AUTO_INVOICE", false);
+    define("USE_COUNTRY_SELECT", 'FALSE');
   }
   
 } else {

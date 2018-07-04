@@ -30,20 +30,22 @@
       {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder="Zip" property="zipCode" required=true}}
     </div>
   </div>
-
-  {{!-- <div class="form-row"> --}}
-{{!--     <div class="col-md-3 mb-2">
+{{#if model.countries}}
+  <div class="form-row">
+    <div class="col-md-3 mb-2">
       {{#form.element controlType="power-select" id="country" property="country" options=model.countries optionLabelPath="name" as |power-sel|}}
         {{power-sel.control searchField="name" autocomplete="" placeholder="Choose Country"}}
       {{/form.element}}
     </div>
-    <div class="col-md-3 mb-2">
-      {{#form.element controlType="power-select" id="state" property="state" options=states optionLabelPath="name" as |power-sel|}}
-        {{power-sel.control searchField="name" autocomplete="" placeholder="Choose State"}}
-      {{/form.element}}
-    </div>
- --}}    
-  {{!-- </div> --}}
+    {{#if states}}
+      <div class="col-md-3 mb-2">
+        {{#form.element controlType="power-select" id="state" property="state" options=states optionLabelPath="name" as |power-sel|}}
+          {{power-sel.control searchField="name" autocomplete="" placeholder="Choose State"}}
+        {{/form.element}}
+      </div>
+    {{/if}}
+  </div>
+{{/if}}
 
   {{#unless error}}
     {{#if pending}}
@@ -86,7 +88,7 @@
       {{else if (v-get model.client 'isInvalid')}}
         <div class="btn btn-dark disabled" id="proceed"><span>Provide Info</span></div>
       {{else}}
-        <button class="btn btn-secondary" id="proceed" type="submit"><span>Signup</span></button>
+        <button class="btn btn-primary" id="proceed" type="submit"><span>Proceed</span></button>
       {{/if}}
     </div>
   </div>
