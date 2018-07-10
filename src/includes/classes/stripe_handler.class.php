@@ -28,7 +28,7 @@ class StripeHandler extends StripeApi {
       // ## Check if Card was successfully set
       if (!empty($customer->default_source)) {
         // ## Set Stripe Customer ID to client's custom attribute
-        $ucrm_handler->setCustomAttributeId($client->id, $customer->id);
+        $ucrm_handler->setCustomAttributeValue($client->id, $customer->id);
 
         // ## Create Service
         $date = new DateTime();
@@ -45,6 +45,52 @@ class StripeHandler extends StripeApi {
       }
     } else {
       $this->setResponse('Client failed', 400);
+    }
+  }
+
+  /**
+   * ## Stripe Charge
+   * 
+   * @param string $payload // JSON
+   *
+   *
+   */
+  public function chargeCustomer($client_id, $amount, $currency) {
+    $ucrm_handler = new UcrmHandler();
+    $client = $ucrm_handler->getClient($client_id);
+    $customer_id = $ucrm_handler->getCustomAttributeValue($client->attributes);
+
+    if ($client !== false) {
+      if ($customer_id !== false) {
+
+        $currency = strtolower($currency);
+        
+        // ## Convert to cents if not zero decimal currency
+        if (parent::notZeroDecimal($currency)) {
+          $amount = $amount * 100; 
+        }
+
+        $charge = $this->StripeTry(["customer_id" => $customer_id, "amount" => $amount, "currency" => $currency], function($array) {
+          return \Stripe\Charge::create([
+            'amount' => $array['amount'],
+            'currency' => $array['currency'],
+            'description' => 'UCRM Charge',
+            'customer' => $array['customer_id']
+          ]);
+        });
+        if ($charge->paid == true) {
+          return $charge;
+        } else {
+          log_event('Charge Failed', "Customer ID: {$customer_id}");
+          return false;
+        }
+      } else {
+        log_event('Custom Attr not set on client', "Client ID: {$client_id}");
+        return false;
+      }
+    } else {
+      log_event('Client not found', "Client ID: {$client_id}");
+      return false;
     }
   }
 

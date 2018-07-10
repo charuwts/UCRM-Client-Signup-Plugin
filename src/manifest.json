@@ -5,7 +5,7 @@
     "displayName": "UCRM Client Signup Plugin",
     "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "1.0.0-beta",
+    "version": "1.0.0",
     "ucrmVersionCompliancy": {
       "min": "2.11.1",
       "max": null
@@ -22,7 +22,7 @@
     {
         "key": "optionalStripeSecretKey",
         "label": "Stripe Secret Key",
-        "description": "This is your Stripe API Secret Key. Make sure, you use LIVE credentials in production. https://stripe.com/docs/keys#api-keys",
+        "description": "This is your Stripe API Secret Key. Make sure, you use LIVE credentials in production. https://stripe.com/docs/keys#api-keys Also Note: These currencies supported by UCRM are not supported by Stripe [VEF, GHC, TVD, LVL, TRL, LTL, CUP, GGP, IMP, JEP, SYP, IRR, OMR, BYN, KPW, ZWD]",
         "required": 1
     },
     {

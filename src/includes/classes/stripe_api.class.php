@@ -3,6 +3,17 @@ class StripeApi {
   private $response;
   private static $endpoint_secret = null;
   private static $is_valid = false;
+  public static $zero_decimal_currencies = ["mga", "bif", "clp", "pyg", "djf", "rwf", "gnf", "ugx", "jpy", "vnd", "vuv", "xaf", "kmf", "krw", "xof", "xpf"];
+  // ## Currencies supported by UCRM but not supported by Stripe ["vef", "ghc", "tvd", "lvl", "trl", "ltl", "cup", "ggp", "imp", "jep", "syp", "irr", "omr", "byn", "kpw", "zwd"]
+
+  public static function notZeroDecimal($currency) {
+    if (in_array($currency, self::$zero_decimal_currencies)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   public static function setEndpointSecret($secret='') {
     self::$endpoint_secret = $secret;
   }

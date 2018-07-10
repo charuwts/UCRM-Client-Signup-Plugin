@@ -5,6 +5,8 @@ define("PROJECT_PATH", __DIR__);
 
 require_once(PROJECT_PATH.'/includes/initialize.php');
 
+file_put_contents(PROJECT_PATH.'/data/plugin.log', '', LOCK_EX);
+
 $mark = new ExecutionTime();
 $mark->start(); 
 

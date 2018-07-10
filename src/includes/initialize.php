@@ -81,7 +81,7 @@ require_once(CLASSES_PATH.'/ucrm_api.class.php');
 require_once(CLASSES_PATH.'/ucrm_handler.class.php');
 require_once(CLASSES_PATH.'/stripe_api.class.php');
 require_once(CLASSES_PATH.'/stripe_handler.class.php');
-require_once(CLASSES_PATH.'/sync_stripe.class.php');
+require_once(CLASSES_PATH.'/payment_processor.class.php');
 
 // ## include project scripts
 require_once(PROJECT_SRC_PATH.'/config.php'); // Project configuration

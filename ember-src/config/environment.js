@@ -24,7 +24,7 @@ module.exports = function(environment) {
       host: 'http://plugin/src/public.php',
       completionText: 'completiontextinformation',
       pluginAppKey: 'development_key',
-      useCountrySelect: 'TRUE',
+      useCountrySelect: 'false',
     }
   };
 

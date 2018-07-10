@@ -26,7 +26,7 @@
                   <b>Name</b>: {{model.client.firstName}} {{model.client.lastName}}<br>
                   <b>Email</b>: {{model.client.email}}<br>
                   <b>Phone Number</b>: {{model.client.phone}}<br>
-                  <b>Address</b>: {{model.client.street1}} {{model.client.city}}, {{#if model.client.state.name}}{{model.client.state.name}},{{/if}} {{model.client.country.name}}, {{model.client.zipCode}}
+                  <b>Address</b>: {{model.client.street1}} {{model.client.city}}, {{model.client.zipCode}}
                 </p>
               </div>
             </div>
@@ -79,7 +79,7 @@
           {{/if}}
           <br clear="all">
           {{#unless pending}}
-            <div class="btn btn-success" {{action "submit" stripeElement}}>Submit Payment</div>
+            <div class="btn btn-success" {{action "submit" stripeElement}}>Confirm Information and Submit</div>
           {{/unless}}
         {{/stripe-card}}
       </div>

@@ -34,7 +34,7 @@ class UcrmHandler extends UcrmApi {
   }
 
   /**
-   * # Set Stripe Client Id
+   * # Set Custom Attribute Value
    *
    * @param string $client_id
    * @param string $customer_id
@@ -42,7 +42,7 @@ class UcrmHandler extends UcrmApi {
    * @return JSON string
    *
    */
-  public function setCustomAttributeId($client_id, $customer_id) {
+  public function setCustomAttributeValue($client_id, $customer_id) {
     $content = [
       "attributes" => [
         [
@@ -59,6 +59,27 @@ class UcrmHandler extends UcrmApi {
   }
 
   /**
+   * # Get Custom Attribute Value
+   *
+   * @param array $attributes
+   * 
+   * @return string || false if no success
+   *
+   */
+  public function getCustomAttributeValue($attributes) {
+
+    $value = false;
+    foreach($attributes as $attr) {
+      if ($attr->customAttributeId == CUSTOM_ATTRIBUTE_ID) {
+        $value = $attr->value;
+        break;
+      }
+    }
+    return $value;
+
+  }
+
+  /**
    * # Get Invoices
    * 
    * @param array $status
@@ -68,8 +89,8 @@ class UcrmHandler extends UcrmApi {
    */
   public function getUnpaidInvoices() {
     // ## 1 = unpaid, 2 = partially paid
-    $endpoint = "/invoices?statuses=[1]";
-    $response = $this->guzzle('PATCH', $endpoint);
+    $endpoint = "/invoices?statuses[0]=1";
+    $response = $this->guzzle('GET', $endpoint);
     return $response['message'];
   }
 
@@ -124,12 +145,14 @@ class UcrmHandler extends UcrmApi {
    * @param integer $charge_amount // Stripe amount is in cents
    * @param integer $invoice_id
    * @param integer $client_id
-   * @param string $note
+   * @param string  $note
+   * @param integer $method
+   * @param string  $currency
    * 
    * @return object
    * 
    */
-  public function createPayment($charge_id, $charge_amount, $invoice_id, $client_id, $note='') {
+  public function createPayment($charge_id, $charge_amount, $invoice_id, $client_id, $note='', $method=6, $currency='USD') {
     // ## Convert stripe cents to dollars for UCRM
     $amount = $charge_amount/100;
     
@@ -137,18 +160,18 @@ class UcrmHandler extends UcrmApi {
     if ($invoice_id == "auto_invoice") {
       $content = [
         "clientId" => intval($client_id),
-        "method" => 6,
+        "method" => $method,
         "amount" => $amount,
-        "currencyCode" => "USD",
+        "currencyCode" => $currency,
         "note" => $note,
         "applyToInvoicesAutomatically" => true,
       ];
     } else {
       $content = [
         "clientId" => intval($client_id),
-        "method" => 6,
+        "method" => $method,
         "amount" => $amount,
-        "currencyCode" => "USD",
+        "currencyCode" => $currency,
         "note" => $note,
         "invoiceIds" => [$invoice_id],
       ];
@@ -192,12 +215,36 @@ class UcrmHandler extends UcrmApi {
   }
 
 
+  /**
+   * # Get Clients
+   *
+   * @return json
+   *
+   */
   public function getClients() {    
     $endpoint = "/clients";
     $response = $this->guzzle('GET', $endpoint);
     $json_decoded = json_decode($response['message']);
 
     if (!empty($json_decoded[0]->id)) {
+      return $json_decoded;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * # Get Client
+   *
+   * @return json
+   *
+   */
+  public function getClient($client_id) {    
+    $endpoint = "/clients/{$client_id}";
+    $response = $this->guzzle('GET', $endpoint);
+    $json_decoded = json_decode($response['message']);
+
+    if (!empty($json_decoded->id)) {
       return $json_decoded;
     } else {
       return false;
