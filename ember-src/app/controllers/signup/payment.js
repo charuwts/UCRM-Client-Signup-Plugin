@@ -52,12 +52,14 @@ export default Controller.extend({
                 "street1": this.get('model.client.street1'),
                 "street2": this.get('model.client.street2'),
                 "city": this.get('model.client.city'),
-                "countryId": this.get('model.client.countryId'),
-                "stateId": this.get('model.client.stateId'),
+                // "countryId": this.get('model.client.countryId'),
+                // "stateId": this.get('model.client.stateId'),
                 "zipCode": this.get('model.client.zipCode'),
                 "username": this.get('model.client.email'),
                 "contacts": [
                   {
+                    isBilling: true,                    
+                    isContact: true,
                     email: this.get('model.client.email'),
                     phone: this.get('model.client.phone'),
                     name: this.get('model.client.firstName') + ' ' + this.get('model.client.lastName')

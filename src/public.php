@@ -94,7 +94,7 @@ if (!empty($_SERVER["HTTP_STRIPE_SIGNATURE"])) {
     <script type="text/javascript">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
       <?php include(PROJECT_PATH.'/assets/vendor-9bfe2b44f19210a7c1959ef10ea382e2.js'); ?>
-      <?php include(PROJECT_PATH.'/assets/ucrm-client-signup-form-69e8f3d0a7e87afbdf3705063a42feeb.js'); ?>
+      <?php include(PROJECT_PATH.'/assets/ucrm-client-signup-form-7e52ddab4394613d13d622b4c72e4aa7.js'); ?>
     </script>
 
     <div id="ember-bootstrap-wormhole"></div>

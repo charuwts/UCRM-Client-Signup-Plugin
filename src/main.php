@@ -16,7 +16,6 @@ if (USE_STRIPE === true) {
 
 $payment_processor->processPayments();
 
-
-
 $mark->end();
-log_event('Time to Sync', (string)$mark->diff(). ' ms'); 
+
+log_event('Executed Successfully', (string)$mark->diff(). ' ms'); 
