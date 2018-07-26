@@ -1,4 +1,11 @@
 <?php
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
+
 function log_event($log_title, $event, $type='log') {
   $current_time = date(DATE_ATOM);
   $message = "\n[{$current_time}][{$type}]  - [#{$log_title}] \n";

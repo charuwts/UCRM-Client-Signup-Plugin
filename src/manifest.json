@@ -5,7 +5,7 @@
     "displayName": "UCRM Client Signup Plugin",
     "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "ucrmVersionCompliancy": {
       "min": "2.11.1",
       "max": null
@@ -13,6 +13,24 @@
     "author": "Charuwts, LLC"
   },
   "configuration": [
+    {
+        "key": "requiredPluginSubscriptionId",
+        "label": "Plugin Subscription ID",
+        "description": "This is provided in your order confirmation from Charuwts, LLC. The card you provided will be charged based on plugin usage. See: https://github.com/charuwts/UCRM-Client-Signup/wiki/0-Setup for more details.",
+        "required": 1
+    },
+    {
+        "key": "requiredPluginUniqueKey",
+        "label": "Plugin Unique Key",
+        "description": "This is provided in your order confirmation from Charuwts, LLC.",
+        "required": 1
+    },
+    {
+        "key": "requiredPluginDomain",
+        "label": "Plugin Domain",
+        "description": "Enter as you provided it at purchase. This is also listed in your order confirmation email.",
+        "required": 1
+    },
     {
         "key": "requiredCustomAttributeId",
         "label": "Gateway Customer, Custom Attribute ID",

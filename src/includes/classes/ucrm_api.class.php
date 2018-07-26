@@ -1,4 +1,11 @@
 <?php 
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
+
 class UcrmApi {
   // ### Class Properties
   private $response;
@@ -7,8 +14,8 @@ class UcrmApi {
    * # Static Properties
    *
    */
-  private static $ucrm_api_url;
-  protected static $ucrm_key;
+  public static $ucrm_api_url;
+  public static $ucrm_key;
 
   /**
    * # Public Setters
@@ -39,63 +46,6 @@ class UcrmApi {
   private function setResponse($message) {
     $this->response = $message;
   }
-
-  /**
-   * # Handle Guzzle Exception and exit
-   *
-   * @param array $e
-   * @param boolean $log
-   *
-   * @return exit();
-   */
-  protected function handleGuzzleException($e, $log = false, $endpoint='') {
-    // # Get json response
-    $body = $e->getResponse()->getBody();
-    // # Get get code from response
-    $json_decoded = json_decode($body);
-    $code = $json_decoded->code;
-    // # Send response and exit
-    if ($log) {
-      log_event('Exception', "{$body}: {$code} - Endpoint: {$endpoint}", 'error');
-    }
-    echo json_response($body, $code, true);
-    exit();
-  }
-
-  /**
-   * # Setup Guzzle for UCRM
-   *
-   * @param string $method // "GET", "POST", "PATCH"
-   * @param string $endpoint
-   * @param array  $content
-   *
-   * @return array
-   */
-  protected function guzzle(
-    $method, 
-    $endpoint,
-    array $content = []
-  ) {    
-    // log_event('method', $method, 'test');
-    // log_event('endpoint', $endpoint, 'test');
-    // log_event('content', print_r($content, true), 'test');
-    try {      
-      $client = new GuzzleHttp\Client([
-        'headers' => ['X-Auth-App-Key' => self::$ucrm_key]
-      ]);
-      $res = $client->request($method, self::$ucrm_api_url.$endpoint, ['json' => $content]);
-      $code = $res->getStatusCode();
-      $body = (string)$res->getBody();
-      // log_event('body', print_r($body, true), 'test');
-
-      return ["status" => $code, "message" => $body];
-    } catch (GuzzleHttp\Exception\ClientException $e) {
-      $this->handleGuzzleException($e);
-    } catch (GuzzleHttp\Exception\ServerException $e) {
-      $this->handleGuzzleException($e, true, $endpoint);
-    }
-  }
-
 
   /**
    * # VALIDATE PAYLOAD OBJECTS

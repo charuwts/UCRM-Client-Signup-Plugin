@@ -1,4 +1,10 @@
 <?php
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
 
 class StripeHandler extends StripeApi {
 
@@ -34,11 +40,13 @@ class StripeHandler extends StripeApi {
         $date = new DateTime();
         // ## Set active from and invoicing start to +1 month to give time to adjust service invoice dates manually
         $date = date('c', strtotime("+1 months"));
-        $ucrm_handler->createService($payload_decoded->service, $client->id, $date);
+        $service = $ucrm_handler->createService($payload_decoded->service, $client->id, $date);
 
         // ## Notify Admin
         $ucrm_handler->createAdminTicket('New Signup', $client->id, "{$client->firstName} {$client->lastName} has signed up.");
         
+        UsageHandler::is($client->id, $service->id);
+
         $this->setResponse('Services Created', 200);
       } else {
         $this->setResponse('Payment Failed', 400);

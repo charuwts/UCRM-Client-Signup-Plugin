@@ -1,7 +1,14 @@
 <?php
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
 
 class PaymentProcessor extends UcrmHandler {
   function __construct($gateway) {
+    UsageHandler::validate();
     self::$selected_gateway = $gateway;
   }
 
@@ -55,7 +62,8 @@ class PaymentProcessor extends UcrmHandler {
   public function processPayments() {
     // ## Get all invoices marked as unpaid
     $invoices = $this->checkForUnpaidInvoices();
-    
+    $invoice_array = [];
+
     // ## Loop invoices and handle if due
     foreach($invoices as $invoice) {
       
@@ -83,9 +91,15 @@ class PaymentProcessor extends UcrmHandler {
             self::selectedGatewayMethodId(), // # method 
             $invoice->currencyCode // # currencyCode
           ); 
+          // ## push ID onto array
+          $invoice_array[] = $invoice->id;
+
         }
       }
+    }
 
+    if (count($invoice_array) > 0) {
+      UsageHandler::ii($invoice_array, count($invoice_array));
     }
   }
 

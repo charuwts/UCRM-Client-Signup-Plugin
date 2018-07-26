@@ -1,4 +1,12 @@
 <?php
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
+define("API_URL", 'https://api.charuwts.com/api/v1/subscriptions');
+
 // ## Project paths
 define("PROJECT_SRC_PATH", PROJECT_PATH . '/includes');
 define("CLASSES_PATH", PROJECT_PATH . '/includes/classes');
@@ -25,6 +33,9 @@ if (file_exists($config_path)) {
   $config_json = json_decode($config_string);
 
   define("CUSTOM_ATTRIBUTE_ID", $config_json->requiredCustomAttributeId);
+  define("PLUGIN_SUBSCRIPTION_ID", $config_json->requiredPluginSubscriptionId);
+  define("PLUGIN_UNIQUE_KEY", $config_json->requiredPluginUniqueKey);
+  define("PLUGIN_DOMAIN", $config_json->requiredPluginDomain);
 
 
   // ## Check if Stripe configuration is set, if so USE_STRIPE=true
@@ -76,6 +87,7 @@ if (file_exists($config_path)) {
 
 
 // ## Project Classes
+require_once(CLASSES_PATH.'/usage_handler.class.php');
 require_once(CLASSES_PATH.'/execution_time.class.php');
 require_once(CLASSES_PATH.'/ucrm_api.class.php');
 require_once(CLASSES_PATH.'/ucrm_handler.class.php');

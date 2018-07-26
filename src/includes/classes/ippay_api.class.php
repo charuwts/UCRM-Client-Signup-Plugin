@@ -1,4 +1,11 @@
 <?php 
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
+
 class StripeApi {
   private $response;
   private static $endpoint_secret = null;

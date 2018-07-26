@@ -1,8 +1,10 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Max-Age: 1000');
-header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+/* 
+ * Copyright © 2018 · Charuwts, LLC
+ * All rights reserved.
+ * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
+ * 
+ */
 
 chdir(__DIR__);
 
@@ -51,6 +53,7 @@ if (!empty($_SERVER["HTTP_STRIPE_SIGNATURE"])) {
   
   // ## Else, return form
 } else {
+  UsageHandler::validate();
   ?>
 
 <!DOCTYPE html>
