@@ -16,20 +16,20 @@ export default Route.extend({
           servicePlans: true
         } 
       }),
-      countries: this.get('ajax').post(ENV.APP.host, {
-        data: {
-          pluginAppKey: ENV.APP.pluginAppKey,
-          countries: true
-        } 
-      }),
+      // countries: this.get('ajax').post(ENV.APP.host, {
+      //   data: {
+      //     pluginAppKey: ENV.APP.pluginAppKey,
+      //     countries: true
+      //   } 
+      // }),
     })
   },
-  afterModel(afterModel) {
-    if (ENV.APP.useCountrySelect !== 'TRUE') {
-      afterModel.countries = null;
-      afterModel.client.set('country', null);
-      afterModel.client.set('state', null);
-    }
-  }
+  // afterModel(afterModel) {
+  //   if (ENV.APP.useCountrySelect !== 'TRUE') {
+  //     afterModel.countries = null;
+  //     afterModel.client.set('country', null);
+  //     afterModel.client.set('state', null);
+  //   }
+  // }
 
 });

@@ -5,7 +5,7 @@
     "displayName": "UCRM Client Signup Plugin",
     "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "ucrmVersionCompliancy": {
       "min": "2.11.1",
       "max": null
@@ -14,75 +14,69 @@
   },
   "configuration": [
     {
-        "key": "requiredPluginSubscriptionId",
+        "key": "REQUIRED_PLUGIN_SUBSCRIPTION_ID",
         "label": "Plugin Subscription ID",
         "description": "This is provided in your order confirmation from Charuwts, LLC. The card you provided will be charged based on plugin usage. See: https://github.com/charuwts/UCRM-Client-Signup/wiki/0-Setup for more details.",
         "required": 1
     },
     {
-        "key": "requiredPluginUniqueKey",
+        "key": "REQUIRED_PLUGIN_UNIQUE_KEY",
         "label": "Plugin Unique Key",
         "description": "This is provided in your order confirmation from Charuwts, LLC.",
         "required": 1
     },
     {
-        "key": "requiredPluginDomain",
+        "key": "REQUIRED_PLUGIN_DOMAIN",
         "label": "Plugin Domain",
         "description": "Enter as you provided it at purchase. This is also listed in your order confirmation email.",
         "required": 1
     },
     {
-        "key": "requiredCustomAttributeId",
+        "key": "REQUIRED_PLUGIN_PUBLIC_URL",
+        "label": "Plugin Public URL",
+        "description": "Bug Fix, detecting public url isn't accurate enough in some use cases. Try with and without server port included.",
+        "required": 1
+    },
+    {
+        "key": "REQUIRED_CUSTOM_ATTRIBUTE_ID",
         "label": "Gateway Customer, Custom Attribute ID",
         "description": "The value is set when a client signs up or can be done manually for legacy clients. Required to charge customer card on file when invoice is due. If this custom attribute is not set on a client the client will not be automatically charged. To create a custom attribute visit -> system/other/custom-attributes",
         "required": 1
     },
     {
-        "key": "optionalStripeSecretKey",
+        "key": "OPTIONAL_STRIPE_SECRET_KEY",
         "label": "Stripe Secret Key",
         "description": "This is your Stripe API Secret Key. Make sure, you use LIVE credentials in production. https://stripe.com/docs/keys#api-keys Also Note: These currencies supported by UCRM are not supported by Stripe [VEF, GHC, TVD, LVL, TRL, LTL, CUP, GGP, IMP, JEP, SYP, IRR, OMR, BYN, KPW, ZWD]",
         "required": 1
     },
     {
-        "key": "optionalStripePublicKey",
+        "key": "OPTIONAL_STRIPE_PUBLIC_KEY",
         "label": "Stripe Public Key",
         "description": "This is your Stripe API Public Key. Make sure, you use LIVE credentials in production. https://stripe.com/docs/keys#api-keys",
         "required": 1
     },
     {
-        "key": "optionalStripeEndpointSecret",
-        "label": "Stripe Endpoint Secret",
-        "description": "This plugin uses stripe webhook signatures to validate payloads. https://stripe.com/docs/webhooks/signatures",
-        "required": 1
-    },
-    {
-        "key": "optionalLogoUrl",
+        "key": "OPTIONAL_LOGO_URL",
         "label": "Logo URL",
         "description": "Image displayed above form.",
         "required": 0
     },
     {
-        "key": "optionalFormTitle",
+        "key": "OPTIONAL_FORM_TITLE",
         "label": "Form Title",
         "description": "Displayed below logo before form description",
         "required": 0
     },
     {
-        "key": "optionalFormDescription",
+        "key": "OPTIONAL_FORM_DESCRIPTION",
         "label": "Form Description",
         "description": "Displayed below logo before the form. (Can contain HTML)",
         "required": 0
     },
     {
-        "key": "optionalCompletionText",
+        "key": "OPTIONAL_COMPLETION_TEXT",
         "label": "Completion Text",
         "description": "Text shown upon signup completion. (Text Only) - Defaults To: Thank you for signing up! You will receive an invitation to access your account upon approval.",
-        "required": 0
-    },
-    {
-        "key": "optionalCountrySelect",
-        "label": "Use Country Select",
-        "description": "Set to 'TRUE' to display country selection dropdown on account signup step. If not set, client country will be taken from default organization and the dropdown select will be hidden.",
         "required": 0
     }
   ]

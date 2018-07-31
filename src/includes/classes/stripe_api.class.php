@@ -57,9 +57,9 @@ class StripeApi {
     try {
       return $function($args);
     } catch(\Stripe\Error\Card $e) {
-      log_event("Since it's a decline, \Stripe\Error\Card will be caught", $e);
-      $body = $e->getJsonBody();
-      $err  = $body['error'];
+      // $body = $e->getJsonBody();
+      // $err  = $body['error'];
+      log_event("Card declined", $e);
     } catch (\Stripe\Error\RateLimit $e) {
       log_event("Too many requests made to the API too quickly", $e);
     } catch (\Stripe\Error\InvalidRequest $e) {
@@ -69,9 +69,9 @@ class StripeApi {
     } catch (\Stripe\Error\ApiConnection $e) {
       log_event("Network communication with Stripe failed", $e);
     } catch (\Stripe\Error\Base $e) {
-      log_event("Display a very generic error to the user, and maybe send", $e);
+      log_event("Stripe Error", $e);
     } catch (Exception $e) {
-      log_event("Something else happened, completely unrelated to Stripe", $e);
+      log_event("Stripe Exception", $e);
     }
   }
 

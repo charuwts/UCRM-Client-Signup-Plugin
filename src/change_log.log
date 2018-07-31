@@ -1,0 +1,4 @@
+Version 1.2.0
+
+Custom Public URL to workaround bug with plugin public url default method. 
+Configuration moved to class static variables instead of constants.

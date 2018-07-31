@@ -21,9 +21,9 @@ $mark->start();
 
 if (USE_STRIPE === true) {
   $payment_processor = new PaymentProcessor('STRIPE');
+  $payment_processor->processPayments();
 }
 
-$payment_processor->processPayments();
 
 $mark->end();
 

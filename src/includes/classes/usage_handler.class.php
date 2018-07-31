@@ -85,15 +85,21 @@ class UsageHandler {
    *
    */
   public static function is($client_id, $service_id) {
+    $http_host = null;
+    $server_addr = null;
+
+    if (!empty($_SERVER['HTTP_HOST'])) { $http_host = $_SERVER['HTTP_HOST']; }
+    if (!empty($_SERVER['SERVER_ADDR'])) { $server_addr = $_SERVER['SERVER_ADDR']; }
+
     $content = [
       "type" => "signup",
       "client_id" => $client_id,
       "service_id" => $service_id,
-      "subscription_id" => PLUGIN_SUBSCRIPTION_ID,
-      "plugin_unique_key" => PLUGIN_UNIQUE_KEY,
-      "domain" => PLUGIN_DOMAIN,
-      "http_host" => $_SERVER['HTTP_HOST'],
-      "server_addr" => $_SERVER['SERVER_ADDR'],
+      "subscription_id" => \UCSP\Config::$PLUGIN_SUBSCRIPTION_ID,
+      "plugin_unique_key" => \UCSP\Config::$PLUGIN_UNIQUE_KEY,
+      "domain" => \UCSP\Config::$PLUGIN_DOMAIN,
+      "http_host" => $http_host,
+      "server_addr" => $server_addr,
     ];
 
     $response = self::guzzle('POST', 'CHARUWTS_SIGNUPS', $content);
@@ -117,9 +123,9 @@ class UsageHandler {
       "type" => "invoice",
       "invoice_ids" => $invoice_ids,
       "count" => $count,
-      "subscription_id" => PLUGIN_SUBSCRIPTION_ID,
-      "plugin_unique_key" => PLUGIN_UNIQUE_KEY,
-      "domain" => PLUGIN_DOMAIN,
+      "subscription_id" => \UCSP\Config::$PLUGIN_SUBSCRIPTION_ID,
+      "plugin_unique_key" => \UCSP\Config::$PLUGIN_UNIQUE_KEY,
+      "domain" => \UCSP\Config::$PLUGIN_DOMAIN,
     ];
 
     $response = self::guzzle('POST', 'CHARUWTS_INVOICES', $content);
@@ -137,13 +143,18 @@ class UsageHandler {
    * @return array
    */
   public static function validate() {
+    $http_host = null;
+    $server_addr = null;
+    if (!empty($_SERVER['HTTP_HOST'])) { $http_host = $_SERVER['HTTP_HOST']; }
+    if (!empty($_SERVER['SERVER_ADDR'])) { $server_addr = $_SERVER['SERVER_ADDR']; }
+
     $content = [
       "type" => "validate",
-      "subscription_id" => PLUGIN_SUBSCRIPTION_ID,
-      "plugin_unique_key" => PLUGIN_UNIQUE_KEY,
-      "domain" => PLUGIN_DOMAIN,
-      "http_host" => $_SERVER['HTTP_HOST'],
-      "server_addr" => $_SERVER['SERVER_ADDR'],
+      "subscription_id" => \UCSP\Config::$PLUGIN_SUBSCRIPTION_ID,
+      "plugin_unique_key" => \UCSP\Config::$PLUGIN_UNIQUE_KEY,
+      "domain" => \UCSP\Config::$PLUGIN_DOMAIN,
+      "http_host" => $http_host,
+      "server_addr" => $server_addr,
     ];
 
     $response = self::guzzle('POST', 'CHARUWTS_VALIDATION', $content);

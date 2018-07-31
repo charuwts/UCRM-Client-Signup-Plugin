@@ -53,7 +53,7 @@ class UcrmHandler extends UcrmApi {
       "attributes" => [
         [
           "value" => $customer_id,
-          "customAttributeId" => (int)CUSTOM_ATTRIBUTE_ID
+          "customAttributeId" => (int)\UCSP\Config::$CUSTOM_ATTRIBUTE_ID
         ]
         
       ]
@@ -76,7 +76,7 @@ class UcrmHandler extends UcrmApi {
 
     $value = false;
     foreach($attributes as $attr) {
-      if ($attr->customAttributeId == CUSTOM_ATTRIBUTE_ID) {
+      if ($attr->customAttributeId == \UCSP\Config::$CUSTOM_ATTRIBUTE_ID) {
         $value = $attr->value;
         break;
       }

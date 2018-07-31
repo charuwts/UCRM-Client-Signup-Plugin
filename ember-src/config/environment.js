@@ -41,7 +41,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.APP.host = 'http =//plugin/src/public.php';
+    ENV.APP.host = 'http//plugin/src/public.php';
     ENV.APP.completionText = 'completiontextinformation';
     ENV.APP.pluginAppKey = 'development_key';
     // Testem prefers this...

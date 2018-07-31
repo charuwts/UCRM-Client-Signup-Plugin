@@ -21,8 +21,7 @@ set_exception_handler(function($exception) {
 });
 
 // Stripe
-\Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
+\Stripe\Stripe::setApiKey(\UCSP\Config::$STRIPE_SECRET_KEY);
 
-StripeApi::setEndpointSecret(STRIPE_ENDPOINT_SECRET);
 UcrmApi::setUcrmKey(UCRM_KEY);
 UcrmApi::setUcrmApiUrl(UCRM_API_URL);

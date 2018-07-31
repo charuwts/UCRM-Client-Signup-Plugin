@@ -7,23 +7,24 @@ export default Component.extend({
   ajax: service(),
   store: service(),
   classNames: ['container-fluid'],
-  useCountries: ENV.APP.useCountrySelect,
+  // useCountries: ENV.APP.useCountrySelect,
+  useCountries: false,
 
-  states: computed('model.client.country.id', function() {
-    if ((this.get('model.client.country.id') == 249) || (this.get('model.client.country.id') == 54)) {
-      return this.get('ajax').post(ENV.APP.host, {
-        data: {
-          pluginAppKey: ENV.APP.pluginAppKey,
-          country_id: this.get('model.client.country.id')
-        } 
-      });
+  // states: computed('model.client.country.id', function() {
+  //   if ((this.get('model.client.country.id') == 249) || (this.get('model.client.country.id') == 54)) {
+  //     return this.get('ajax').post(ENV.APP.host, {
+  //       data: {
+  //         pluginAppKey: ENV.APP.pluginAppKey,
+  //         country_id: this.get('model.client.country.id')
+  //       } 
+  //     });
       
-    } else {
-      this.set('model.client.state', null);
-      return false;
-    }
+  //   } else {
+  //     this.set('model.client.state', null);
+  //     return false;
+  //   }
 
-  }), 
+  // }), 
 
 
   actions: {

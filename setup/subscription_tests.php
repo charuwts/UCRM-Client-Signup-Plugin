@@ -2,14 +2,16 @@
 chdir(__DIR__);
 define("PROJECT_PATH", __DIR__);
 
+require_once(PROJECT_PATH.'/../src/vendor/autoload.php');
+
 // require_once(PROJECT_PATH.'/../src/includes/initialize.php'); // Project functions
 
 // UsageHandler::increment_signup();
 
 // # Lightgig test
-// \Stripe\Stripe::setApiKey("sk_test_mrhveUUktyn3akYEKWlC1GtU");
+\Stripe\Stripe::setApiKey("sk_test_mrhveUUktyn3akYEKWlC1GtU");
 
-// $subscription = \Stripe\Subscription::retrieve("sub_DHhit8T9xE3SSr");
+$subscription = \Stripe\Subscription::retrieve("sub_DJKY3Lzd1j7ZNY");
 
 
 // \Stripe\SubscriptionItem::create(array(
@@ -22,7 +24,7 @@ define("PROJECT_PATH", __DIR__);
 //   "subscription_item" => 'si_DHhiK4q2fmsCWX'
 // ));
 
-// echo '<pre>';
-// print_r($subscription);
-// echo '</pre>';
+echo '<pre>';
+print_r($subscription);
+echo '</pre>';
 
