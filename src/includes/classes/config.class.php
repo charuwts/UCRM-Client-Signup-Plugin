@@ -40,19 +40,19 @@ class Config {
         // ## Expect specific key naming convention
         $name = false;
         $count = false;
-        if (strpos($key, 'REQUIRED_') !== false) { 
+        if (strpos(strtoupper($key), 'REQUIRED_') !== false) { 
         
-          $name = str_replace('REQUIRED_', '', $key);
+          $name = str_replace('REQUIRED_', '', strtoupper($key));
           $new_value = $value;
 
-        } elseif (strpos($key, 'HYPER_LINK_') !== false) { 
+        } elseif (strpos(strtoupper($key), 'HYPER_LINK_') !== false) { 
 
-          $name = str_replace('HYPER_LINK_', '', $key); 
+          $name = str_replace('HYPER_LINK_', '', strtoupper($key)); 
           $new_value = self::parseLink($value);
         
-        } elseif (strpos($key, 'OPTIONAL_') !== false) { 
+        } elseif (strpos(strtoupper($key), 'OPTIONAL_') !== false) { 
         
-          $name = str_replace('OPTIONAL_', '', $key); 
+          $name = str_replace('OPTIONAL_', '', strtoupper($key)); 
           $new_value = $value;
         
         }
