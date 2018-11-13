@@ -2,7 +2,7 @@
 namespace UCSP;
 
 class Config {
-  public static $PAYMENT_GATEWAY = null;
+  public static $PAYMENT_GATEWAY = 'STRIPE';
   public static $PLUGIN_SUBSCRIPTION_ID = null;
   public static $PLUGIN_UNIQUE_KEY = null;
   public static $PLUGIN_DOMAIN = null;
@@ -10,11 +10,12 @@ class Config {
   public static $CUSTOM_ATTRIBUTE_ID = null;
   public static $STRIPE_SECRET_KEY = null;
   public static $STRIPE_PUBLIC_KEY = null;
+  public static $SAVE_PAYMENT_SOURCE = false;
+  public static $STRIPE_WEBHOOK_SECRET = null;
   public static $LOGO_URL = null;
   public static $FORM_TITLE = null;
   public static $FORM_DESCRIPTION = null;
   public static $COMPLETION_TEXT = null;
-  public static $COUNTRY_SELECT = null;
   
   private static function parseLink($link_string) {
     $link_array = explode('|', $link_string, 2);
