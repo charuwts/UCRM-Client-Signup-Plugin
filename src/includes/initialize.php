@@ -10,20 +10,33 @@
 define("PROJECT_SRC_PATH", PROJECT_PATH . '/includes');
 define("CLASSES_PATH", PROJECT_PATH . '/includes/classes');
 
+// ## include project scripts
+require_once(PROJECT_SRC_PATH.'/functions.php'); // Project functions
+
 // ## Setup Environment Constants
 $ucrm_string = file_get_contents(PROJECT_PATH."/ucrm.json");
 $ucrm_json = json_decode($ucrm_string);
+
 define("UCRM_PUBLIC_URL", $ucrm_json->ucrmPublicUrl);
 define("UCRM_KEY", $ucrm_json->pluginAppKey);
-define("PLUGIN_PUBLIC_URL", $ucrm_json->pluginPublicUrl);
+// define("PLUGIN_PUBLIC_URL", $ucrm_json->pluginPublicUrl); # Disabled, set in config for edge case URLs
 
-// ## include project scripts
-require_once(PROJECT_SRC_PATH.'/functions.php'); // Project functions
 
 require_once(CLASSES_PATH.'/config.class.php');
 $config_path = PROJECT_PATH."/data/config.json";
 \UCSP\Config::initializeStaticProperties($config_path);
-define("UCRM_API_URL", \UCSP\Config::PLUGIN_URL().'/api/v2.9');
+
+define("ENVIRONMENT", "DEV");
+
+if (ENVIRONMENT == "LIVE") {
+  $ENV_UCRM_API_URL = \UCSP\Config::PLUGIN_URL().'/api/v2.9';
+  $ENV_CHARUWTS_API_URL = 'https://api.charuwts.com/api/v1/subscriptions';
+} else {
+  $ENV_UCRM_API_URL = 'http://ucrm.dev.ellerslie.com/api/v2.9';
+  $ENV_CHARUWTS_API_URL = 'http://brandon.dev.ellerslie.com/api/v1/subscriptions';
+}
+
+define("UCRM_API_URL", $ENV_UCRM_API_URL);
 
 
 // ## Just a unique key to give to ember for extra security when making requests
@@ -47,8 +60,8 @@ if (file_exists($config_path)) {
   
 }
 
-define("API_URL", 'https://api.charuwts.com/api/v1/subscriptions');
-
+// ## METERED API URL
+define("API_URL", $ENV_CHARUWTS_API_URL);
 
 // ## Project Classes
 require_once(CLASSES_PATH.'/usage_handler.class.php');
