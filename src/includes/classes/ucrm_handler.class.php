@@ -43,9 +43,25 @@ class UcrmHandler extends UcrmApi {
 
    ## Get Current User
    # @return object
-  public function getUser() {
-    $response = UsageHandler::retrieveCurrentUser(UCRM_PUBLIC_URL);
-    return json_decode($response['message']);
+  public static function isAdmin() {
+    $response = UsageHandler::retrieveCurrentUser('http://ucrm.dev.ellerslie.com');
+
+    log_event('response', $response['isClient']);
+    log_event('permissions', print_r($response['permissions'], true));
+    log_event('system/plugins', $response['permissions']['system/plugins']);
+    
+    if ($response['isClient'] !== true && $response['permissions']['system/plugins'] === 'edit') {
+      return true;
+    } else {
+      return false;
+    }
+
+
+    // if (!empty($response)) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
    ## Set Custom Attribute Value

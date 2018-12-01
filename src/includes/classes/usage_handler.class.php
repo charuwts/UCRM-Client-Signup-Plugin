@@ -22,7 +22,11 @@ class UsageHandler {
 
     // # Get get code from response
     $json_decoded = json_decode($body);
-    $code = $json_decoded->code;
+    if (!empty($json_decoded->code)) {
+      $code = $json_decoded->code;
+    } else {
+      $code = null;
+    }
     // # Send response and exit
     if ($log) {
       log_event('Exception', "{$body}: {$code} - Endpoint: {$endpoint}", 'error');
@@ -52,13 +56,11 @@ class UsageHandler {
       $client = new \GuzzleHttp\Client([
         'headers' => ['X-Auth-App-Key' => UcrmApi::$ucrm_key],
       ]);
-
       $url = UcrmApi::$ucrm_api_url.$endpoint;
 
       $res = $client->request($method, $url, ['json' => $content]);
       $code = $res->getStatusCode();
       $body = (string)$res->getBody();
-      // log_event('body', print_r($body, true), 'test');
 
       return ["status" => $code, "message" => $body];
     } catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -71,7 +73,7 @@ class UsageHandler {
 
   public static function retrieveCurrentUser(string $ucrmPublicUrl): array
   {
-      $url = sprintf('%scurrent-user', $ucrmPublicUrl);
+      $url = sprintf('%s/current-user', $ucrmPublicUrl);
 
       $headers = [
           'Content-Type: application/json',
