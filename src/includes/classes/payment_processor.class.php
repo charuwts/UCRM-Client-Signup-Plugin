@@ -8,7 +8,6 @@
 
 class PaymentProcessor extends UcrmHandler {
   function __construct($gateway) {
-    UsageHandler::validate();
     self::$selected_gateway = $gateway;
   }
 
@@ -98,9 +97,6 @@ class PaymentProcessor extends UcrmHandler {
       }
     }
 
-    if (count($invoice_array) > 0) {
-      UsageHandler::ii($invoice_array, count($invoice_array));
-    }
   }
 
 }

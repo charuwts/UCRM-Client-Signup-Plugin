@@ -60,9 +60,6 @@ if (file_exists($config_path)) {
   
 }
 
-// ## METERED API URL
-define("API_URL", $ENV_CHARUWTS_API_URL);
-
 // ## Project Classes
 require_once(CLASSES_PATH.'/usage_handler.class.php');
 require_once(CLASSES_PATH.'/execution_time.class.php');

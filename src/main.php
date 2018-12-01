@@ -20,7 +20,7 @@ $mark = new ExecutionTime();
 $mark->start(); 
 
 if (USE_STRIPE === true) {
-  $payment_processor = new PaymentProcessor('STRIPE');
+  $payment_processor = new PaymentProcessor(\UCSP\Config::$PAYMENT_GATEWAY);
   $payment_processor->processPayments();
 }
 

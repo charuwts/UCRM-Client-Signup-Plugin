@@ -45,8 +45,6 @@ class StripeHandler extends StripeApi {
         // ## Notify Admin
         $ucrm_handler->createAdminTicket('New Signup', $client->id, "{$client->firstName} {$client->lastName} has signed up.");
         
-        UsageHandler::is($client->id, $service->id);
-
         $this->setResponse('Services Created', 200);
       } else {
         $this->setResponse('Payment Failed', 400);
@@ -109,29 +107,35 @@ class StripeHandler extends StripeApi {
    *
    *
    */
-  public function handleWebhook($payload) {
-    // ## Validate
-    $this->validateWebhook($payload);
-    // ## Setup
-    $webhook_payload_decoded = json_decode($payload);
-    $ucrm_handler = new UcrmHandler;
+  // public function handleWebhook($payload) {
     
-    // ## Tell UCRM about invoice payments
-    if ($webhook_payload_decoded->type == "invoice.payment_succeeded") {
-      // ## Assign required webhook variables
-      $charge_id = $webhook_payload_decoded->data->object->charge;
-      $amount_paid = $webhook_payload_decoded->data->object->amount_paid;
-      
-      // # Use customer ID to get UCRM Client ID
-      $client_id = $ucrm_handler->getClientId($webhook_payload_decoded->data->object->customer);
+  //   if (\UCSP\Config::$SAVE_PAYMENT_SOURCE) {
+  //     file_put_contents(PROJECT_PATH.'/data/plugin.log', '', LOCK_EX);
+  //     // ## Validate
+  //     $this->validateWebhook($payload);
+  //     // ## Setup
+  //     $webhook_payload_decoded = json_decode($payload);
+  //     // $ucrm_handler = new UcrmHandler;
+  //     // log_event('stripe webhook', print_r($webhook_payload_decoded, true));
+  //     // log_event('stripe webhook source id', $webhook_payload_decoded->data->object->source->id);
+  //   } 
 
-      // ## Make payment and return success if greater then 0
-      if ($amount_paid > 0) {
-        $ucrm_handler->createPayment($charge_id, $amount_paid, "auto_invoice", $client_id);
-        $this->setResponse('Payment Created', 200);
-      } 
-    }
-  }
+  //   // ## Tell UCRM about invoice payments
+  //   // if ($webhook_payload_decoded->type == "invoice.payment_succeeded") {
+  //   //   // ## Assign required webhook variables
+  //   //   $charge_id = $webhook_payload_decoded->data->object->charge;
+  //   //   $amount_paid = $webhook_payload_decoded->data->object->amount_paid;
+      
+  //   //   // # Use customer ID to get UCRM Client ID
+  //   //   $client_id = $ucrm_handler->getClientId($webhook_payload_decoded->data->object->customer);
+
+  //   //   // ## Make payment and return success if greater then 0
+  //   //   if ($amount_paid > 0) {
+  //   //     $ucrm_handler->createPayment($charge_id, $amount_paid, "auto_invoice", $client_id);
+  //   //     $this->setResponse('Payment Created', 200);
+  //   //   } 
+  //   // }
+  // }
 
 
 }

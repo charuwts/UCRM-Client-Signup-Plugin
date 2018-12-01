@@ -22,6 +22,17 @@ export default Component.extend({
   }),
 
   actions: {
+    selectCountry(country) {
+      this.set('model.client.countryId', country.id);
+      this.set('selectedCountry', country);
+
+      this.set('model.client.stateId', null);
+      this.set('selectedState', null);
+    },
+    selectState(state) {
+      this.set('model.client.stateId', state.id);
+      this.set('selectedState', state);
+    },
     submit(client) {
       client.validate().then(({ validations }) => {
         if (validations.get('isValid')) {

@@ -53,15 +53,7 @@ class UsageHandler {
         'headers' => ['X-Auth-App-Key' => UcrmApi::$ucrm_key],
       ]);
 
-      if ($endpoint === 'CHARUWTS_SIGNUPS') {
-        $url = API_URL.'/signups';
-      } elseif ($endpoint === 'CHARUWTS_INVOICES') {
-        $url = API_URL.'/invoices';
-      } elseif ($endpoint === 'CHARUWTS_VALIDATION') {
-        $url = API_URL.'/validate';
-      } else {
-        $url = UcrmApi::$ucrm_api_url.$endpoint;
-      }
+      $url = UcrmApi::$ucrm_api_url.$endpoint;
 
       $res = $client->request($method, $url, ['json' => $content]);
       $code = $res->getStatusCode();
@@ -75,95 +67,68 @@ class UsageHandler {
       self::handleGuzzleException($e, true, $endpoint);
     }
   }
+  # Taken from https://github.com/Ubiquiti-App/UCRM-plugins/blob/master/docs/security.md
 
+  public static function retrieveCurrentUser(string $ucrmPublicUrl): array
+  {
+      $url = sprintf('%scurrent-user', $ucrmPublicUrl);
 
-  /**
-   * # Increment Subscription Signup Meter
-   *
-   * @param string $client_id
-   * @param string $service_id
-   *
-   */
-  public static function is($client_id, $service_id) {
-    $http_host = null;
-    $server_addr = null;
+      $headers = [
+          'Content-Type: application/json',
+          'Cookie: PHPSESSID=' . preg_replace('~[^a-zA-Z0-9]~', '', $_COOKIE['PHPSESSID'] ?? ''),
+      ];
 
-    if (!empty($_SERVER['HTTP_HOST'])) { $http_host = $_SERVER['HTTP_HOST']; }
-    if (!empty($_SERVER['SERVER_ADDR'])) { $server_addr = $_SERVER['SERVER_ADDR']; }
-
-    $content = [
-      "type" => "signup",
-      "client_id" => $client_id,
-      "service_id" => $service_id,
-      "subscription_id" => \UCSP\Config::$PLUGIN_SUBSCRIPTION_ID,
-      "plugin_unique_key" => \UCSP\Config::$PLUGIN_UNIQUE_KEY,
-      "domain" => \UCSP\Config::$PLUGIN_DOMAIN,
-      "http_host" => $http_host,
-      "server_addr" => $server_addr,
-    ];
-
-    $response = self::guzzle('POST', 'CHARUWTS_SIGNUPS', $content);
-    if ($response['message'] !== 'SIGNUPS_INCREMENTED') {
-      file_put_contents(PROJECT_PATH.'/data/plugin.log', '', LOCK_EX);
-      log_event('CONFIGURATION ERROR', $response['message'], 'error');
-      exit();
-    }
+      return self::curlQuery($url, $headers);
   }
 
-  /**
-   * # Increment Subscription Invoices Meter
-   *
-   * @param array $invoice_ids
-   * @param integer $service_id
-   *
-   * @return array
-   */
-  public static function ii($invoice_ids, $count) {
-    $content = [
-      "type" => "invoice",
-      "invoice_ids" => $invoice_ids,
-      "count" => $count,
-      "subscription_id" => \UCSP\Config::$PLUGIN_SUBSCRIPTION_ID,
-      "plugin_unique_key" => \UCSP\Config::$PLUGIN_UNIQUE_KEY,
-      "domain" => \UCSP\Config::$PLUGIN_DOMAIN,
-    ];
+  protected static function curlQuery(string $url, array $headers = [], array $parameters = []): array
+  {
+      if ($parameters) {
+          $url .= '?' . http_build_query($parameters);
+      }
 
-    $response = self::guzzle('POST', 'CHARUWTS_INVOICES', $content);
-    if ($response['message'] !== 'INVOICES_INCREMENTED') {
-      file_put_contents(PROJECT_PATH.'/data/plugin.log', '', LOCK_EX);
-      log_event('CONFIGURATION ERROR', $response['message'], 'error');
-      exit();
-    }
-  }
+      $c = curl_init();
+      curl_setopt($c, CURLOPT_URL, $url);
+      curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
 
-  /**
-   * # Setup Guzzle for UCRM
-   *
-   *
-   * @return array
-   */
-  public static function validate() {
-    $http_host = null;
-    $server_addr = null;
-    if (!empty($_SERVER['HTTP_HOST'])) { $http_host = $_SERVER['HTTP_HOST']; }
-    if (!empty($_SERVER['SERVER_ADDR'])) { $server_addr = $_SERVER['SERVER_ADDR']; }
+      curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($c, CURLOPT_SSL_VERIFYPEER, true);
+      curl_setopt($c, CURLOPT_SSL_VERIFYHOST, 2);
 
-    $content = [
-      "type" => "validate",
-      "subscription_id" => \UCSP\Config::$PLUGIN_SUBSCRIPTION_ID,
-      "plugin_unique_key" => \UCSP\Config::$PLUGIN_UNIQUE_KEY,
-      "domain" => \UCSP\Config::$PLUGIN_DOMAIN,
-      "http_host" => $http_host,
-      "server_addr" => $server_addr,
-    ];
+      $result = curl_exec($c);
 
-    $response = self::guzzle('POST', 'CHARUWTS_VALIDATION', $content);
+      $error = curl_error($c);
+      $errno = curl_errno($c);
 
-    if ($response['message'] !== 'KEYS_ARE_VALID') {
-      file_put_contents(PROJECT_PATH.'/data/plugin.log', '', LOCK_EX);
-      log_event('CONFIGURATION ERROR', $response['message'], 'error');
-      echo 'An application error has occurred, check logs or contact administrator';
-      exit();
-    }
+      if ($errno || $error) {
+          throw new \Exception(sprintf('Error for request %s. Curl error %s: %s', $url, $errno, $error));
+      }
+
+      $httpCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
+
+      if ($httpCode < 200 || $httpCode >= 300) {
+          throw new \Exception(
+              sprintf('Error for request %s. HTTP error (%s): %s', $url, $httpCode, $result),
+              $httpCode
+          );
+      }
+
+      curl_close($c);
+
+      if (! $result) {
+          throw new \Exception(sprintf('Error for request %s. Empty result.', $url));
+      }
+
+      $decodedResult = json_decode($result, true);
+
+      if ($decodedResult === null) {
+          throw new \Exception(
+              sprintf('Error for request %s. Failed JSON decoding. Response: %s', $url, $result)
+          );
+      }
+
+      return $decodedResult;
   }
 }
+
+

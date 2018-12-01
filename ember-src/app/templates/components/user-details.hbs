@@ -1,55 +1,73 @@
 {{#bs-form model=model.client novalidate=true onSubmit=(action "submit" model.client) as |form|}}
   <div class="form-row">
     <div class="col-md-6 mb-2">
-      {{form.element controlType="text" id="firstName" autocomplete="given-name" placeholder="First Name" property="firstName" required=true}}
+      {{#translate-text key="firstName" as |translation|}}
+        {{form.element controlType="text" id="firstName" autocomplete="given-name" property="firstName" placeholder=translation required=true}}
+      {{/translate-text}}
     </div>
     <div class="col-md-6 mb-2">
-      {{form.element controlType="text" id="lastName" autocomplete="family-name" placeholder="Last Name" property="lastName" required=true}}
+      {{#translate-text key="familyName" as |translation|}}
+        {{form.element controlType="text" id="lastName" autocomplete="family-name" placeholder=translation property="lastName" required=true}}
+      {{/translate-text}}
     </div>
   </div>
   <div class="form-row">
     <div class="col-md-6 mb-2">
-      {{form.element controlType="email" id="email" autocomplete="email" placeholder="Email" property="email" required=true}}
+      {{#translate-text key="email" as |translation|}}
+        {{form.element controlType="email" id="email" autocomplete="email" placeholder=translation property="email" required=true}}
+      {{/translate-text}}
     </div>
     <div class="col-md-6 mb-2">
-      {{form.element controlType="phone" id="phone" autocomplete="tel tel-national" placeholder="Phone Number" property="phone" required=true}}
+      {{#translate-text key="phoneNumber" as |translation|}}
+        {{form.element controlType="phone" id="phone" autocomplete="tel tel-national" placeholder=translation property="phone" required=true}}
+      {{/translate-text}}
     </div>
   </div>
 
   <div class="form-row">
     <div class="col-md-6 mb-2">
-      {{form.element controlType="text" id="street1" autocomplete="street-address" placeholder="Street Address" property="street1" required=true}}
+      {{#translate-text key="street1" as |translation|}}
+        {{form.element controlType="text" id="street1" autocomplete="street-address" placeholder=translation property="street1" required=true}}
+      {{/translate-text}}
     </div>
-    {{!-- <div class="col-md-6 mb-2"> --}}
-      {{!-- {{form.element controlType="text" id="street2" autocomplete="" placeholder="Street Address 2" property="street2" required=true}} --}}
-    {{!-- </div> --}}
-    <div class="col-md-3 mb-2">
-      {{form.element controlType="text" id="city" autocomplete="address-level2" placeholder="City" property="city" required=true}}
+    <div class="col-md-6 mb-2">
+      {{#translate-text key="street2" as |translation|}}
+        {{form.element controlType="text" id="street2" autocomplete="" placeholder=translation property="street2" required=true}}
+      {{/translate-text}}
     </div>
     <div class="col-md-3 mb-2">
-      {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder="Zip" property="zipCode" required=true}}
+      {{#translate-text key="city" as |translation|}}
+        {{form.element controlType="text" id="city" autocomplete="address-level2" placeholder=translation property="city" required=true}}
+      {{/translate-text}}
+    </div>
+    <div class="col-md-3 mb-2">
+      {{#translate-text key="postalCode" as |translation|}}
+        {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder=translation property="zipCode" required=true}}
+      {{/translate-text}}
     </div>
   </div>
-{{#if model.countries}}
   <div class="form-row">
-    <div class="col-md-3 mb-2">
-      {{#form.element controlType="power-select" id="country" property="country" options=model.countries optionLabelPath="name" as |power-sel|}}
-        {{power-sel.control searchField="name" autocomplete="" placeholder="Choose Country"}}
-      {{/form.element}}
+    <div class="col-md-6 mb-4">
+      {{#translate-text key="chooseCountry" as |translation|}}
+        {{#power-select renderInPlace=true searchField="name" placeholder=translation selected=selectedCountry options=model.countries onchange=(action "selectCountry") as |country|}}
+          {{country.name}}
+        {{/power-select}}
+      {{/translate-text}}
     </div>
-    {{#if states}}
-      <div class="col-md-3 mb-2">
-        {{#form.element controlType="power-select" id="state" property="state" options=states optionLabelPath="name" as |power-sel|}}
-          {{power-sel.control searchField="name" autocomplete="" placeholder="Choose State"}}
-        {{/form.element}}
-      </div>
-    {{/if}}
+    <div class="col-md-6 mb-4">
+      {{#if states}}
+        {{#translate-text key="chooseState" as |translation|}}
+          {{#power-select renderInPlace=true searchField="name" placeholder=translation selected=selectedState options=states onchange=(action "selectState") as |state|}}
+            {{state.name}}
+          {{/power-select}}
+        {{/translate-text}}
+      {{/if}}
+    </div>
   </div>
-{{/if}}
 
   {{#unless error}}
     {{#if pending}}
-      <div class="alert alert-primary" role="alert">Submitting Information</div>
+      <div class="alert alert-primary" role="alert">{{translate-text key="submittingInformation"}}</div>
       <div class="row justify-content-center">
         <div class="col-auto">
           <img src="https://s3.amazonaws.com/shared-charuwts/images/spinner.gif" style="display:inline-block;">
@@ -57,15 +75,17 @@
       </div><br clear="all">
     {{else}}
       {{#if failure}}
-        <div class="alert alert-danger" role="alert">Sorry, there was an error with your request.</div>
+        <div class="alert alert-danger" role="alert">{{translate-text key="errorWithRequest"}}</div>
         {{#if errors}}
           {{#bs-form class="container-fluid" model=model.client novalidate=true as |form|}}
             <div class="row">
               {{#each-in errors as |key value|}}
                 <div class="col-6">
-                  {{#if (is-value key 'username')}}
-                    <span style="text-transform:capitalize;">email</span> - {{value}}
-                    {{form.element controlType="email" id="email" autocomplete="email" placeholder="Email" property="email" required=true}}
+                  {{#if (is-value key "username")}}
+                    <span style="text-transform:capitalize;">{{translate-text key="email"}}</span> - {{value}}
+                    {{#translate-text "email" as |translation|}}
+                      {{form.element controlType="email" id="email" autocomplete="email" placeholder=translation property="email" required=true}}
+                    {{/translate-text}}
                   {{else}}
                     <span style="text-transform:capitalize;">{{key}}</span> - {{value}}
                     {{form.element placeholder=key property=key required=true}}
@@ -85,10 +105,10 @@
     <div class="col text-center">
       {{#if processing}}
         <div class="btn btn-dark disabled" id="proceed"><span>Processing</span></div>
-      {{else if (v-get model.client 'isInvalid')}}
-        <div class="btn btn-dark disabled" id="proceed"><span>Provide Info</span></div>
+      {{else if (v-get model.client "isInvalid")}}
+        {{!-- <div class="btn btn-dark disabled" id="proceed"><span>{{translate-text key="provideInfo"}}</span></div> --}}
       {{else}}
-        <button class="btn btn-primary" id="proceed" type="submit"><span>Proceed</span></button>
+        <button class="btn btn-primary" id="proceed" type="submit"><span>{{translate-text key="proceed"}}</span></button>
       {{/if}}
     </div>
   </div>

@@ -52,8 +52,8 @@ export default Controller.extend({
                 "street1": this.get('model.client.street1'),
                 "street2": this.get('model.client.street2'),
                 "city": this.get('model.client.city'),
-                // "countryId": this.get('model.client.countryId'),
-                // "stateId": this.get('model.client.stateId'),
+                "countryId": this.get('model.client.countryId'),
+                "stateId": this.get('model.client.stateId'),
                 "zipCode": this.get('model.client.zipCode'),
                 "username": this.get('model.client.email'),
                 "contacts": [
@@ -85,6 +85,7 @@ export default Controller.extend({
                 this.set('failure', false);
                 this.transitionToRoute('signup.account', { queryParams: { expired: true }});
               } else {
+                this.set('errorMessage', resp.payload.message);
                 this.set('errors', resp.payload.errors);
               }
             }

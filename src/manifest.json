@@ -3,33 +3,25 @@
   "information": {
     "name": "ucrm-client-signup-plugin",
     "displayName": "UCRM Client Signup Plugin",
-    "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
+    "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information. WARNING: If you have existing stripe subscriptions for UCRM do not 'Execute' the plugin or you may double charge your customers, this plugin charges based on invoices in UCRM removing the need for stripe subscriptions but this is OPTIONAL.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "ucrmVersionCompliancy": {
-      "min": "2.11.1",
+      "min": "2.14.0",
       "max": null
     },
     "author": "Charuwts, LLC"
   },
   "configuration": [
     {
-        "key": "REQUIRED_PLUGIN_SUBSCRIPTION_ID",
-        "label": "Plugin Subscription ID",
-        "description": "This is provided in your order confirmation from Charuwts, LLC. The card you provided will be charged based on plugin usage. See: https://github.com/charuwts/UCRM-Client-Signup/wiki/0-Setup for more details.",
-        "required": 1
-    },
-    {
-        "key": "REQUIRED_PLUGIN_UNIQUE_KEY",
-        "label": "Plugin Unique Key",
-        "description": "This is provided in your order confirmation from Charuwts, LLC.",
-        "required": 1
-    },
-    {
-        "key": "REQUIRED_PLUGIN_DOMAIN",
-        "label": "Plugin Domain",
-        "description": "Enter as you provided it at purchase. This is also listed in your order confirmation email.",
-        "required": 1
+        "key": "REQUIRED_TRANSLATION",
+        "label": "Language",
+        "description": "",
+        "required": 1,
+        "type": "choice",
+        "choices": {
+          "English": "ENGLISH"
+        }
     },
     {
         "key": "REQUIRED_PLUGIN_PUBLIC_URL",
@@ -47,13 +39,13 @@
         "key": "OPTIONAL_STRIPE_SECRET_KEY",
         "label": "Stripe Secret Key",
         "description": "This is your Stripe API Secret Key. Make sure, you use LIVE credentials in production. https://stripe.com/docs/keys#api-keys Also Note: These currencies supported by UCRM are not supported by Stripe [VEF, GHC, TVD, LVL, TRL, LTL, CUP, GGP, IMP, JEP, SYP, IRR, OMR, BYN, KPW, ZWD]",
-        "required": 1
+        "required": 0
     },
     {
         "key": "OPTIONAL_STRIPE_PUBLIC_KEY",
         "label": "Stripe Public Key",
         "description": "This is your Stripe API Public Key. Make sure, you use LIVE credentials in production. https://stripe.com/docs/keys#api-keys",
-        "required": 1
+        "required": 0
     },
     {
         "key": "OPTIONAL_LOGO_URL",
@@ -78,6 +70,24 @@
         "label": "Completion Text",
         "description": "Text shown upon signup completion. (Text Only) - Defaults To: Thank you for signing up! You will receive an invitation to access your account upon approval.",
         "required": 0
+    },
+    {
+        "key": "OPTIONAL_LEAD",
+        "label": "Create Lead",
+        "type": "checkbox",
+        "description": "Create Lead instead of Client",
+        "required": 0
     }
-  ]
+  ],
+  "menu": [
+          {
+              "key": "UCRM Client Plugin",
+              "label": "Stripe Info",
+              "type": "admin",
+              "target": "iframe",
+              "parameters": {
+                  "admin": "stripe-info"
+              }
+          }
+      ]
 }

@@ -51,7 +51,7 @@
           </div><br clear="all">
         {{else}}
             {{#if failure}}
-              <div class="alert alert-danger" role="alert">Sorry, there was an error with your request.</div>
+              <div class="alert alert-danger" role="alert">Sorry, there was an error with your request. {{errorMessage}}</div>
               {{#if errors}}
                 {{#bs-form class="container-fluid" model=model.client novalidate=true as |form|}}
                   <div class="row">

@@ -7,7 +7,7 @@
       {{#if period.enabled}}
         <div class="row no-gutters">
           <div class="col-sm-8 text-center">
-            {{period-text period.period}}<br>
+            {{period.period}} Month period<br>
             <div class="h4">${{period.price}}</div>
           </div>
           {{#if (is-value model.servicePlanPeriodId period.id)}}
