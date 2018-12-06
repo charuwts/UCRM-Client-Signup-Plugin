@@ -19,8 +19,8 @@ file_put_contents(PROJECT_PATH.'/data/plugin.log', '', LOCK_EX);
 $mark = new ExecutionTime();
 $mark->start(); 
 
-if (USE_STRIPE === true) {
-  $payment_processor = new PaymentProcessor(\UCSP\Config::$PAYMENT_GATEWAY);
+if (USE_STRIPE == true) {
+  $payment_processor = new \UCSP\PaymentProcessor(\UCSP\Config::$PAYMENT_GATEWAY);
   $payment_processor->processPayments();
 }
 

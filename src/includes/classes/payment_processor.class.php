@@ -68,9 +68,9 @@ class PaymentProcessor extends UcrmHandler {
     foreach($invoices as $invoice) {
       
       // ## Setup dates
-      $now = new DateTime();
+      $now = new \DateTime();
       $dueDate = strtotime($invoice->dueDate);
-      $invoice_due_date = new DateTime("@{$dueDate}");
+      $invoice_due_date = new \DateTime("@{$dueDate}");
 
       // ## If due date is past
       if ($invoice_due_date <= $now) {

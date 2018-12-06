@@ -74,7 +74,7 @@ class UsageHandler {
 
   public static function retrieveCurrentUser(string $ucrmPublicUrl) {
       $url = sprintf('%s/current-user', $ucrmPublicUrl);
-      log_event('cookie', $_COOKIE['PHPSESSID']);
+
       $headers = [
           'Content-Type: application/json',
           'Cookie: PHPSESSID=' . preg_replace('~[^a-zA-Z0-9]~', '', $_COOKIE['PHPSESSID'] ?? ''),
