@@ -4,11 +4,12 @@ namespace UCSP;
 class Config {
   public static $PAYMENT_GATEWAY = 'STRIPE';
   public static $TRANSLATION = 'ENGLISH';
-  public static $LEAD = null;
+  // public static $LEAD = null;
   public static $PLUGIN_PUBLIC_URL = null;
   public static $CUSTOM_ATTRIBUTE_ID = null;
   public static $STRIPE_SECRET_KEY = null;
   public static $STRIPE_PUBLIC_KEY = null;
+  public static $COLLECT_PAYMENT_INFO = null;
   public static $SAVE_PAYMENT_SOURCE = null;
   public static $STRIPE_WEBHOOK_SECRET = null;
   public static $LOGO_URL = null;

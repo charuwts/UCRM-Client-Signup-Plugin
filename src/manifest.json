@@ -16,7 +16,7 @@
     {
         "key": "REQUIRED_TRANSLATION",
         "label": "Language",
-        "description": "",
+        "description": "If you would like to submit a translation please contact Charuwts via our contact form at https://www.charuwts.com/contact and we'll send you a document of all of the text used in the plugin.",
         "required": 1,
         "type": "choice",
         "choices": {
@@ -34,6 +34,13 @@
         "label": "Gateway Customer, Custom Attribute ID",
         "description": "The value is set when a client signs up or can be done manually for legacy clients. Required to charge customer card on file when invoice is due. If this custom attribute is not set on a client the client will not be automatically charged. To create a custom attribute visit -> system/other/custom-attributes",
         "required": 1
+    },
+    {
+        "key": "OPTIONAL_COLLECT_PAYMENT_INFO",
+        "label": "Collect Payment Info",
+        "type": "checkbox",
+        "description": "If turned off, client will not be asked for payment information.",
+        "required": 0
     },
     {
         "key": "OPTIONAL_STRIPE_SECRET_KEY",
@@ -70,23 +77,16 @@
         "label": "Completion Text",
         "description": "Text shown upon signup completion. (Text Only) - Defaults To: Thank you for signing up! You will receive an invitation to access your account upon approval.",
         "required": 0
-    },
-    {
-        "key": "OPTIONAL_LEAD",
-        "label": "Create Lead",
-        "type": "checkbox",
-        "description": "Create Lead instead of Client",
-        "required": 0
     }
   ],
   "menu": [
           {
               "key": "UCRM Client Plugin",
-              "label": "Stripe Info",
+              "label": "Services",
               "type": "admin",
               "target": "iframe",
               "parameters": {
-                  "admin": "stripe-info"
+                  "admin": "services"
               }
           }
       ]

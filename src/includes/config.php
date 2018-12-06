@@ -25,5 +25,5 @@ set_exception_handler(function($exception) {
 
 // StripeApi::setEndpointSecret(\UCSP\Config::$STRIPE_WEBHOOK_SECRET);
 
-UcrmApi::setUcrmKey(UCRM_KEY);
-UcrmApi::setUcrmApiUrl(UCRM_API_URL);
+\UCSP\UcrmApi::setUcrmKey(UCRM_KEY);
+\UCSP\UcrmApi::setUcrmApiUrl(UCRM_API_URL);

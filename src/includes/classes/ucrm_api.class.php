@@ -5,6 +5,7 @@
  * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
  * 
  */
+namespace UCSP;
 
 class UcrmApi {
   // ### Class Properties
@@ -43,7 +44,7 @@ class UcrmApi {
    * @param string $message
    *
    */
-  private function setResponse($message) {
+  protected function setResponse($message) {
     $this->response = $message;
   }
 
@@ -69,7 +70,7 @@ class UcrmApi {
       }
 
       if ($requireKey) {
-        if ($object['pluginAppKey'] != FRONTEND_PUBLIC_KEY) {
+        if ($object->pluginAppKey != FRONTEND_PUBLIC_KEY) {
           throw new UnexpectedValueException("Invalid pluginAppKey");   
         }
       }

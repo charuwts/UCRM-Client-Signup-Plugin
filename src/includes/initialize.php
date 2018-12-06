@@ -26,14 +26,12 @@ require_once(CLASSES_PATH.'/config.class.php');
 $config_path = PROJECT_PATH."/data/config.json";
 \UCSP\Config::initializeStaticProperties($config_path);
 
-define("ENVIRONMENT", "DEV");
+define("ENVIRONMENT", "LIVE");
 
 if (ENVIRONMENT == "LIVE") {
-  $ENV_UCRM_API_URL = \UCSP\Config::PLUGIN_URL().'/api/v2.9';
-  $ENV_CHARUWTS_API_URL = 'https://api.charuwts.com/api/v1/subscriptions';
+  $ENV_UCRM_API_URL = \UCSP\Config::PLUGIN_URL().'/api/v1.0';
 } else {
-  $ENV_UCRM_API_URL = 'http://ucrm.dev.ellerslie.com/api/v2.9';
-  $ENV_CHARUWTS_API_URL = 'http://brandon.dev.ellerslie.com/api/v1/subscriptions';
+  $ENV_UCRM_API_URL = 'http://ucrm.dev.ellerslie.com/api/v1.0';
 }
 
 define("UCRM_API_URL", $ENV_UCRM_API_URL);
@@ -61,6 +59,7 @@ if (file_exists($config_path)) {
 }
 
 // ## Project Classes
+require_once(CLASSES_PATH.'/api_exception.class.php');
 require_once(CLASSES_PATH.'/usage_handler.class.php');
 require_once(CLASSES_PATH.'/execution_time.class.php');
 require_once(CLASSES_PATH.'/ucrm_api.class.php');

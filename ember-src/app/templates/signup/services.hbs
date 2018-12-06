@@ -11,7 +11,9 @@
 {{#liquid-unless model.servicePlan}}
   <div class="row justify-content-center mb-5 mx-2">
     {{#each model.servicePlans as |plan|}}
-      {{service-plan plan=plan model=model}}
+      {{#if plan.display}}
+        {{service-plan plan=plan model=model}}
+      {{/if}}
     {{/each}}
   </div>
 {{else}}

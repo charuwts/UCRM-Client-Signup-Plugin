@@ -73,15 +73,25 @@
             {{/if}}
           {{/if}}
         {{/unless}}
-        {{#stripe-card options=options as |stripeElement error|}}
+        {{#if collectPayment}}
+          {{#stripe-card options=options as |stripeElement error|}}
+            {{#if error}}
+              <p class="error">{{error.message}}</p>
+            {{/if}}
+            <br clear="all">
+            {{#unless pending}}
+              <div class="btn btn-success" {{action "submit" stripeElement}}>Confirm Information and Submit</div>
+            {{/unless}}
+          {{/stripe-card}}
+        {{else}}
           {{#if error}}
             <p class="error">{{error.message}}</p>
           {{/if}}
           <br clear="all">
           {{#unless pending}}
-            <div class="btn btn-success" {{action "submit" stripeElement}}>Confirm Information and Submit</div>
+            <div class="btn btn-success" {{action "createClient"}}>Confirm Information and Submit</div>
           {{/unless}}
-        {{/stripe-card}}
+        {{/if}}
       </div>
     </div>
   </div>

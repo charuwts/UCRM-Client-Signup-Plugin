@@ -5,6 +5,7 @@
  * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
  * 
  */
+namespace UCSP;
 
 class StripeHandler extends StripeApi {
 
@@ -37,7 +38,7 @@ class StripeHandler extends StripeApi {
         $ucrm_handler->setCustomAttributeValue($client->id, $customer->id);
 
         // ## Create Service
-        $date = new DateTime();
+        $date = new \DateTime();
         // ## Set active from and invoicing start to +1 month to give time to adjust service invoice dates manually
         $date = date('c', strtotime("+1 months"));
         $service = $ucrm_handler->createService($payload_decoded->service, $client->id, $date);

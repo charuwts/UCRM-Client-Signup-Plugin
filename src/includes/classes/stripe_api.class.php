@@ -5,6 +5,7 @@
  * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
  * 
  */
+namespace UCSP;
 
 class StripeApi {
   private $response;

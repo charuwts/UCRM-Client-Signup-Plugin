@@ -13,7 +13,7 @@ export default Route.extend({
       servicePlans: this.get('ajax').post(ENV.APP.host, {
         data: {
           pluginAppKey: ENV.APP.pluginAppKey,
-          servicePlans: true
+          servicePlanFilters: true
         } 
       }),
       countries: this.get('ajax').post(ENV.APP.host, {

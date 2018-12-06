@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup%22%2C%22host%22%3A%22<?php echo (string)\UCSP\Config::$PLUGIN_PUBLIC_URL; ?>%22%2C%22completionText%22%3A%22<?php echo rawurlencode((string)\UCSP\Config::$COMPLETION_TEXT); ?>%22%2C%22pluginAppKey%22%3A%22<?php echo FRONTEND_PUBLIC_KEY; ?>%22%2C%22pluginTranslation%22%3A%22<?php echo rawurlencode((string)\UCSP\Config::$TRANSLATION); ?>%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+84bc7820%22%7D%2C%22stripe%22%3A%7B%22publishableKey%22%3A%22<?php echo \UCSP\Config::$STRIPE_PUBLIC_KEY; ?>%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+    <meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup%22%2C%22host%22%3A%22<?php echo (string)\UCSP\Config::$PLUGIN_PUBLIC_URL; ?>%22%2C%22collectPayment%22%3A%22<?php echo (string)\UCSP\Config::$COLLECT_PAYMENT_INFO; ?>%22%2C%22completionText%22%3A%22<?php echo rawurlencode((string)\UCSP\Config::$COMPLETION_TEXT); ?>%22%2C%22pluginAppKey%22%3A%22<?php echo FRONTEND_PUBLIC_KEY; ?>%22%2C%22pluginTranslation%22%3A%22<?php echo rawurlencode((string)\UCSP\Config::$TRANSLATION); ?>%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+84bc7820%22%7D%2C%22stripe%22%3A%7B%22publishableKey%22%3A%22<?php echo \UCSP\Config::$STRIPE_PUBLIC_KEY; ?>%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
 
     <style type="text/css">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
@@ -44,7 +44,7 @@
     <script type="text/javascript">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
       <?php include(PROJECT_PATH."/assets/vendor-9bfe2b44f19210a7c1959ef10ea382e2.js"); ?>
-      <?php include(PROJECT_PATH."/assets/ucrm-client-signup-form-00c09d49646d77c6217367c5e9a1845a.js"); ?>
+      <?php include(PROJECT_PATH."/assets/ucrm-client-signup-form-3c1831658f1eabaf899016f833126ae5.js"); ?>
     </script>
 
   </body>

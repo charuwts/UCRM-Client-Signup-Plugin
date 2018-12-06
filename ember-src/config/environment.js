@@ -26,6 +26,7 @@ module.exports = function(environment) {
       pluginAppKey: 'development_key',
       pluginTranslation: 'ENGLISH',
       useCountrySelect: 'false',
+      collectPayment: 'true',
     }
   };
 

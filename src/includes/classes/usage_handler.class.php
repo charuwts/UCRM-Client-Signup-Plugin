@@ -5,6 +5,7 @@
  * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
  * 
  */
+namespace UCSP;
 
 class UsageHandler {
 
@@ -71,10 +72,9 @@ class UsageHandler {
   }
   # Taken from https://github.com/Ubiquiti-App/UCRM-plugins/blob/master/docs/security.md
 
-  public static function retrieveCurrentUser(string $ucrmPublicUrl): array
-  {
+  public static function retrieveCurrentUser(string $ucrmPublicUrl) {
       $url = sprintf('%s/current-user', $ucrmPublicUrl);
-
+      log_event('cookie', $_COOKIE['PHPSESSID']);
       $headers = [
           'Content-Type: application/json',
           'Cookie: PHPSESSID=' . preg_replace('~[^a-zA-Z0-9]~', '', $_COOKIE['PHPSESSID'] ?? ''),
@@ -83,8 +83,7 @@ class UsageHandler {
       return self::curlQuery($url, $headers);
   }
 
-  protected static function curlQuery(string $url, array $headers = [], array $parameters = []): array
-  {
+  protected static function curlQuery(string $url, array $headers = [], array $parameters = []) {
       if ($parameters) {
           $url .= '?' . http_build_query($parameters);
       }
@@ -107,6 +106,9 @@ class UsageHandler {
       }
 
       $httpCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
+      if ($httpCode == 403) {
+        return ['error' => $httpCode];
+      }
 
       if ($httpCode < 200 || $httpCode >= 300) {
           throw new \Exception(

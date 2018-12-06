@@ -5,8 +5,28 @@
  * You may not redistribute or modify the Software of Charuwts, LLC, and you are prohibited from misrepresenting the origin of the Software.
  * 
  */
+namespace UCSP;
 
 class UcrmHandler extends UcrmApi {
+  public function buildServices($payload) {
+    // ## Setup
+    $payload_decoded = json_decode($payload);
+    $this->validateObject($payload_decoded, true);
+    $ucrm_handler = new UcrmHandler;
+
+    // ## Create Client
+    $client = $ucrm_handler->createClient($payload_decoded->client);
+    if (empty($client->errors)) {
+      $date = new \DateTime();
+      $date = date('c', strtotime("+1 months"));
+      $service = $ucrm_handler->createService($payload_decoded->service, $client->id, $date);
+
+      $ucrm_handler->createAdminTicket('New Signup', $client->id, "{$client->firstName} {$client->lastName} has signed up.");
+      $this->setResponse('Services Created', 200);
+    } else {
+      $this->setResponse('Client failed', 400);
+    }
+  }
    ## Create Client
    # @param array $client
    # @return object
@@ -23,16 +43,14 @@ class UcrmHandler extends UcrmApi {
     );
     $this->validateObject($content);
 
-
     # Optional Params
     $content['countryId'] = (empty($client->countryId)) ? null : $client->countryId;
     $content['stateId'] = (empty($client->stateId)) ? null : $client->stateId;
     $content['street2'] = (empty($client->street2)) ? null : $client->street2;
-    $content['isLead'] = (empty(\UCSP\Config::$LEAD)) ? false : \UCSP\Config::$LEAD;
-
-    log_event('Test lead', print_r($content, true));
+    // $content['isLead'] = (empty(Config::$LEAD)) ? false : Config::$LEAD;
 
     $response = UsageHandler::guzzle('POST', '/clients', $content);
+    
     if ($json_response) {
       echo json_response($response['message'], 200, true);
       exit();
@@ -44,24 +62,16 @@ class UcrmHandler extends UcrmApi {
    ## Get Current User
    # @return object
   public static function isAdmin() {
-    $response = UsageHandler::retrieveCurrentUser('http://ucrm.dev.ellerslie.com');
-
-    log_event('response', $response['isClient']);
-    log_event('permissions', print_r($response['permissions'], true));
-    log_event('system/plugins', $response['permissions']['system/plugins']);
-    
-    if ($response['isClient'] !== true && $response['permissions']['system/plugins'] === 'edit') {
-      return true;
+    $response = UsageHandler::retrieveCurrentUser(Config::PLUGIN_URL());
+    if (empty($response['error'])) {
+      if ($response['isClient'] !== true && $response['permissions']['system/plugins'] == 'edit') {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
-
-
-    // if (!empty($response)) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
   }
 
    ## Set Custom Attribute Value
@@ -73,7 +83,7 @@ class UcrmHandler extends UcrmApi {
       "attributes" => [
         [
           "value" => $customer_id,
-          "customAttributeId" => (int)\UCSP\Config::$CUSTOM_ATTRIBUTE_ID
+          "customAttributeId" => (int)Config::$CUSTOM_ATTRIBUTE_ID
         ]
         
       ]
@@ -96,7 +106,7 @@ class UcrmHandler extends UcrmApi {
 
     $value = false;
     foreach($attributes as $attr) {
-      if ($attr->customAttributeId == \UCSP\Config::$CUSTOM_ATTRIBUTE_ID) {
+      if ($attr->customAttributeId == Config::$CUSTOM_ATTRIBUTE_ID) {
         $value = $attr->value;
         break;
       }
@@ -277,17 +287,77 @@ class UcrmHandler extends UcrmApi {
     }
   }
 
-  /**
-   * # Get Service Plans
-   *
-   * @return json
-   *
-   */
-  public function getServicePlans() {
+  ## Get Service Plans
+  # @return json
+  public static function getServicePlans() {
     $endpoint = "/service-plans";
     $response = UsageHandler::guzzle('GET', $endpoint);
-    $this->response = $response['message'];
-    return $response['message'];
+    // $this->response = $response['message'];
+    return json_response($response['message'], 200, true);
+  }
+
+  ## Get Service Plan Filters
+  # @return json
+  public static function getServicePlanFilters() {
+    $service_json_file = PROJECT_PATH.'/data/services_filter.json'; 
+    $data = [];
+
+    if (file_exists($service_json_file)) {
+      
+      $jsonString = file_get_contents($service_json_file);
+      $contents = empty($jsonString) ? [] : json_decode($jsonString, true);
+
+      if (count($contents) > 0) {
+        return json_response($jsonString, 200, true);
+      } else {
+        return self::createServicePlanFilters();
+      }
+    } else {
+      return self::createServicePlanFilters();
+    }
+  }
+
+  ## Set Service Plan Filters
+  # @return json
+  public static function updateServicePlanFilters($service_plans = []) {
+    if (self::isAdmin()) {
+      $service_json_file = PROJECT_PATH.'/data/services_filter.json'; 
+      $service_plans = (!empty($service_plans)) ? $service_plans : self::getServicePlanFilters();
+      $json_services = json_decode($service_plans);
+
+      $data = [];
+      
+      foreach ($json_services as $service_plan) {
+        $filter_formatt = [];
+        $filter_formatt["id"] = $service_plan->id;
+        $filter_formatt["display"] = !empty($service_plan->display) ? $service_plan->display : false;
+        $filter_formatt["name"] = $service_plan->name;
+        $filter_formatt["periods"] = $service_plan->periods;
+
+        $data[] = $filter_formatt;
+      }
+
+      file_put_contents($service_json_file, json_encode($data));
+
+      if (file_exists($service_json_file)) {
+        return json_response(json_encode($data), 200, true);
+      } else {
+        return json_response(json_encode([]), 200, true);
+      }
+    } else {
+      throw new ApiException('Permission Denied', 403);
+    }
+  }
+
+  ## Set Service Plan Filters
+  # @return json
+  public static function createServicePlanFilters() {
+    if (self::isAdmin()) {
+      $service_plans = self::getServicePlans();
+      return self::updateServicePlanFilters($service_plans);
+    } else {
+      throw new ApiException('Permission Denied', 403);
+    }
   }
 
   /**

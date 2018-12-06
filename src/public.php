@@ -23,43 +23,78 @@ $payload = @file_get_contents("php://input");
 $payload_decoded = json_decode($payload);
 
 if (!empty($_SERVER["HTTP_STRIPE_SIGNATURE"])) {
-  $handler = new StripeHandler;
+  $handler = new \UCSP\StripeHandler;
   $handler->handleWebhook($payload);
   echo json_response($handler->getResponse(), 200, true);
+  exit();
+}
 
+try {
+  
   // ## If payload has servicePlans - servicePlans == true
-} elseif (!empty($payload_decoded->servicePlans)) {
-    // ## Instantiate handler
-    $handler = new UcrmHandler;
+  if (!empty($payload_decoded->servicePlans)) {
     // ## Return service plans
-    echo json_response($handler->getServicePlans(), 200, true);
+    echo \UCSP\UcrmHandler::getServicePlans();
+    exit();
+    // ## If payload has servicePlanFilters - servicePlanFilters == true
+  } elseif (!empty($payload_decoded->servicePlanFilters)) {
+    // ## Return service plans filtered
+    echo \UCSP\UcrmHandler::getServicePlanFilters();
+    exit();
 
-  // ## If payload has country_id
-} elseif (!empty($payload_decoded->country_id)) {
+    // ## If payload has createServicePlanFilters - createServicePlanFilters == true
+  } elseif (!empty($payload_decoded->createServicePlanFilters)) {
+    // ## Return service plans filtered
+    echo \UCSP\UcrmHandler::createServicePlanFilters();
+    exit();
+  } elseif (!empty($payload_decoded->updateServicePlanFilters)) {
+    // ## Return service plans filtered
+    echo \UCSP\UcrmHandler::updateServicePlanFilters(json_encode($payload_decoded->updateServicePlanFilters));
+    exit();
+  }
+
+} catch (\UCSP\ApiException $e) {
+  echo json_response($e->getMessage(), $e->getCode());
+  exit();
+} catch (\Exception $e) {
+  echo json_response($e->getMessage(), $e->getCode());
+  exit();
+}
+// ## If payload has country_id
+if (!empty($payload_decoded->country_id)) {
     // ## Instantiate handler
-    $handler = new UcrmHandler;
+    $handler = new \UCSP\UcrmHandler;
     // ## Return countries
     echo json_response($handler->getStatesByCountry($payload_decoded->country_id), 200, true);
 
   // ## If payload has countries - countries == true
 } elseif (!empty($payload_decoded->countries)) {
     // ## Instantiate handler
-    $handler = new UcrmHandler;
+    $handler = new \UCSP\UcrmHandler;
     // ## Return countries
     echo json_response($handler->getCountries(), 200, true);
     
-// ## Only run if app key exists
-} elseif (!empty($payload_decoded->pluginAppKey)) {
+// ## stripe info and appkey
+} elseif (!empty($payload_decoded->pluginAppKey) && !empty($payload_decoded->stripeInfo)) {
   // ## Instantiate handler
-  $handler = new StripeHandler;
+  $handler = new \UCSP\StripeHandler;
+  // ## Attempt to build Services
+  $handler->buildServices($payload);
+  echo json_response($handler->getResponse(), 200);
+  
+// ## build services and appkey
+} elseif (!empty($payload_decoded->pluginAppKey) && !empty($payload_decoded->buildServices)) {
+  // ## Instantiate handler
+  $handler = new \UCSP\UcrmHandler;
+  
   // ## Attempt to build Services
   $handler->buildServices($payload);
   echo json_response($handler->getResponse(), 200);
   
 } elseif (!empty($_GET['admin'])) {
   
-  if ($_GET['admin'] == 'stripe-info') {
-    include(PROJECT_PATH."/includes/pages/services.php");
+  if ($_GET['admin'] == 'services') {
+    include(PROJECT_PATH."/includes/pages/admin.php");
   }
 
 // ## Else, return form  
