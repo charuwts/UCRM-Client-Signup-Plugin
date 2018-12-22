@@ -1,0 +1,10 @@
+{
+    "require": {
+        "stripe/stripe-php": "^6.6",
+        "guzzlehttp/guzzle": "~6.0",
+        "ubnt/ucrm-plugin-sdk": "~0.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    }
+}
