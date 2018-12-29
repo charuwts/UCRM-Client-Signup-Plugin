@@ -9,6 +9,11 @@ require_once(CONFIG_PATH.'/../includes/custom-exceptions.php');
 class Config {
   private $accessGranted = false;
   private $api;
+  private $whiteListViews = ['service-filters'];
+
+  private function canViewEndpoint($endpoint) {
+    array_key_exists($endpoint, $this->whitelistViews);
+  }
 
   private function grantAccess() {
     $this->accessGranted = true;
@@ -28,7 +33,7 @@ class Config {
     }
   }
 
-  public function __construct() {
+  public function checkPermissions() {
     try {
       if ( $this->hasPermission() ) {
         $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
@@ -41,47 +46,53 @@ class Config {
     }
   }
 
+  public function __construct() {
+    $this->checkPermissions();
+  }
+
   public function __destruct() {
       unset($this->api);
       $this->accessGranted = false;
   }
 
-  private function writeToFile($filename, $data) {
-    $config_json_file = CONFIG_PATH.'/../data/'.$filename.'.json'; 
-    file_put_contents($config_json_file, json_encode($data));
-    
-    if (file_exists($config_json_file)) {
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  public function updateFile($endpoint, $data = []) {
+  public function writeToFile($filename, $data) {
     if ($this->isAccessGranted()) {
-      $wasCreated = $this->writeToFile($endpoint, $data);
-      if ($wasCreated) {
-        return $this->viewFile($endpoint);
+      $config_json_file = CONFIG_PATH.'/../data/'.$filename.'.json'; 
+      file_put_contents($config_json_file, json_encode($data));
+      
+      if (file_exists($config_json_file)) {
+        return true;
       } else {
-        throw new \ConfigException('failed to update');
+        return false;
       }
     } else {
       throw new \ConfigException('Permission Denied', 403);
     }
   }
 
-  public function viewFile($endpoint) {
-    $config_json_file = CONFIG_PATH.'/../data/'.$endpoint.'.json'; 
-    $data = [];
-
-    if (file_exists($config_json_file)) {
-      $jsonString = file_get_contents($config_json_file);
-      $contents = empty($jsonString) ? [] : json_decode($jsonString, true);
-
-      return $contents;
+  public function updateFile($endpoint, $data = []) {
+    $wasCreated = $this->writeToFile($endpoint, $data);
+    if ($wasCreated) {
+      return $this->viewFile($endpoint);
     } else {
-      return [];
+      throw new \ConfigException('failed to update');
+    }
+  }
+
+  public function viewFile($endpoint) {
+    if ($this->canViewEndpoint($endpoint)) {
+      $config_json_file = CONFIG_PATH.'/../data/'.$endpoint.'.json'; 
+
+      if (file_exists($config_json_file)) {
+        $jsonString = file_get_contents($config_json_file);
+        $contents = empty($jsonString) ? [] : json_decode($jsonString, true);
+
+        return $contents;
+      } else {
+        return [];
+      }
+    } else {
+      throw new \ConfigException('Permission Denied', 403);
     }
   }
 

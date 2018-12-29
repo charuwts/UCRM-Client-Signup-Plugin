@@ -23,7 +23,7 @@ module.exports = function(environment) {
       rootElement: '#ember-signup',
       host: 'http://plugin/src/public.php',
       completionText: 'completiontextinformation',
-      pluginAppKey: 'development_key',
+      frontendKey: 'development_key',
       pluginTranslation: 'ENGLISH',
       useCountrySelect: 'false',
       collectPayment: 'true',
@@ -45,7 +45,7 @@ module.exports = function(environment) {
   if (environment === 'test') {
     ENV.APP.host = 'http//plugin/src/public.php';
     ENV.APP.completionText = 'completiontextinformation';
-    ENV.APP.pluginAppKey = 'development_key';
+    ENV.APP.frontendKey = 'development_key';
     // Testem prefers this...
     ENV.locationType = 'none';
 

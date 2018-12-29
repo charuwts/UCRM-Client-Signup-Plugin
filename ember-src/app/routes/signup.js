@@ -12,14 +12,20 @@ export default Route.extend({
       client: this.get('store').createRecord('client'),
       servicePlans: this.get('ajax').post(ENV.APP.host, {
         data: {
-          pluginAppKey: ENV.APP.pluginAppKey,
-          servicePlanFilters: true
+          frontendKey: ENV.APP.frontendKey,
+          api: {
+            type: 'VIEW_FILE',
+            endpoint: 'service-filters'
+          }
         } 
       }),
       countries: this.get('ajax').post(ENV.APP.host, {
         data: {
-          pluginAppKey: ENV.APP.pluginAppKey,
-          countries: true
+          frontendKey: ENV.APP.frontendKey,
+          api: {
+            type: 'GET',
+            endpoint: 'countries'
+          }
         } 
       }),
     })

@@ -163,6 +163,12 @@ class Interpreter {
             $this->ready = true;
 
           }
+          // catch (\Exception $e) {
+          //   $pluginLogManager = new \Ubnt\UcrmPluginSdk\Service\PluginLogManager();
+          //   $pluginLogManager->appendLog($e->getMessage());
+          //   $pluginLogManager->appendLog($e->getCode());
+          // }
+
         } else {
           throw new \UnexpectedValueException('data is invalid', 400);
         }

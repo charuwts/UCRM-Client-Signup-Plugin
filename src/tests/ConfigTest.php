@@ -27,35 +27,51 @@ class ConfigTest extends TestCase {
     $mock = $this->getMockBuilder(Config::class)
                  ->setMethods(['hasPermission'])
                  ->getMock();
-    $mock->method('hasPermission')->will($this->returnValue(false));
     $this->assertFalse($mock->isAccessGranted());
   }
   /**
   * @test
-  * @expectedException IsNotAdminException
-  * @expectedExceptionCode 403
   **/
   public function expectAccessGrantedWithPermission() {
     $mock = $this->getMockBuilder(Config::class)
+                 ->disableOriginalConstructor()
                  ->setMethods(['hasPermission'])
                  ->getMock();
-    $mock->method('hasPermission')->will($this->returnValue(true));
+    $mock->expects($this->any())->method('hasPermission')->will($this->returnValue(true));
+    $mock->checkPermissions();
     $this->assertTrue($mock->isAccessGranted());
   }
 
   /**
   * @test
   **/
-  public function expectEmptyFile() {
+  public function expectArray() {
     $mock = $this->getMockBuilder(Config::class)
                  ->disableOriginalConstructor()
                  ->setMethods(['hasPermission'])
                  ->getMock();
     $mock->method('hasPermission')->will($this->returnValue(true));
 
-    $file = $mock->viewFile('service-filters');
+    $result = $mock->viewFile('service-filters');
     
-    $this->assertSame([], $file);
+    $this->assertInternalType('array', $result);
+  }
+
+  /**
+  * @test
+  **/
+  public function writeToFile() {
+    $mock = $this->getMockBuilder(Config::class)
+                 ->disableOriginalConstructor()
+                 ->setMethods(['hasPermission', 'isAccessGranted'])
+                 ->getMock();
+
+    $mock->method('hasPermission')->will($this->returnValue(true));
+    $mock->method('isAccessGranted')->will($this->returnValue(true));
+
+    $result = $mock->updateFile('service-filters', ['test' => 'array']);
+    
+    $this->assertSame($result, ['test' => 'array']);
   }
 
 
