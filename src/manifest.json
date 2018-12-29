@@ -7,35 +7,41 @@
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
     "version": "2.0.0",
     "ucrmVersionCompliancy": {
-      "min": "2.15.0",
+      "min": "2.14.1",
       "max": null
     },
     "author": "Charuwts, LLC"
   },
   "configuration": [
     {
+        "key": "ALLOWED_ORIGIN",
+        "label": "Allowed Public Origin",
+        "description": "This prevents cross origin requests by restricting it to a specified origin. (Example: https://yourdomain.com)",
+        "required": 1
+    },
+    {
         "key": "FORM_TITLE",
         "label": "Form Title",
-        "description": "Displayed below logo before form description",
+        "description": "Displayed below logo before form description. [not included in embed]",
         "required": 0
     },
     {
         "key": "LOGO_URL",
         "label": "Logo URL",
-        "description": "Displayed above form.",
+        "description": "Displayed above form. [not included in embed]",
         "required": 0
     },
     {
         "key": "FORM_DESCRIPTION",
         "label": "Form Description",
-        "description": "Displayed below logo before the form. (Can contain HTML)",
+        "description": "Displayed below logo before the form. (Can contain HTML) [not included in embed]",
         "type": "textarea",
         "required": 0
     },
     {
         "key": "COMPLETION_TEXT",
         "label": "Completion Text",
-        "description": "Text shown upon signup completion. (Text Only)",
+        "description": "Text shown upon signup completion. (Text Only) [included in embed]",
         "type": "textarea",
         "required": 0
     },
@@ -43,8 +49,29 @@
         "key": "LEAD",
         "label": "Create Lead",
         "type": "checkbox",
-        "description": "Create Lead instead of Client",
+        "description": "Create Lead instead of Client [included in embed]",
         "required": 0
     }
-  ]
+  ],
+  "menu": [
+          {
+              "key": "UCRM Client Plugin",
+              "label": "Embed Code",
+              "type": "admin",
+              "target": "iframe",
+              "parameters": {
+                  "admin": "embed-code"
+              }
+          },
+          {
+              "key": "UCRM Client Plugin",
+              "label": "Service Filters",
+              "type": "admin",
+              "target": "iframe",
+              "parameters": {
+                  "admin": "service-filters"
+              }
+          }
+      ]
+
 }

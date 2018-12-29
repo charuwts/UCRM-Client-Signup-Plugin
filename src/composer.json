@@ -9,9 +9,9 @@
         "phpunit/php-invoker": "^2.0.0"
     },
 
-    "name": "charuwts/UCS",
+    "name": "charuwts/Ucsp",
     "description": "UCRM Client Signup Plugin",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "authors": [
         {
             "name": "Brandon White",

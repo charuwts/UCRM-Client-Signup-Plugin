@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Ucsp;
 
 class Interpreter {
-  private static $whiteListedGet = ['countries' => ['second_level_ids' => ['states']]];
+  private static $whiteListedGet = ['service-plans' => [], 'countries' => ['second_level_ids' => ['states']]];
   private static $whiteListedPost = ['clients' => []];
   private static $frontendKey = 'test_key';
 
@@ -17,6 +17,7 @@ class Interpreter {
   private $response;
   private $code;
   private $ready = false;
+  private $api;
 
   public function isReady() {
     return $this->ready;
@@ -83,9 +84,10 @@ class Interpreter {
 
   public function __construct() {
     $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
+    // $this->config = Config::create();
   }
 
-  private function get($endpoint, $data) {
+  public function get($endpoint, $data) {
     if (self::validateGet($endpoint)) {
       return $this->api->get(
         $endpoint,
@@ -96,7 +98,7 @@ class Interpreter {
     }
   }
 
-  private function post($endpoint, $data) {
+  public function post($endpoint, $data) {
     if (self::validatePost($endpoint)) {
       return $this->api->post(
         $endpoint,
@@ -105,6 +107,16 @@ class Interpreter {
     } else {
       throw new \UnexpectedValueException('{"code":404,"message":"No route POST: '.$endpoint.'"}', 404);
     }
+  }
+
+  public function viewFile($endpoint) {
+    $config = new Config();
+    return $config->viewFile($endpoint);
+  }
+
+  public function updateFile($endpoint, $data) {
+    $config = new Config();
+    return $config->updateFile($endpoint, $data);
   }
 
   public function run($payload) {
@@ -133,6 +145,10 @@ class Interpreter {
               $response = $this->get($payloadDecoded->api->endpoint, $data);
             } elseif ($payloadDecoded->api->type == 'POST') {
               $response = $this->post($payloadDecoded->api->endpoint, $data);
+            } elseif ($payloadDecoded->api->type == 'VIEW_FILE') {
+              $response = $this->viewFile($payloadDecoded->api->endpoint);
+            } elseif ($payloadDecoded->api->type == 'UPDATE_FILE') {
+              $response = $this->updateFile($payloadDecoded->api->endpoint, $data);
             } else {
               throw new \UnexpectedValueException('type is invalid', 400);
             }
