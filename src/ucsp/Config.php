@@ -9,10 +9,10 @@ require_once(CONFIG_PATH.'/../includes/custom-exceptions.php');
 class Config {
   private $accessGranted = false;
   private $api;
-  private $whiteListViews = ['service-filters'];
+  private $whiteListViews = ['service-filters' => true];
 
   private function canViewEndpoint($endpoint) {
-    array_key_exists($endpoint, $this->whitelistViews);
+    return array_key_exists($endpoint, $this->whiteListViews);
   }
 
   private function grantAccess() {
