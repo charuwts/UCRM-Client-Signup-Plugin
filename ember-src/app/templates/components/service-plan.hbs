@@ -7,13 +7,13 @@
       {{#if period.enabled}}
         <div class="row no-gutters">
           <div class="col-sm-8 text-center">
-            {{period.period}} Month period<br>
-            <div class="h4">${{period.price}}</div>
+            {{period.period}} {{translate-text key="monthPeriod"}}<br>
+            <div class="h4">{{translate-text key="currencySymbol"}}{{period.price}}</div>
           </div>
           {{#if (is-value model.servicePlanPeriodId period.id)}}
-            <div class="col-sm-4 btn btn-success text-center my-2" style="font-size:1rem;">Selected</div>
+            <div class="col-sm-4 btn btn-success text-center my-2" style="font-size:1rem;">{{translate-text key="selected"}}</div>
           {{else}}
-            <div class="col-sm-4 btn btn-light text-center my-2" style="font-size:1rem;" {{action 'selectServicePlan' plan period.id period.price period.period}}>Select</div>
+            <div class="col-sm-4 btn btn-light text-center my-2" style="font-size:1rem;" {{action 'selectServicePlan' plan period.id period.price period.period}}>{{translate-text key="select"}}</div>
           {{/if}}
         </div>
         <hr>

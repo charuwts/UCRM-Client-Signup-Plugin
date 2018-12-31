@@ -23,7 +23,6 @@ $envVariables = [
   'completionText' => rawurlencode((string)$config["COMPLETION_TEXT"]),
   'frontendKey' => \Ucsp\Interpreter::getFrontendKey(),
   'isLead' => $generateLead,
-  'pluginTranslation' => rawurlencode((string)$config["PLUGIN_TRANSLATION"]),
   'collectPayment' => rawurlencode((string)$config["COLLECT_PAYMENT"]),
   'initialRoute' => rawurlencode($adminRoute)
 ];

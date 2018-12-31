@@ -11,8 +11,8 @@
 
     <style type="text/css">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
-      <?php include(PROJECT_PATH."/public/vendor-d3aa84b783735f00b7be359e81298bf2.css"); ?>
-      <?php include(PROJECT_PATH."/public/ucrm-client-signup-form-883f793171e4b4cc98b9a928918a9189.css"); ?>
+      <?php include(PROJECT_PATH."/public/vendor-463d4d71894dfde19d720aa6b937502f.css"); ?>
+      <?php include(PROJECT_PATH."/public/ucrm-client-signup-form-500a5c0e9df67704f365edc02f483591.css"); ?>
     </style>
     
   </head>
@@ -39,8 +39,8 @@
     
     <script type="text/javascript">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
-      <?php include(PROJECT_PATH."/public/vendor-2c628552e172e7331ad9cef9845edbd3.js"); ?>
-      <?php include(PROJECT_PATH."/public/ucrm-client-signup-form-1203e7d52840a7fa255aec93c1355211.js"); ?>
+      <?php include(PROJECT_PATH."/public/vendor-9bfe2b44f19210a7c1959ef10ea382e2.js"); ?>
+      <?php include(PROJECT_PATH."/public/ucrm-client-signup-form-d6319ea76687a01765e43a3ba962c8d9.js"); ?>
     </script>
   </body>
 </html>

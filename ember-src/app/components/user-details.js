@@ -6,15 +6,21 @@ import ENV from "../config/environment";
 export default Component.extend({
   ajax: service(),
   store: service(),
+
   classNames: ['container-fluid'],
   states: computed('model.client.countryId', function() {
     if ((this.get('model.client.countryId') == 249) || (this.get('model.client.countryId') == 54)) {
       return this.get('ajax').post(ENV.APP.host, {
         data: {
-          pluginAppKey: ENV.APP.pluginAppKey,
-          country_id: this.get('model.client.countryId')
+          frontendKey: ENV.APP.frontendKey,
+          api: {
+            type: 'GET',
+            endpoint: 'countries/'+this.get('model.client.countryId')+'/states',
+            data: {}
+          }
         }
-      });
+
+      });      
     } else {
       this.set('model.client.stateId', null);
       return false;

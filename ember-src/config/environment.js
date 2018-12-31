@@ -24,7 +24,6 @@ module.exports = function(environment) {
       host: 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php',
       completionText: 'completiontextinformation',
       frontendKey: 'this_key_should_be_improved',
-      pluginTranslation: 'ENGLISH',
       useCountrySelect: 'false',
       collectPayment: 'false',
     }

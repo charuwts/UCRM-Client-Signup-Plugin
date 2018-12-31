@@ -22,7 +22,7 @@ if (!empty($_GET['admin'])) {
       <style type="text/css">
         <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
         <?php include(PROJECT_PATH."/admin-assets/vendor-d3aa84b783735f00b7be359e81298bf2.css"); ?>
-        <?php include(PROJECT_PATH."/admin-assets/ember-admin-36205835274af8213a309ecdbb2ed3c6.css"); ?>
+        <?php include(PROJECT_PATH."/admin-assets/ember-admin-ef2ef37c53b80a2274d71f505476d44f.css"); ?>
       </style>
       
     </head>
@@ -33,7 +33,7 @@ if (!empty($_GET['admin'])) {
       <script type="text/javascript">
         <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
         <?php include(PROJECT_PATH."/admin-assets/vendor-b243ab3710c152e7c3a92648bca62b18.js"); ?>
-        <?php include(PROJECT_PATH."/admin-assets/ember-admin-d23dc024d731057752bb46703790a65c.js"); ?>
+        <?php include(PROJECT_PATH."/admin-assets/ember-admin-6bdf27dc97afc81e3ae922ea6e0a0124.js"); ?>
       </script>
 
     </body>

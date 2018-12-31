@@ -1,9 +1,9 @@
 <br clear="all">
 <h3 class="text-center">
   {{#if model.servicePlan}}
-    Selected Service Plan
+    {{translate-text key="selectedServicePlan"}}
   {{else}}
-    Select a Service Plan
+    {{translate-text key="selectAServicePlan"}}
   {{/if}}
 </h3>
 <hr>
@@ -28,10 +28,10 @@
 {{#if model.servicePlan}}
   <div class="row mb-5 justify-content-center">
       <div class="col-auto">
-        <button class="btn btn-secondary text-white" {{action 'resetServicePlan'}}>View Other Options</button>
+        <button class="btn btn-secondary text-white" {{action 'resetServicePlan'}}>{{translate-text key="viewOtherOptions"}}</button>
       </div>
     <div class="col-auto">
-      <button class="btn btn-primary" id="proceed" type="submit" {{action 'proceed'}}><span>Proceed</span></button>
+      <button class="btn btn-primary" id="proceed" type="submit" {{action 'proceed'}}><span>{{translate-text key="proceed"}}</span></button>
     </div>
   </div>
 {{/if}}
