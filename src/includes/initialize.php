@@ -16,7 +16,7 @@ $key = "this_key_should_be_improved";
 \Ucsp\Interpreter::setFrontendKey($key);
 
 $generateLead = $config["LEAD"] ? "yes" : "no";
-$adminRoute = !empty($_GET['admin']) ? $_GET['admin'] : "false";
+$adminRoute = !empty($_GET['admin']) ? $_GET['admin'] : "no";
 
 $envVariables = [
   'host' => $options->pluginPublicUrl,

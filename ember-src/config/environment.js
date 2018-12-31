@@ -25,7 +25,7 @@ module.exports = function(environment) {
       completionText: 'completiontextinformation',
       frontendKey: 'this_key_should_be_improved',
       useCountrySelect: 'false',
-      collectPayment: 'false',
+      collectPayment: 'yes',
     }
   };
 

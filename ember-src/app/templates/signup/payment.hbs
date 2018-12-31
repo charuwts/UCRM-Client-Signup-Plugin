@@ -84,7 +84,7 @@
           {{/if}}
           <br clear="all">
           {{#unless pending}}
-            <div class="btn btn-success" {{action "createClient"}}>{{translate-text key="confirmInformationAndSubmit"}}</div>
+            <div class="btn btn-success" {{action "createClient" model.client}}>{{translate-text key="confirmInformationAndSubmit"}}</div>
           {{/unless}}
         {{/if}}
       </div>

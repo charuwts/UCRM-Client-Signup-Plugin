@@ -56,7 +56,7 @@
         "key": "LEAD",
         "label": "Create Lead",
         "type": "checkbox",
-        "description": "Create Lead instead of Client [included in embed]",
+        "description": "Create Lead instead of Client [included in embed] (This feature is not yet available since quoted services are not available to the api in UCRM.)",
         "required": 0
     }
   ],
