@@ -37,20 +37,6 @@ export default DS.Model.extend(Validations, {
   email: attr('string'),
   phone: attr('string'),
 
-  // state: belongsTo('state'),
-  // state: attr(),
-  // country: attr(),
-
   stateId: attr('number', {defaultValue: null}),
   countryId: attr('number', {defaultValue: null}),
-
-  agreedToTAC: attr('boolean', {defaultValue: false}),
-
-  // stateId: computed('state', function() {
-  //   return this.get('state.id');
-  // }),
-  // // // country: belongsTo('country'),
-  // countryId: computed('country', function() {
-  //   return this.get('country.id');
-  // }),
 });

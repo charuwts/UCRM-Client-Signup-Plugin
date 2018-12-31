@@ -21,12 +21,12 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       rootElement: '#ember-signup',
-      host: 'http://plugin/src/public.php',
+      host: 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php',
       completionText: 'completiontextinformation',
-      frontendKey: 'development_key',
+      frontendKey: 'this_key_should_be_improved',
       pluginTranslation: 'ENGLISH',
       useCountrySelect: 'false',
-      collectPayment: 'true',
+      collectPayment: 'false',
     }
   };
 
@@ -43,9 +43,9 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.APP.host = 'http//plugin/src/public.php';
+    ENV.APP.host = 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php';
     ENV.APP.completionText = 'completiontextinformation';
-    ENV.APP.frontendKey = 'development_key';
+    ENV.APP.frontendKey = 'this_key_should_be_improved';
     // Testem prefers this...
     ENV.locationType = 'none';
 

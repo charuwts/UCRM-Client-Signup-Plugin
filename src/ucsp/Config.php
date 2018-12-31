@@ -9,7 +9,7 @@ require_once(CONFIG_PATH.'/../includes/custom-exceptions.php');
 class Config {
   private $accessGranted = false;
   private $api;
-  private $whiteListViews = ['service-filters' => true];
+  private $whiteListViews = ['service-filters' => true, 'translations' => true, 'current-translation' => true];
 
   private function canViewEndpoint($endpoint) {
     return array_key_exists($endpoint, $this->whiteListViews);
@@ -46,10 +46,6 @@ class Config {
     }
   }
 
-  public function __construct() {
-    $this->checkPermissions();
-  }
-
   public function __destruct() {
       unset($this->api);
       $this->accessGranted = false;
@@ -71,6 +67,7 @@ class Config {
   }
 
   public function updateFile($endpoint, $data = []) {
+    $this->checkPermissions();
     $wasCreated = $this->writeToFile($endpoint, $data);
     if ($wasCreated) {
       return $this->viewFile($endpoint);
@@ -82,15 +79,18 @@ class Config {
   public function viewFile($endpoint) {
     if ($this->canViewEndpoint($endpoint)) {
       $config_json_file = CONFIG_PATH.'/../data/'.$endpoint.'.json'; 
+      $public_json_file = CONFIG_PATH.'/../public/'.$endpoint.'.json'; 
 
       if (file_exists($config_json_file)) {
         $jsonString = file_get_contents($config_json_file);
         $contents = empty($jsonString) ? [] : json_decode($jsonString, true);
-
-        return $contents;
+      } elseif (file_exists($public_json_file)) {
+        $jsonString = file_get_contents($public_json_file);
+        $contents = empty($jsonString) ? [] : json_decode($jsonString, true);
       } else {
-        return [];
+        $contents = [];
       }
+      return $contents;
     } else {
       throw new \ConfigException('Permission Denied', 403);
     }

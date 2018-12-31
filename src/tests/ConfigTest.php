@@ -20,8 +20,6 @@ class ConfigTest extends TestCase {
 
   /**
   * @test
-  * @expectedException IsNotAdminException
-  * @expectedExceptionCode 403
   **/
   public function expectAccessNotGrantedIfUserDoesNotHavePermission() {
     $mock = $this->getMockBuilder(Config::class)

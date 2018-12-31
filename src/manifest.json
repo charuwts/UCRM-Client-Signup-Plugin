@@ -14,6 +14,17 @@
   },
   "configuration": [
     {
+        "key": "PLUGIN_TRANSLATION",
+        "label": "Language",
+        "description": "If you would like to submit a translation please contact Charuwts via our contact form at https://www.charuwts.com/contact and we'll send you a document of all of the text used in the plugin.",
+        "required": 1,
+        "type": "choice",
+        "choices": {
+          "English": "ENGLISH",
+          "French": "FRENCH"
+        }
+    },
+    {
         "key": "ALLOWED_ORIGIN",
         "label": "Allowed Public Origin",
         "description": "This prevents cross origin requests by restricting it to a specified origin. (Example: https://yourdomain.com)",
@@ -46,6 +57,13 @@
         "required": 0
     },
     {
+        "key": "COLLECT_PAYMENT",
+        "label": "Collect Payment Info",
+        "type": "checkbox",
+        "description": "If turned off, client will not be asked for payment information.",
+        "required": 0
+    },
+    {
         "key": "LEAD",
         "label": "Create Lead",
         "type": "checkbox",
@@ -60,7 +78,16 @@
               "type": "admin",
               "target": "iframe",
               "parameters": {
-                  "admin": "embed-code"
+                  "embed": "embed-code"
+              }
+          },
+          {
+              "key": "UCRM Client Plugin",
+              "label": "Language Settings",
+              "type": "admin",
+              "target": "iframe",
+              "parameters": {
+                  "admin": "language-settings"
               }
           },
           {

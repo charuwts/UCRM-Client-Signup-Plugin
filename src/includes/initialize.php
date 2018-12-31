@@ -14,3 +14,25 @@ $user = $ucrmSecurity->getUser();
 $key = "this_key_should_be_improved";
 
 \Ucsp\Interpreter::setFrontendKey($key);
+
+$generateLead = $config["LEAD"] ? "yes" : "no";
+$adminRoute = !empty($_GET['admin']) ? $_GET['admin'] : "false";
+
+$envVariables = [
+  'host' => $options->pluginPublicUrl,
+  'completionText' => rawurlencode((string)$config["COMPLETION_TEXT"]),
+  'frontendKey' => \Ucsp\Interpreter::getFrontendKey(),
+  'isLead' => $generateLead,
+  'pluginTranslation' => rawurlencode((string)$config["PLUGIN_TRANSLATION"]),
+  'collectPayment' => rawurlencode((string)$config["COLLECT_PAYMENT"]),
+  'initialRoute' => rawurlencode($adminRoute)
+];
+
+$prefix = '%22%2C%22';
+$suffix = '%22%3A%22';
+$configMetadata = '';
+
+foreach ($envVariables as $key => $value) {
+  $configMetadata .= $prefix . $key . $suffix . $value;
+}
+
