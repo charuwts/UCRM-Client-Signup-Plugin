@@ -62,7 +62,7 @@
   ],
   "menu": [
           {
-              "key": "UCRM Client Plugin",
+              "key": "Client Signup",
               "label": "Embed Code",
               "type": "admin",
               "target": "iframe",
@@ -71,7 +71,7 @@
               }
           },
           {
-              "key": "UCRM Client Plugin",
+              "key": "Client Signup",
               "label": "Language Settings",
               "type": "admin",
               "target": "iframe",
@@ -80,7 +80,7 @@
               }
           },
           {
-              "key": "UCRM Client Plugin",
+              "key": "Client Signup",
               "label": "Service Filters",
               "type": "admin",
               "target": "iframe",

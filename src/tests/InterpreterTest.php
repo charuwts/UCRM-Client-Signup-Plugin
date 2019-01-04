@@ -55,7 +55,8 @@ class InterpreterTest extends TestCase {
   }
 
   /**
-  * @test
+  * @test  
+  * @covers Interpreter::run
   * @expectedException UnexpectedValueException
   * @expectedExceptionMessage frontendKey is invalid
   **/
@@ -66,6 +67,7 @@ class InterpreterTest extends TestCase {
 
   /**
   * @test
+  * @covers Interpreter::run
   * @expectedException UnexpectedValueException
   * @expectedExceptionMessage data is invalid
   * @expectedExceptionCode 400
@@ -77,6 +79,7 @@ class InterpreterTest extends TestCase {
 
   /**
   * @test
+  * @covers Interpreter::run
   * @expectedException UnexpectedValueException
   * @expectedExceptionMessage endpoint is not set
   * @expectedExceptionCode 400
@@ -87,6 +90,7 @@ class InterpreterTest extends TestCase {
   }
   /**
   * @test
+  * @covers Interpreter::run
   * @expectedException UnexpectedValueException
   * @expectedExceptionMessage type is not set
   * @expectedExceptionCode 400
@@ -98,6 +102,7 @@ class InterpreterTest extends TestCase {
 
   /**
   * @test
+  * @covers Interpreter::run
   **/
   public function expectSuccessfullPayloadOnGet() {
     // Mock Api Response
@@ -117,6 +122,7 @@ class InterpreterTest extends TestCase {
 
   /**
   * @test
+  * @covers Interpreter::run
   **/
   public function expectSuccessfullPayloadOnPost() {
     // Mock Api Response

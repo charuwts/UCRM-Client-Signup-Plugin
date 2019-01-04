@@ -39,6 +39,7 @@ class GeneratorTest extends TestCase {
 
   /**
   * @test
+  * @covers Generator::customAttributesExists
   * @dataProvider nonMatchingCustomAttributeProvider
   **/
   public function missingCustomAttributes($mock_results) {
@@ -47,28 +48,51 @@ class GeneratorTest extends TestCase {
                  ->getMock();
     $mock->method('get')->will($this->returnValue($mock_results));
 
-    $this->assertFalse($mock->customAttributesExists('UcspGatewayToken'));
+    $this->assertInternalType('array', $mock->customAttributesExists());
   }
 
   /**
   * @test
+  * @covers Generator::customAttributesExists
   * @dataProvider customAttributeProvider
   **/
   public function customAttributesExists($mock_results) {
-    $mock = new Generator();
-
     $mock = $this->getMockBuilder(Generator::class)
                  ->setMethods(['get'])
                  ->getMock();
     $mock->method('get')->will($this->returnValue($mock_results));
 
-    $this->assertTrue($mock->customAttributesExists('UcspGatewayToken'));
+    $this->assertTrue($mock->customAttributesExists());
   }
 
   /**
   * @test
+  * @covers Generator::createCustomAttributes
   **/
-  public function createCustomAttributes() {
+  public function expectFalseIfCustomAttributesExist() {
+    $mock = $this->getMockBuilder(Generator::class)
+                 ->setMethods(['customAttributesExists'])
+                 ->getMock();
+    $mock->method('customAttributesExists')->will($this->returnValue(true));
+
+    $missing = $mock->createCustomAttributes();
+    $this->assertFalse($missing, 'should not create attributes if they exist');
+  }
+
+  /**
+  * @test
+  * @covers Generator::createCustomAttributes
+  **/
+  public function expectCreateCustomAttributes() {
+    $mock_results = ['Ucsp Stripe User Id' => 'UcspStripeUserId', 'Ucsp Form Email' => 'UcspFormEmail', 'Ucsp Form Step' => 'UcspFormStep', 'Ucsp Errors' => 'UcspErrors'];
+    $mock = $this->getMockBuilder(Generator::class)
+                 ->setMethods(['customAttributesExists', 'post'])
+                 ->getMock();
+    $mock->method('customAttributesExists')->will($this->returnValue($mock_results));
+    $mock->method('post')->will($this->returnValue($mock_results));
+
+    $missing = $mock->createCustomAttributes();
+    $this->assertSame($mock_results, $missing, 'should result in an array');
   }
 
 
