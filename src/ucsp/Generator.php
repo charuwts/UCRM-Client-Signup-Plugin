@@ -7,7 +7,7 @@ define("GENERATOR_PATH", __DIR__);
 require_once(GENERATOR_PATH.'/../includes/custom-exceptions.php');
 
 class Generator {
-  private $UscpCustomAttributes = ['Ucsp Stripe User Id' => 'UcspStripeUserId', 'Ucsp Form Email' => 'UcspFormEmail', 'Ucsp Form Step' => 'UcspFormStep', 'Ucsp Errors' => 'UcspErrors'];
+  private $UscpCustomAttributes = ['Ucsp Stripe Customer Id' => 'UcspStripeCustomerId', 'Ucsp Form Email' => 'UcspFormEmail', 'Ucsp Form Step' => 'UcspFormStep', 'Ucsp Errors' => 'UcspErrors'];
 
   public function __construct() {
     $this->log = new \Ubnt\UcrmPluginSdk\Service\PluginLogManager();
@@ -54,7 +54,7 @@ class Generator {
   public function createCustomAttributes() {
 
     // # Do not create attributes if they already exist
-    if ($this->customAttributesExists() === true) {
+    if ($this->customAttributesExists() == true) {
       return false;
     } else {
       // # Otherwise, get missing attributes...

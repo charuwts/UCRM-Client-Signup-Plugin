@@ -2,9 +2,7 @@
 declare(strict_types=1);
 namespace Ucsp\Test;
 
-chdir(__DIR__);
-define("PROJECT_PATH", __DIR__);
-require_once(PROJECT_PATH.'/../includes/custom-exceptions.php');
+require_once(__DIR__.'/../includes/custom-exceptions.php');
 
 
 use PHPUnit\Framework\TestCase;

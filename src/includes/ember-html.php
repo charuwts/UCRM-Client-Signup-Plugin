@@ -18,17 +18,17 @@
   </head>
   <body>
     <?php if (!empty($config['LOGO_URL'])) { ?>
-      <img src="<?php echo $config['LOGO_URL']; ?>" class="logo">
+      <img src="<?php echo htmlspecialchars($config['LOGO_URL'], ENT_QUOTES); ?>" class="logo">
     <?php } ?>
 
     <?php if (!empty($config['FORM_TITLE'])) { ?>
-      <h1 class="text-center mt-2"><?php echo $config['FORM_TITLE']; ?></h1>
+      <h1 class="text-center mt-2"><?php echo htmlspecialchars($config['FORM_TITLE'], ENT_QUOTES); ?></h1>
     <?php } ?>
 
     <br clear="all">
     <?php if (!empty($config['FORM_DESCRIPTION'])) { ?>
       <div class="form-description">
-        <?php echo $config['FORM_DESCRIPTION']; ?>
+        <?php echo htmlspecialchars($config['FORM_DESCRIPTION'], ENT_QUOTES); ?>
       </div>
       <br clear="all">
     <?php } ?>

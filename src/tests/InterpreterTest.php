@@ -7,10 +7,21 @@ use \Ucsp\Interpreter;
 
 class InterpreterTest extends TestCase {
   protected function setUp() {
+    Interpreter::setDataUrl(__DIR__.'/../data/');
+    Interpreter::setFrontendKey('test_key');
     $this->Interpreter = new Interpreter();
   }
   protected function tearDown() {
     unset($this->Interpreter);
+  }
+
+  /**
+  * @test
+  * @covers Interpreter::getFrontendKey
+  **/
+  public function expectFrontendKey() {
+    $key = Interpreter::getFrontendKey();
+    $this->assertSame('test_key', $key);
   }
 
   /**

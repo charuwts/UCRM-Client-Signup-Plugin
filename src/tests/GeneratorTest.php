@@ -2,9 +2,7 @@
 declare(strict_types=1);
 namespace Ucsp\Test;
 
-chdir(__DIR__);
-
-require_once(PROJECT_PATH.'/../includes/custom-exceptions.php');
+require_once(__DIR__.'/../includes/custom-exceptions.php');
 
 use PHPUnit\Framework\TestCase;
 use \Ucsp\Generator;
@@ -29,7 +27,7 @@ class GeneratorTest extends TestCase {
   public function customAttributeProvider() {
     return [
       [[
-        ['id' => 1, 'name' => 'Ucsp Stripe User Id', 'key' => 'UcspStripeUserId', 'attributeType' => 'client'],
+        ['id' => 1, 'name' => 'Ucsp Stripe User Id', 'key' => 'UcspStripeCustomerId', 'attributeType' => 'client'],
         ['id' => 2, 'name' => 'Ucsp Form Email', 'key' => 'UcspFormEmail', 'attributeType' => 'client'],
         ['id' => 3, 'name' => 'Ucsp Form Step', 'key' => 'UcspFormStep', 'attributeType' => 'client'],
         ['id' => 4, 'name' => 'Ucsp Errors', 'key' => 'UcspErrors', 'attributeType' => 'client']
@@ -84,7 +82,7 @@ class GeneratorTest extends TestCase {
   * @covers Generator::createCustomAttributes
   **/
   public function expectCreateCustomAttributes() {
-    $mock_results = ['Ucsp Stripe User Id' => 'UcspStripeUserId', 'Ucsp Form Email' => 'UcspFormEmail', 'Ucsp Form Step' => 'UcspFormStep', 'Ucsp Errors' => 'UcspErrors'];
+    $mock_results = ['Ucsp Stripe Customer Id' => 'UcspStripeCustomerId', 'Ucsp Form Email' => 'UcspFormEmail', 'Ucsp Form Step' => 'UcspFormStep', 'Ucsp Errors' => 'UcspErrors'];
     $mock = $this->getMockBuilder(Generator::class)
                  ->setMethods(['customAttributesExists', 'post'])
                  ->getMock();

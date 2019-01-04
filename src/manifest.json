@@ -34,7 +34,7 @@
     {
         "key": "FORM_DESCRIPTION",
         "label": "Form Description",
-        "description": "Displayed below logo before the form. (Can contain HTML) [not included in embed]",
+        "description": "Displayed below logo before the form. [not included in embed]",
         "type": "textarea",
         "required": 0
     },
@@ -49,14 +49,14 @@
         "key": "COLLECT_PAYMENT",
         "label": "Collect Payment Info",
         "type": "checkbox",
-        "description": "If turned off, client will not be asked for payment information.",
+        "description": "If turned off, client will not be asked for payment information when signing up.",
         "required": 0
     },
     {
         "key": "LEAD",
         "label": "Create Lead",
         "type": "checkbox",
-        "description": "Create Lead instead of Client [included in embed] (This feature is not yet available since quoted services are not available to the api in UCRM.)",
+        "description": "Create Lead instead of Client [included in embed]",
         "required": 0
     }
   ],

@@ -9,11 +9,17 @@ $options = $optionsManager->loadOptions();
 $ucrmSecurity = \Ubnt\UcrmPluginSdk\Service\UcrmSecurity::create();
 $user = $ucrmSecurity->getUser();
 
-## Just a unique key to give to ember for extra security when making requests
-// $key = password_hash($options->pluginPublicUrl.PROJECT_PATH, PASSWORD_DEFAULT); // This does not work
-$key = "this_key_should_be_improved";
+// # Data path for configuration writing
+$dataUrl = PROJECT_PATH.'/data/';
+\Ucsp\Interpreter::setDataUrl($dataUrl);
 
+## Just a unique key to give to ember for extra security when making requests
+$key = base64_encode(random_bytes(48));
 \Ucsp\Interpreter::setFrontendKey($key);
+
+
+$Generator = new \Ucsp\Generator();
+$Generator->createCustomAttributes();
 
 $generateLead = $config["LEAD"] ? "yes" : "no";
 $adminRoute = !empty($_GET['admin']) ? $_GET['admin'] : "no";
