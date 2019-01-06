@@ -175,6 +175,12 @@ class Interpreter {
             $this->code = $e->getCode();
             $this->ready = true;
 
+          } catch (\IsNotAdminException $e) {
+
+            $this->response = $e->getMessage();
+            $this->code = $e->getCode();
+            $this->ready = true;
+
           }
           // catch (\Exception $e) {
           //   $pluginLogManager = new \Ubnt\UcrmPluginSdk\Service\PluginLogManager();
