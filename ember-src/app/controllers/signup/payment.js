@@ -5,6 +5,7 @@ import ENV from "../../config/environment";
 
 export default Controller.extend({
   ajax: service(),
+  ucrmGenerator: service(),
   stripev3: service(),
   collectPayment: computed('ajax', function() {
     if (ENV.APP.collectPayment === 'yes') {
@@ -34,12 +35,19 @@ export default Controller.extend({
     }
   }), 
 
+  success: computed('ucrmGenerator.success', function() {
+    if (this.get('ucrmGenerator.success')) {
+      this.transitionToRoute('signup.complete');
+    }
+  }),
+
   actions: {
     createClient(client) {
       this.set('failure', false);
+      this.set('success', false);
       this.set('errors', false);
 
-      client.validate().then(({ validations }) => {
+      return client.validate().then(({ validations }) => {
         this.set('pending', true);
         this.set('processing', true);
         
@@ -47,7 +55,7 @@ export default Controller.extend({
 
         if (validations.get('isValid')) {
           
-          this.get('ajax').post(ENV.APP.host, {
+          let response = this.get('ajax').post(ENV.APP.host, {
             headers: {
               "Content-Type": 'application/json'
             },
@@ -59,123 +67,58 @@ export default Controller.extend({
                 data: {
                   "clientType": 1,
                   "isLead": $isLead,
-                  "firstName": this.get('model.client.firstName'),
-                  "lastName": this.get('model.client.lastName'),
-                  "street1": this.get('model.client.street1'),
-                  "street2": this.get('model.client.street2'),
-                  "city": this.get('model.client.city'),
-                  "countryId": this.get('model.client.countryId'),
-                  "stateId": this.get('model.client.stateId'),
-                  "zipCode": this.get('model.client.zipCode'),
-                  "username": this.get('model.client.email'),
+                  "firstName": client.get('firstName'),
+                  "lastName": client.get('lastName'),
+                  "street1": client.get('street1'),
+                  "street2": client.get('street2'),
+                  "city": client.get('city'),
+                  "countryId": client.get('countryId'),
+                  "stateId": client.get('stateId'),
+                  "zipCode": client.get('zipCode'),
+                  "username": client.get('email'),
                   "contacts": [
                     {
-                      email: this.get('model.client.email'),
-                      phone: this.get('model.client.phone'),
-                      name: this.get('model.client.firstName') + ' ' + this.get('model.client.lastName')
+                      isBilling: true,                    
+                      isContact: true,
+                      email: client.get('email'),
+                      phone: client.get('phone'),
+                      name: client.get('firstName') + ' ' + client.get('lastName')
                     }
                   ]
                   // "attributes": [
-                  //   {
-                  //     value: String(this.get('model.client.agreedToTAC')),
-                  //     customAttributeId: 2,
-                  //   }
+                    // {
+                    //   value: String(client.agreedToTAC),
+                    //   customAttributeId: 2,
+                    // }
                   // ]
                 },
               }
             } 
           }).catch((resp) => {
             if ((resp.payload !== undefined) && (resp.payload !== null)) {
-              if (resp.payload.redirect === true) {
-                this.set('failure', false);
-                // this.transitionToRoute('signup.account', { queryParams: { expired: true }});
-                this.get('changeRoute')('signup.account');
-              } else {
-                this.set('errors', resp.payload.errors);
-              }
+              this.set('errors', resp.payload.errors);
+              this.set('errorMessage', resp.payload.message);
             }
+
             this.set('pending', false);
             this.set('failure', true);
           }).then(() => {
             if (this.get('failure') !== true) {
-              this.get('changeRoute')('signup.complete');
+              this.set('success', true);
             }
             this.set('pending', false);
           });
 
           this.set('processing', false);
+          this.set('response', response);
+          this.get('response', response);
         }
-        
       });
-
-
-      // this.set('pending', true);
-      // this.set('processing', true);
-      // this.set('failure', false);
-      // this.set('errors', false);
-
-      // this.get('ajax').post(ENV.APP.host, {
-      //   headers: {
-      //     "Content-Type": 'application/json'
-      //   },
-      //   data: {
-      //     pluginAppKey: ENV.APP.pluginAppKey,
-      //     buildServices: true,
-      //     client: {
-      //       "firstName": this.get('model.client.firstName'),
-      //       "lastName": this.get('model.client.lastName'),
-      //       "street1": this.get('model.client.street1'),
-      //       "street2": this.get('model.client.street2'),
-      //       "city": this.get('model.client.city'),
-      //       "countryId": this.get('model.client.countryId'),
-      //       "stateId": this.get('model.client.stateId'),
-      //       "zipCode": this.get('model.client.zipCode'),
-      //       "username": this.get('model.client.email'),
-      //       "contacts": [
-      //         {
-      //           isBilling: true,                    
-      //           isContact: true,
-      //           email: this.get('model.client.email'),
-      //           phone: this.get('model.client.phone'),
-      //           name: this.get('model.client.firstName') + ' ' + this.get('model.client.lastName')
-      //         }
-      //       ],
-      //       // "attributes": [
-      //       //   {
-      //       //     value: String(this.get('model.client.agreedToTAC')),
-      //       //     customAttributeId: 2,
-      //       //   }
-      //       // ]
-
-      //     },
-      //     service: {
-      //       "servicePlanId": this.get('model.servicePlan.id'),
-      //       "servicePlanPeriodId": this.get('model.servicePlanPeriodId'),
-      //     },
-      //     // job: this.get('model.job')
-      //   } 
-      // }).catch((resp) => {
-      //   if (resp.payload !== undefined) {
-      //     if (resp.payload.redirect === true) {
-      //       this.set('failure', false);
-      //       this.transitionToRoute('signup.account', { queryParams: { expired: true }});
-      //     } else {
-      //       this.set('errorMessage', resp.payload.message);
-      //       this.set('errors', resp.payload.errors);
-      //     }
-      //   }
-      //   this.set('pending', false);
-      //   this.set('failure', true);
-      // }).then(() => {
-      //   if (this.get('failure') !== true) {
-      //     this.transitionToRoute('signup.complete');
-      //   }
-      //   this.set('pending', false);
-      // });
 
     },
 
-    submit(stripeElement) {
+
+    submit(stripeElement, client) {
       this.set('pending', true);
       this.set('processing', true);
       this.set('failure', false);
@@ -189,43 +132,44 @@ export default Controller.extend({
               "Content-Type": 'application/json'
             },
             data: {
-              pluginAppKey: ENV.APP.pluginAppKey,
-              stripeInfo: {
-                token: token.token.id,
-              },
-              client: {
-                "firstName": this.get('model.client.firstName'),
-                "lastName": this.get('model.client.lastName'),
-                "street1": this.get('model.client.street1'),
-                "street2": this.get('model.client.street2'),
-                "city": this.get('model.client.city'),
-                "countryId": this.get('model.client.countryId'),
-                "stateId": this.get('model.client.stateId'),
-                "zipCode": this.get('model.client.zipCode'),
-                "username": this.get('model.client.email'),
-                "contacts": [
-                  {
-                    isBilling: true,                    
-                    isContact: true,
-                    email: this.get('model.client.email'),
-                    phone: this.get('model.client.phone'),
-                    name: this.get('model.client.firstName') + ' ' + this.get('model.client.lastName')
-                  }
-                ],
-                // "attributes": [
-                //   {
-                //     value: String(this.get('model.client.agreedToTAC')),
-                //     customAttributeId: 2,
-                //   }
-                // ]
-
-              },
-              service: {
-                "servicePlanId": this.get('model.servicePlan.id'),
-                "servicePlanPeriodId": this.get('model.servicePlanPeriodId'),
-              },
-              // job: this.get('model.job')
+              frontendKey: ENV.APP.frontendKey,
+              api: {
+                type: 'POST',
+                endpoint: 'clients',
+                data: {
+                  "clientType": 1,
+                  "isLead": $isLead,
+                  "firstName": client.get('firstName'),
+                  "lastName": client.get('lastName'),
+                  "street1": client.get('street1'),
+                  "street2": client.get('street2'),
+                  "city": client.get('city'),
+                  "countryId": client.get('countryId'),
+                  "stateId": client.get('stateId'),
+                  "zipCode": client.get('zipCode'),
+                  "username": client.get('email'),
+                  "contacts": [
+                    {
+                      isBilling: true,                    
+                      isContact: true,
+                      email: client.get('email'),
+                      phone: client.get('phone'),
+                      name: client.get('firstName') + ' ' + client.get('lastName')
+                    }
+                  ],
+                  "attributes": [
+                    {
+                      value: String(token.token.id),
+                      customAttributeId: null,
+                    }
+                  ]
+                },
+              }
             } 
+              // service: {
+              //   "servicePlanId": this.get('model.servicePlan.id'),
+              //   "servicePlanPeriodId": this.get('model.servicePlanPeriodId'),
+              // }
           }).catch((resp) => {
             if (resp.payload !== undefined) {
               if (resp.payload.redirect === true) {
@@ -244,7 +188,6 @@ export default Controller.extend({
             }
             this.set('pending', false);
           });
-          // order.set('stripeToken', token.token.id);
 
         } else {
           this.set('pending', false);

@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
-import { computed } from '@ember/object';
 const { attr } = DS;
 
 const Validations = buildValidations({

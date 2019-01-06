@@ -1,5 +1,4 @@
 import Service from '@ember/service';
-import { hash } from 'rsvp';
 import { inject as service } from '@ember/service';
 import ENV from "../config/environment";
 

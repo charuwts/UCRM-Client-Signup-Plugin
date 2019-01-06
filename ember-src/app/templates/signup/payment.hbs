@@ -32,12 +32,11 @@
             </div>
         </div>
       </div>
-
     </div>
     <div class="row mb-4">
       <div class="col text-center">
-        {{#unless error}}
-        {{#if pending}}
+      {{#if ucrmGenerator.errors}}
+        {{#if ucrmGenerator.pending}}
           <div class="alert alert-primary" role="alert">{{translate-text key="submittingInformation"}}</div>
           <div class="row justify-content-center">
             <div class="col-auto">
@@ -45,12 +44,12 @@
             </div>
           </div><br clear="all">
         {{else}}
-            {{#if failure}}
-              <div class="alert alert-danger" role="alert">{{translate-text key="errorWithRequest"}} {{errorMessage}}</div>
-              {{#if errors}}
+            {{#if ucrmGenerator.failure}}
+              <div class="alert alert-danger" role="alert">{{translate-text key="errorWithRequest"}} {{ucrmGenerator.errorMessage}}</div>
+              {{#if ucrmGenerator.errors}}
                 {{#bs-form class="container-fluid" model=model.client novalidate=true as |form|}}
                   <div class="row">
-                    {{#each-in errors as |key value|}}
+                    {{#each-in ucrmGenerator.errors as |key value|}}
                       <div class="col-6">
                         {{#if (is-value key 'username')}}
                           <span style="text-transform:capitalize;">{{translate-text key="email"}}</span> - {{value}}
@@ -67,15 +66,15 @@
 
             {{/if}}
           {{/if}}
-        {{/unless}}
+        {{/if}}
         {{#if collectPayment}}
           {{#stripe-card options=options as |stripeElement error|}}
             {{#if error}}
               <p class="error">{{error.message}}</p>
             {{/if}}
             <br clear="all">
-            {{#unless pending}}
-              <div class="btn btn-success" {{action "submit" stripeElement}}>{{translate-text key="confirmInformationAndSubmit"}}</div>
+            {{#unless ucrmGenerator.pending}}
+              <div class="btn btn-success" {{action "submit" stripeElement model.client}}>{{translate-text key="confirmInformationAndSubmit"}}</div>
             {{/unless}}
           {{/stripe-card}}
         {{else}}
@@ -83,7 +82,7 @@
             <p class="error">{{error.message}}</p>
           {{/if}}
           <br clear="all">
-          {{#unless pending}}
+          {{#unless ucrmGenerator.pending}}
             <div class="btn btn-success" {{action "createClient" model.client}}>{{translate-text key="confirmInformationAndSubmit"}}</div>
           {{/unless}}
         {{/if}}

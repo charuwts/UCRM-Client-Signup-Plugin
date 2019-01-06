@@ -7,7 +7,7 @@ define("GENERATOR_PATH", __DIR__);
 require_once(GENERATOR_PATH.'/../includes/custom-exceptions.php');
 
 class Generator {
-  private $UscpCustomAttributes = ['Ucsp Stripe Customer Id' => 'UcspStripeCustomerId', 'Ucsp Form Email' => 'UcspFormEmail', 'Ucsp Form Step' => 'UcspFormStep', 'Ucsp Errors' => 'UcspErrors'];
+  private $UscpCustomAttributes = ['Ucsp Gateway Customer Id' => 'ucspGatewayCustomerId', 'Ucsp Form Email' => 'ucspFormEmail', 'Ucsp Form Step' => 'ucspFormStep', 'Ucsp Errors' => 'ucspErrors'];
 
   public function __construct() {
     $this->log = new \Ubnt\UcrmPluginSdk\Service\PluginLogManager();
@@ -37,10 +37,9 @@ class Generator {
         return $i['key'];
       }
     }, $results);
-
     // # Check against required attributes and return any that do not match/exist in UCRM
     $remainder = array_diff($this->UscpCustomAttributes, $keys);
-    
+
     // # If any remain return them...
     if (count($remainder) > 0) {
       return $remainder;
@@ -54,26 +53,28 @@ class Generator {
   public function createCustomAttributes() {
 
     // # Do not create attributes if they already exist
-    if ($this->customAttributesExists() == true) {
+    if ($this->customAttributesExists() === true) {
       return false;
     } else {
       // # Otherwise, get missing attributes...
       $missingAttributes = $this->customAttributesExists();
-      
+
       // # ...and generate them
       foreach ($missingAttributes as $key => $value) {
-        $results = $this->post('custom-attributes', ['name' => $key, 'attributeType' => 'client']);
+        $this->post('custom-attributes', ['name' => $key, 'attributeType' => 'client']);
       }
+      $attributes = $this->get('custom-attributes');
 
-      // # They should exist now...
-      if ($this->customAttributesExists() == true) {
-        return $results;
+      // # They should exist now which returns true and should not be an array
+      if ($this->customAttributesExists() === true) {
+        return true;
       } else {
+        return false;
         // # ...Log error if they don't
-        $message = 'failed to create custom attributes '.$results;
-        $this->log->appendLog($message);
+        $this->log->appendLog('failed to create custom attributes');
       }
 
     }
   }
+
 }

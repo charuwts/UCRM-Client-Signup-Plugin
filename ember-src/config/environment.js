@@ -8,7 +8,7 @@ module.exports = function(environment) {
     locationType: 'none',
     EmberENV: {
       FEATURES: {
-        // Here you can enable experimental features on an ember canary build
+        // Here you can enable experimetal features on an ember canary build
         // e.g. 'with-controller': true
       },
       EXTEND_PROTOTYPES: {
@@ -22,10 +22,9 @@ module.exports = function(environment) {
       // when it is created
       rootElement: '#ember-signup',
       host: 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php',
-      completionText: 'completiontextinformation',
       frontendKey: 'this_key_should_be_improved',
       useCountrySelect: 'false',
-      collectPayment: 'yes',
+      collectPayment: 'yes'
     }
   };
 

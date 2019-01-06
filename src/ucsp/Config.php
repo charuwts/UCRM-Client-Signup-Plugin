@@ -9,7 +9,7 @@ require_once(CONFIG_PATH.'/../includes/custom-exceptions.php');
 class Config {
   private $accessGranted = false;
   private $api;
-  private $whiteListViews = ['service-filters' => true, 'translations' => true, 'current-translation' => true];
+  private $whiteListViews = ['service-filters' => true, 'translations' => true, 'current-translation' => true, 'plugin-config' => true];
 
   private function canViewEndpoint($endpoint) {
     return array_key_exists($endpoint, $this->whiteListViews);
@@ -36,7 +36,6 @@ class Config {
   public function checkPermissions() {
     try {
       if ( $this->hasPermission() ) {
-        $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
         $this->grantAccess();
       } else {
         throw new \IsNotAdminException('You do not have permission to access this config', 403);
@@ -46,9 +45,39 @@ class Config {
     }
   }
 
+  public function __construct() {
+    $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
+  }
+
   public function __destruct() {
       unset($this->api);
       $this->accessGranted = false;
+  }
+  
+  public function get($endpoint) {
+    return $this->api->get($endpoint);
+  }
+
+  public function gatewayAttributeId() {
+    // # Check for existing gateway customer attribute and get ID
+    $gatewayAttributeId = null;
+    $attributes = $this->get('custom-attributes');
+    foreach ($attributes as $attribute) {
+      if ($attribute['attributeType'] == 'client') {
+        if ($attribute['key'] == 'ucspGatewayCustomerId') {
+          $gatewayAttributeId = $attribute['id'];
+          break;
+        }
+      }
+    }
+    return $gatewayAttributeId;
+  }
+
+  public function autoUpdates($endpoint, $data) {
+    if ($endpoint == 'plugin-config') {
+      $data['gatewayAttributeId'] = $this->gatewayAttributeId();
+    }
+    return $data;
   }
 
   public function writeToFile($filename, $data) {
@@ -68,7 +97,9 @@ class Config {
 
   public function updateFile($endpoint, $data = []) {
     $this->checkPermissions();
-    $wasCreated = $this->writeToFile($endpoint, $data);
+    $modifiedData = $this->autoUpdates($endpoint, $data);
+    $wasCreated = $this->writeToFile($endpoint, $modifiedData);
+
     if ($wasCreated) {
       return $this->viewFile($endpoint);
     } else {

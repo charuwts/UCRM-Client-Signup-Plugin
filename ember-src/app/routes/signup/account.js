@@ -1,6 +1,4 @@
 import Route from '@ember/routing/route';
-import { hash } from 'rsvp';
-
 
 export default Route.extend({
   queryParams: {
@@ -13,9 +11,5 @@ export default Route.extend({
       this.set('controller.expired', true);
     }
     return this.modelFor('signup');
-    // return hash({
-      // countries: this.get('store').findAll('country'),
-      // client: this.modelFor('signup').client
-    // })
   },
 });

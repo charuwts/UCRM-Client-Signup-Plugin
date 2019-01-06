@@ -1,12 +1,15 @@
 
 <?php
 if (!empty($_GET['admin'])) {
-      if (! $user || ! $user->hasViewPermission(\Ubnt\UcrmPluginSdk\Security\PermissionNames::SYSTEM_PLUGINS)) {
-        if (! headers_sent()) {
-            header("HTTP/1.1 403 Forbidden");
-        }
-        die('You do not have permission to see this page.');
-      }
+  $Generator = new \Ucsp\Generator();
+  $Generator->createCustomAttributes();
+  
+  if (! $user || ! $user->hasViewPermission(\Ubnt\UcrmPluginSdk\Security\PermissionNames::SYSTEM_PLUGINS)) {
+    if (! headers_sent()) {
+        header("HTTP/1.1 403 Forbidden");
+    }
+    die('You do not have permission to see this page.');
+  }
 ?>
   <!DOCTYPE html>
   <html>
@@ -33,7 +36,7 @@ if (!empty($_GET['admin'])) {
       <script type="text/javascript">
         <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
         <?php include(PROJECT_PATH."/admin-assets/vendor-b243ab3710c152e7c3a92648bca62b18.js"); ?>
-        <?php include(PROJECT_PATH."/admin-assets/ember-admin-6bdf27dc97afc81e3ae922ea6e0a0124.js"); ?>
+        <?php include(PROJECT_PATH."/admin-assets/ember-admin-cca6483317f54028673ea9dc36323ef8.js"); ?>
       </script>
 
     </body>

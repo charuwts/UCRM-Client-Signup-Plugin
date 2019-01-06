@@ -14,19 +14,15 @@ $dataUrl = PROJECT_PATH.'/data/';
 \Ucsp\Interpreter::setDataUrl($dataUrl);
 
 ## Just a unique key to give to ember for extra security when making requests
-$key = base64_encode(random_bytes(48));
-\Ucsp\Interpreter::setFrontendKey($key);
-
-
-$Generator = new \Ucsp\Generator();
-$Generator->createCustomAttributes();
+// $key = base64_encode(random_bytes(48));
+// \Ucsp\Interpreter::setFrontendKey($key);
+\Ucsp\Interpreter::setFrontendKey('this_key_should_be_improved');
 
 $generateLead = $config["LEAD"] ? "yes" : "no";
 $adminRoute = !empty($_GET['admin']) ? $_GET['admin'] : "no";
 
 $envVariables = [
   'host' => $options->pluginPublicUrl,
-  'completionText' => rawurlencode((string)$config["COMPLETION_TEXT"]),
   'frontendKey' => \Ucsp\Interpreter::getFrontendKey(),
   'isLead' => $generateLead,
   'collectPayment' => rawurlencode((string)$config["COLLECT_PAYMENT"]),

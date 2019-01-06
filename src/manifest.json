@@ -39,13 +39,6 @@
         "required": 0
     },
     {
-        "key": "COMPLETION_TEXT",
-        "label": "Completion Text",
-        "description": "Text shown upon signup completion. (Text Only) [included in embed]",
-        "type": "textarea",
-        "required": 0
-    },
-    {
         "key": "COLLECT_PAYMENT",
         "label": "Collect Payment Info",
         "type": "checkbox",
@@ -56,11 +49,20 @@
         "key": "LEAD",
         "label": "Create Lead",
         "type": "checkbox",
-        "description": "Create Lead instead of Client [included in embed]",
+        "description": "Create Lead instead of Client",
         "required": 0
     }
   ],
   "menu": [
+          {
+              "key": "Client Signup",
+              "label": "Plugin Config",
+              "type": "admin",
+              "target": "iframe",
+              "parameters": {
+                  "admin": "plugin-config"
+              }
+          },
           {
               "key": "Client Signup",
               "label": "Embed Code",
