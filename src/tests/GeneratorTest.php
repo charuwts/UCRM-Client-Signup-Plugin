@@ -8,6 +8,24 @@ use PHPUnit\Framework\TestCase;
 use \Ucsp\Generator;
 
 class GeneratorTest extends TestCase {
+  public $customAttributes = [
+    'Ucsp Gateway Customer' => 'ucspGatewayCustomer', 
+    'Ucsp Gateway Token' => 'ucspGatewayToken', 
+    'Ucsp Form Email' => 'ucspFormEmail', 
+    'Ucsp Errors' => 'ucspErrors', 
+    'Ucsp Service Data' => 'ucspServiceData'
+  ];
+  public function customAttributesFromUcrm() {
+    $eachAttr = [];
+    $i = 0;
+    foreach ($this->customAttributes as $key => $val) {
+      $eachAttr[$key] = ['id' => $i, 'name' => $key, 'key' => $val, 'attributeType' => 'client'];
+      $i++;
+    }
+
+    return $eachAttr;
+  }
+
   protected function setUp() {
     $this->Generator = new Generator();
   }
@@ -24,17 +42,6 @@ class GeneratorTest extends TestCase {
       ];
   }
 
-  public function customAttributeProvider() {
-    return [
-      [[
-        ['id' => 1, 'name' => 'Ucsp Gateway User Id', 'key' => 'ucspGatewayCustomerId', 'attributeType' => 'client'],
-        ['id' => 2, 'name' => 'Ucsp Form Email', 'key' => 'ucspFormEmail', 'attributeType' => 'client'],
-        ['id' => 3, 'name' => 'Ucsp Form Step', 'key' => 'ucspFormStep', 'attributeType' => 'client'],
-        ['id' => 4, 'name' => 'Ucsp Errors', 'key' => 'ucspErrors', 'attributeType' => 'client']
-      ]]
-    ];
-  }
-
   /**
   * @test
   * @covers Generator::customAttributesExists
@@ -49,6 +56,11 @@ class GeneratorTest extends TestCase {
     $this->assertInternalType('array', $mock->customAttributesExists());
   }
 
+  public function customAttributeProvider() {
+    $results = $this->customAttributesFromUcrm();
+    return [[$results]];
+  }
+
   /**
   * @test
   * @covers Generator::customAttributesExists
@@ -61,6 +73,25 @@ class GeneratorTest extends TestCase {
     $mock->method('get')->will($this->returnValue($mock_results));
 
     $this->assertTrue($mock->customAttributesExists());
+  }
+
+  public function eachCustomAttributeProvider() {
+    $results = $this->customAttributesFromUcrm();
+    return [$results];
+  }
+
+  /**
+  * @test
+  * @covers Generator->getAttributeId
+  * @dataProvider eachCustomAttributeProvider
+  **/
+  public function getAttributeId($mock_results) {
+    $mock = $this->getMockBuilder(Generator::class)
+                 ->setMethods(['get'])
+                 ->getMock();
+    $mock->method('get')->will($this->returnValue($this->customAttributesFromUcrm()));
+
+    $this->assertSame($mock_results['id'], $mock->getAttributeId($mock_results['key']));
   }
 
   /**
@@ -82,8 +113,8 @@ class GeneratorTest extends TestCase {
   * @covers Generator::createCustomAttributes
   **/
   public function expectCreateCustomAttributes() {
-    $mock_get_attributes = [['id' => 3, 'name' => 'test', 'key' => 'test', 'attributeType' => 'invoice'], ['id' => 4, 'name' => 'agreedToTAC', 'key' => 'agreedtotac', 'attributeType' => 'client'], ['id' => 22, 'name' => 'Ucsp Gateway Customer Id', 'key' => 'ucspGatewayCustomerId', 'attributeType' => 'client'], ['id' => 23, 'name' => 'Ucsp Form Email', 'key' => 'ucspFormEmail', 'attributeType' => 'client'], ['id' => 24, 'name' => 'Ucsp Form Step', 'key' => 'ucspFormStep', 'attributeType' => 'client'], ['id' => 25, 'name' => 'Ucsp Errors', 'key' => 'ucspErrors', 'attributeType' => 'client']];
-    $mock_results = ['Ucsp Gateway Customer Id' => 'ucspGatewayCustomerId', 'Ucsp Form Email' => 'ucspFormEmail', 'Ucsp Form Step' => 'ucspFormStep', 'Ucsp Errors' => 'ucspErrors'];
+    $mock_get_attributes = $this->customAttributes;
+    $mock_results = ['Ucsp Gateway Customer' => 'ucspGatewayCustomer', 'Ucsp Gateway Token' => 'ucspGatewayToken', 'Ucsp Form Email' => 'ucspFormEmail', 'Ucsp Form Step' => 'ucspFormStep', 'Ucsp Errors' => 'ucspErrors'];
     $mock = $this->getMockBuilder(Generator::class)
                  ->setMethods(['customAttributesExists', 'post', 'get'])
                  ->getMock();
@@ -95,6 +126,36 @@ class GeneratorTest extends TestCase {
     $this->assertTrue($result);
   }
 
+  public function autoUpdatesProvider() {
+    $expectedArray = [
+      'gatewayAttributeId' => 1,
+      'tokenAttributeId' => 2,
+      'formEmailAttributeId' => 3,
+      'serviceDataAttributeId' => 4,
+      'errorsAttributeId' => 5
+    ];
+    return [
+      'array should not change' => ['endpoint', ['test' => 'array'], ['test' => 'array']],
+      'array should include plugin-config data' => ['plugin-config', [], $expectedArray],
+    ];
+  }
+  
+
+  /**
+  * @test
+  * @covers Generator->run
+  * @dataProvider autoUpdatesProvider
+  **/
+  public function expectUpdatedArray($endpoint, $data, $expected_data) {
+    $mock = $this->getMockBuilder(Generator::class)
+                 ->setMethods(['getAttributeId'])
+                 ->getMock();
+
+    $mock->method('getAttributeId')->will($this->onConsecutiveCalls(1,2,3,4,5));
+
+    $modifiedData = $mock->run($endpoint, $data);
+    $this->assertSame($expected_data, $modifiedData);
+  }
 
 
 }

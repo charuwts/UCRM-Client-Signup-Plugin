@@ -40,7 +40,7 @@
     <script type="text/javascript">
       <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
       <?php include(PROJECT_PATH."/public/vendor-9bfe2b44f19210a7c1959ef10ea382e2.js"); ?>
-      <?php include(PROJECT_PATH."/public/ucrm-client-signup-form-d6319ea76687a01765e43a3ba962c8d9.js"); ?>
+      <?php include(PROJECT_PATH."/public/ucrm-client-signup-form-033a2b5d5cc7a1be36d89c96b7d6b608.js"); ?>
     </script>
   </body>
 </html>

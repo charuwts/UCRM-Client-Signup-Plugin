@@ -144,35 +144,51 @@ class InterpreterTest extends TestCase {
 
     // Pass in payload and run mock
     $payload = json_encode([
-      "frontendKey" => "test_key", 
-      "api" => [
-                    "type" => "POST", 
-                    "endpoint" => "clients", 
-                    "data" => [
-                      "clientType" => 1,
-                      "isLead" => true,
-                      "firstName" => "test",
-                      "lastName" => "lastname",
-                      "street1" => "street1",
-                      "street2" => "street2",
-                      "city" => "city",
-                      "countryId" => 19,
-                      "zipCode" => "55555",
-                      "username" => "test@test.com",
-                      "contacts" => [
-                        [
-                          "email" => "test@test.com", 
-                          "phone" => "2222222222", 
-                          "name" => "test lastname" 
-                        ]
-                      ],
-                      
-                    ]
-                  ]
+        "frontendKey" => "test_key",
+        "api" => [
+            "type" => "POST",
+            "endpoint" => "clients",
+            "data" => [
+              "clientType" => 1,
+              "isLead" => false,
+              "firstName" => "Torg",
+              "lastName" => "Lastname",
+              "street1" => "Street 1",
+              "city" => "City",
+              "countryId" => null,
+              "stateId" => null,
+              "zipCode" => "12345",
+              "username" => "brandon+tests1@charuwts.com",
+              "contacts" => [
+                [
+                  "isBilling" => true,
+                  "isContact" => true,
+                  "email" => "brandon+tests1@charuwts.com",
+                  "phone" => "22222222222",
+                  "name" => "Torg Lastname"
+                ]
+              ],
+              "attributes" => [
+                [
+                  "value" => "brandon+tests1@charuwts.com"
+                ],
+                [
+                  "value" => "14,66"
+                ],
+                [
+                  "value" => "tok_1DqMmRDvjcKFitZMNqyiid3u",
+                  "customAttributeId" => 36
+                ]
+              ]
+            ]
+          ]
     ]);
+
     $mock->run($payload);
 
     $this->assertSame(200, $mock->getCode());
   }
+
+
 
 }

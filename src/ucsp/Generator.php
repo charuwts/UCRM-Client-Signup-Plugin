@@ -7,7 +7,17 @@ define("GENERATOR_PATH", __DIR__);
 require_once(GENERATOR_PATH.'/../includes/custom-exceptions.php');
 
 class Generator {
-  private $UscpCustomAttributes = ['Ucsp Gateway Customer Id' => 'ucspGatewayCustomerId', 'Ucsp Form Email' => 'ucspFormEmail', 'Ucsp Form Step' => 'ucspFormStep', 'Ucsp Errors' => 'ucspErrors'];
+  private $UscpCustomAttributes = [
+    'Ucsp Gateway Customer' => 'ucspGatewayCustomer', 
+    'Ucsp Gateway Token' => 'ucspGatewayToken', 
+    'Ucsp Form Email' => 'ucspFormEmail', 
+    'Ucsp Errors' => 'ucspErrors', 
+    'Ucsp Service Data' => 'ucspServiceData'
+  ];
+
+  public function customAttributes() {
+    return $this->UscpCustomAttributes;
+  }
 
   public function __construct() {
     $this->log = new \Ubnt\UcrmPluginSdk\Service\PluginLogManager();
@@ -75,6 +85,36 @@ class Generator {
       }
 
     }
+  }
+
+  public function getAttributeId($attrKey) {
+    // # Check for existing gateway customer attribute and get ID
+    $getAttributeId = null;
+    $attributes = $this->get('custom-attributes');
+    foreach ($attributes as $attribute) {
+      if ($attribute['attributeType'] == 'client') {
+        if ($attribute['key'] == $attrKey) {
+          $getAttributeId = $attribute['id'];
+          break;
+        }
+      }
+    }
+    return $getAttributeId;
+  }
+
+
+  public function run($type, $data = []) {
+
+    if ($type == 'plugin-config') {
+      $data['gatewayAttributeId'] = $this->getAttributeId('ucspGatewayCustomer');
+      $data['tokenAttributeId'] = $this->getAttributeId('ucspGatewayToken');
+      $data['formEmailAttributeId'] = $this->getAttributeId('ucspFormEmail');
+      $data['serviceDataAttributeId'] = $this->getAttributeId('ucspServiceData');
+      $data['errorsAttributeId'] = $this->getAttributeId('ucspErrors');
+    }
+
+    return $data;
+
   }
 
 }

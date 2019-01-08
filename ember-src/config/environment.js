@@ -24,6 +24,7 @@ module.exports = function(environment) {
       host: 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php',
       frontendKey: 'this_key_should_be_improved',
       useCountrySelect: 'false',
+      isLead: 'no',
       collectPayment: 'yes'
     }
   };

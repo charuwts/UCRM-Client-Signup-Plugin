@@ -58,26 +58,10 @@ class Config {
     return $this->api->get($endpoint);
   }
 
-  public function gatewayAttributeId() {
-    // # Check for existing gateway customer attribute and get ID
-    $gatewayAttributeId = null;
-    $attributes = $this->get('custom-attributes');
-    foreach ($attributes as $attribute) {
-      if ($attribute['attributeType'] == 'client') {
-        if ($attribute['key'] == 'ucspGatewayCustomerId') {
-          $gatewayAttributeId = $attribute['id'];
-          break;
-        }
-      }
-    }
-    return $gatewayAttributeId;
-  }
-
   public function autoUpdates($endpoint, $data) {
-    if ($endpoint == 'plugin-config') {
-      $data['gatewayAttributeId'] = $this->gatewayAttributeId();
-    }
-    return $data;
+    $generator = new Generator();
+    $modifiedData = $generator->run($endpoint, $data);
+    return $modifiedData;
   }
 
   public function writeToFile($filename, $data) {

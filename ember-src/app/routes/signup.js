@@ -28,12 +28,12 @@ export default Route.extend({
           }
         } 
       }),
-      gatewayData: this.get('ajax').post(ENV.APP.host, {
+      pluginConfig: this.get('ajax').post(ENV.APP.host, {
         data: {
           frontendKey: ENV.APP.frontendKey,
           api: {
             type: 'VIEW_FILE',
-            endpoint: 'gateway-data'
+            endpoint: 'plugin-config'
           }
         } 
       }),

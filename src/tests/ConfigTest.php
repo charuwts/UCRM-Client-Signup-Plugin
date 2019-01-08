@@ -81,39 +81,18 @@ class ConfigTest extends TestCase {
   public function updateFile() {
     $mock = $this->getMockBuilder(Config::class)
                  ->disableOriginalConstructor()
-                 ->setMethods(['hasPermission', 'isAccessGranted'])
+                 ->setMethods(['hasPermission', 'isAccessGranted', 'autoUpdates', 'writeToFile', 'viewFile'])
                  ->getMock();
 
     $mock->method('hasPermission')->will($this->returnValue(true));
     $mock->method('isAccessGranted')->will($this->returnValue(true));
+    $mock->method('autoUpdates')->will($this->returnValue(['test' => 'array']));
+    $mock->method('writeToFile')->will($this->returnValue(true));
+    $mock->method('viewFile')->will($this->returnValue(['test' => 'array']));
 
     $result = $mock->updateFile('service-filters', ['test' => 'array']);
     
     $this->assertSame($result, ['test' => 'array']);
-  }
-
-  public function autoUpdatesProvider() {
-    return [
-      'array should not change' => ['endpoint', ['test' => 'array'], ['test' => 'array']],
-      'should have gatewayAttributeId in array' => ['plugin-config', ['test' => 'array'], ['test' => 'array', 'gatewayAttributeId' => 1]],
-    ];
-  }
-
-  /**
-  * @test
-  * @covers Config->autoUpdates
-  * @dataProvider autoUpdatesProvider
-  **/
-  public function autoUpdates($endpoint, $data, $expected_data) {
-    $mock = $this->getMockBuilder(Config::class)
-                 ->disableOriginalConstructor()
-                 ->setMethods(['hasPermission', 'isAccessGranted', 'gatewayAttributeId'])
-                 ->getMock();
-    $mock->method('hasPermission')->will($this->returnValue(true));
-    $mock->method('gatewayAttributeId')->will($this->returnValue(1));
-    $mock->method('isAccessGranted')->will($this->returnValue(true));
-
-    $this->assertSame($expected_data, $mock->autoUpdates($endpoint, $data));
   }
 
 }
