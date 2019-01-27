@@ -8,3 +8,5 @@ class ApiException extends \Exception {
 }
 class ConfigException extends \Exception {
 }
+class WebhookException extends \Exception {
+}

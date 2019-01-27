@@ -5,7 +5,7 @@ namespace Ucsp;
 class Interpreter {
   private static $whiteListedGet = ['service-plans' => [], 'countries' => ['second_level_ids' => ['states']]];
   private static $whiteListedPost = ['clients' => []];
-  private static $dataUrl = null;
+  public static $dataUrl = null;
 
   public static function setDataUrl($dataUrl) {
     self::$dataUrl = $dataUrl;
@@ -111,7 +111,7 @@ class Interpreter {
     }
   }
 
-  public function post($endpoint, $data) {
+  public function post($endpoint, $data = []) {
     if (self::validatePost($endpoint)) {
       return $this->api->post(
         $endpoint,
@@ -130,6 +130,12 @@ class Interpreter {
   public function updateFile($endpoint, $data) {
     $config = new Config();
     return $config->updateFile($endpoint, $data);
+  }
+
+  public function setResponse($response, $code = 200, $isReady = true) {
+    $this->response = json_encode($response);
+    $this->code = $code;
+    $this->ready = $isReady;
   }
 
   public function run($payload) {
@@ -166,21 +172,11 @@ class Interpreter {
               throw new \UnexpectedValueException('type is invalid', 400);
             }
             
-            $this->code = 200;
-            $this->response = json_encode($response);
-            $this->ready = true;
+            $this->setResponse($response);
           } catch (\GuzzleHttp\Exception\ClientException $e) {
-
-            $this->response = $e->getResponse()->getBody()->getContents();
-            $this->code = $e->getCode();
-            $this->ready = true;
-
+            $this->setResponse($e->getResponse()->getBody()->getContents(), $e->getCode());
           } catch (\IsNotAdminException $e) {
-
-            $this->response = $e->getMessage();
-            $this->code = $e->getCode();
-            $this->ready = true;
-
+            $this->setResponse($e->getMessage(), $e->getCode());
           }
           // catch (\Exception $e) {
           //   $pluginLogManager = new \Ubnt\UcrmPluginSdk\Service\PluginLogManager();
@@ -190,6 +186,15 @@ class Interpreter {
 
         } else {
           throw new \UnexpectedValueException('data is invalid', 400);
+        }
+      } elseif (!empty($payloadDecoded->uuid)) {
+        try {
+          file_put_contents(self::$dataUrl.'log.log', json_encode($payloadDecoded), FILE_APPEND);
+
+          // $response = $this->handleWebhook($payloadDecoded);
+          $this->setResponse('success');
+        } catch (\WebhookException $e) {
+          $this->setResponse($e->getMessage(), $e->getCode());
         }
       }
 

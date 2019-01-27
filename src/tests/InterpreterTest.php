@@ -64,52 +64,38 @@ class InterpreterTest extends TestCase {
 
     $this->assertSame(false, $this->Interpreter->isReady(), 'Interpreter should not be ready if frontendKey is empty');
   }
+  /**
+    Providers!
+  **/
+  public function runProvider() {
+    $exceptionClass = \UnexpectedValueException::class;
+    $payload = json_encode(["frontendKey" => "invalid_key", "api" => ["type" => "GET", "endpoint" => "countries", "data" => []]]);
+    $payload2 = json_encode(["frontendKey" => "test_key"]);
+    $payload3 = json_encode(["frontendKey" => "test_key", "api" => ["type" => "GET", "data" => "test"]]);
+    $payload4 = json_encode(["frontendKey" => "test_key", "api" => ["endpoint" => "clients", "data" => "test"]]);
+
+    return [
+      'invalid key' => [$payload, $exceptionClass, 'frontendKey is invalid'],
+      'invalid data' => [$payload2, $exceptionClass, 'data is invalid', 400],
+      'invalid endpoint' => [$payload3, $exceptionClass, 'endpoint is not set', 400],
+      'invalid type' => [$payload4, $exceptionClass, 'type is not set', 400]
+    ];
+  }
 
   /**
   * @test  
   * @covers Interpreter::run
-  * @expectedException UnexpectedValueException
-  * @expectedExceptionMessage frontendKey is invalid
+  * @dataProvider runProvider
   **/
-  public function expectExceptionForInvalidKey() {
-    $payload = json_encode(["frontendKey" => "invalid_key", "api" => ["type" => "GET", "endpoint" => "countries", "data" => []]]);
+  public function expectExceptionsForRun($payload, $exceptionClass, $exceptionMessage, $exceptionCode = false) {
+    $this->expectException($exceptionClass);
+    $this->expectExceptionMessage($exceptionMessage);
+    if ($exceptionCode) {
+      $this->expectExceptionCode($exceptionCode);
+    }
     $this->Interpreter->run($payload);
   }
 
-  /**
-  * @test
-  * @covers Interpreter::run
-  * @expectedException UnexpectedValueException
-  * @expectedExceptionMessage data is invalid
-  * @expectedExceptionCode 400
-  **/
-  public function expectExceptionWhenApiKeyNotFound() {
-    $payload = json_encode(["frontendKey" => "test_key"]);
-    $this->Interpreter->run($payload);
-  }
-
-  /**
-  * @test
-  * @covers Interpreter::run
-  * @expectedException UnexpectedValueException
-  * @expectedExceptionMessage endpoint is not set
-  * @expectedExceptionCode 400
-  **/
-  public function expectExceptionOnEmptyEndpoint() {
-    $payload = json_encode(["frontendKey" => "test_key", "api" => ["type" => "GET", "data" => "test"]]);
-    $this->Interpreter->run($payload);
-  }
-  /**
-  * @test
-  * @covers Interpreter::run
-  * @expectedException UnexpectedValueException
-  * @expectedExceptionMessage type is not set
-  * @expectedExceptionCode 400
-  **/
-  public function expectExceptionOnEmptyType() {
-    $payload = json_encode(["frontendKey" => "test_key", "api" => ["endpoint" => "clients", "data" => "test"]]);
-    $this->Interpreter->run($payload);
-  }
 
   /**
   * @test
@@ -158,22 +144,24 @@ class InterpreterTest extends TestCase {
               "countryId" => null,
               "stateId" => null,
               "zipCode" => "12345",
-              "username" => "brandon+tests1@charuwts.com",
+              "username" => "brandon+tests6@charuwts.com",
               "contacts" => [
                 [
                   "isBilling" => true,
                   "isContact" => true,
-                  "email" => "brandon+tests1@charuwts.com",
+                  "email" => "brandon+tests6@charuwts.com",
                   "phone" => "22222222222",
                   "name" => "Torg Lastname"
                 ]
               ],
               "attributes" => [
                 [
-                  "value" => "brandon+tests1@charuwts.com"
+                  "value" => "brandon+tests6@charuwts.com",
+                  "customAttributeId" => 39
                 ],
                 [
-                  "value" => "14,66"
+                  "value" => "14,66",
+                  "customAttributeId" => 37
                 ],
                 [
                   "value" => "tok_1DqMmRDvjcKFitZMNqyiid3u",
@@ -185,6 +173,7 @@ class InterpreterTest extends TestCase {
     ]);
 
     $mock->run($payload);
+    // $this->Interpreter->run($payload);
 
     $this->assertSame(200, $mock->getCode());
   }

@@ -17,5 +17,3 @@ include(PROJECT_PATH.'/includes/api-interpreter.php');
 include(PROJECT_PATH.'/includes/embed-code.php');
 include(PROJECT_PATH.'/includes/admin.php');
 include(PROJECT_PATH.'/includes/ember-html.php');
-
-

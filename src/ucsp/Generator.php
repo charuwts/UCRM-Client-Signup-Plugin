@@ -24,8 +24,8 @@ class Generator {
     $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
   }
 
-  public function get($endpoint) {
-    return $this->api->get($endpoint);
+  public function get($endpoint, $data = []) {
+    return $this->api->get($endpoint, $data);
   }
 
   public function post($endpoint, $data = []) {

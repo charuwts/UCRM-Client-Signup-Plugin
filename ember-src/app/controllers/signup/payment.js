@@ -49,7 +49,7 @@ export default Controller.extend({
         
         if (validations.get('isValid')) {
           
-          let response = this.get('ajax').post(ENV.APP.host, {
+          this.get('ajax').post(ENV.APP.host, {
             headers: {
               "Content-Type": 'application/json'
             },
