@@ -12,15 +12,11 @@ $user = $ucrmSecurity->getUser();
 $PluginConfig = new \Ucsp\Config();
 $plugin_config = $PluginConfig->viewFile('plugin-config');
 
+$key = base64_encode(random_bytes(48));
 
-// # Data path for configuration writing
 $dataUrl = PROJECT_PATH.'/data/';
 \Ucsp\Interpreter::setDataUrl($dataUrl);
-
-## Just a unique key to give to ember for extra security when making requests
-// $key = base64_encode(random_bytes(48));
-// \Ucsp\Interpreter::setFrontendKey($key);
-\Ucsp\Interpreter::setFrontendKey('this_key_should_be_improved');
+\Ucsp\Interpreter::setFrontendKey($key);
 
 $generateLead = $config["LEAD"] ? "yes" : "no";
 $stripeKey = !empty($plugin_config["PUBLISHABLE_KEY"]) ? $plugin_config["PUBLISHABLE_KEY"] : "no";

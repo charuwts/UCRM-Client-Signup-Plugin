@@ -47,9 +47,16 @@ class Webhook extends Generator {
         if (count($service_details) > 0) {
           $user_id = $payload_decoded['entityId'];
           try {
-            $webhook_event = $this->post('clients/'.$user_id.'/service', [
+            // ## Set active from and invoicing start to +1 month to give time to adjust service invoice dates manually
+            $date = new \DateTime();
+            $date = date('c', strtotime("-1 days"));
+            // $date = date('c', strtotime("+1 months"));
+
+            $webhook_event = $this->post('clients/'.$user_id.'/services', [
               "servicePlanId" => (int)$service_details[0],
-              "servicePlanPeriodId" => (int)$service_details[1]
+              "servicePlanPeriodId" => (int)$service_details[1],
+              "activeFrom" => $date,
+              "invoicingStart" => $date
             ]);
             return true;
           } catch (\GuzzleHttp\Exception\ClientException $e) {

@@ -189,10 +189,14 @@ class Interpreter {
         }
       } elseif (!empty($payloadDecoded->uuid)) {
         try {
-          file_put_contents(self::$dataUrl.'log.log', json_encode($payloadDecoded), FILE_APPEND);
-
-          // $response = $this->handleWebhook($payloadDecoded);
-          $this->setResponse('success');
+          file_put_contents(self::$dataUrl.'log.log', 'Webhook event received.', FILE_APPEND);
+          $webhookHandler = new Webhook();
+          $response = $webhookHandler->handleWebhook(json_encode($payloadDecoded));
+          if ($response) {
+            $this->setResponse('success');
+          } else {
+            $this->setResponse(null);
+          }
         } catch (\WebhookException $e) {
           $this->setResponse($e->getMessage(), $e->getCode());
         }

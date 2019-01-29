@@ -36,6 +36,6 @@
     <div id="ember-basic-dropdown-wormhole"></div>
     
     <script type="text/javascript" src="<?php echo $publicUrl.'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js'; ?>"></script>
-    <script type="text/javascript" src="<?php echo $publicUrl.'ucrm-client-signup-form-033a2b5d5cc7a1be36d89c96b7d6b608.js'; ?>"></script>
+    <script type="text/javascript" src="<?php echo $publicUrl.'ucrm-client-signup-form-dcc4df10b0ae204e1cbbf52e12bb71f9.js'; ?>"></script>
   </body>
 </html>

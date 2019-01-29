@@ -197,10 +197,10 @@ class WebhookTest extends TestCase {
   **/
   public function expectSuccessfulServiceCreation($payload) {
     $mock = $this->getMockBuilder(Webhook::class)
-                 ->setMethods(['validateWebhook'])
+                 ->setMethods(['validateWebhook', 'post'])
                  ->getMock();
     $mock->method('validateWebhook')->will($this->returnValue(true));
-    // $mock->method('post')->will($this->returnValue(null));
+    $mock->method('post')->will($this->returnValue(null));
 
     $this->assertTrue($mock->handleWebhook($payload));
   }

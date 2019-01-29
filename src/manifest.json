@@ -74,6 +74,15 @@
           },
           {
               "key": "Client Signup",
+              "label": "Logs",
+              "type": "admin",
+              "target": "iframe",
+              "parameters": {
+                  "log": "plugin-log"
+              }
+          },
+          {
+              "key": "Client Signup",
               "label": "Language Settings",
               "type": "admin",
               "target": "iframe",

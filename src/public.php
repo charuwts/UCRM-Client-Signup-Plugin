@@ -14,6 +14,7 @@ header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
 include(PROJECT_PATH.'/includes/api-interpreter.php');
+include(PROJECT_PATH.'/includes/plugin-log.php');
 include(PROJECT_PATH.'/includes/embed-code.php');
 include(PROJECT_PATH.'/includes/admin.php');
 include(PROJECT_PATH.'/includes/ember-html.php');
