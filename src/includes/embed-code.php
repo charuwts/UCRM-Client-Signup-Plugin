@@ -11,11 +11,8 @@ if (!empty($_GET['embed'])) {
     $metatag = '<meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup'.$configMetadata.'%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+5acad376%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />';
 
 
-    $stylesheet_vendor = '<link rel="stylesheet" type="text/css" href="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-463d4d71894dfde19d720aa6b937502f.css">';
-    $stylesheet = '<link rel="stylesheet" type="text/css" href="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-500a5c0e9df67704f365edc02f483591.css">';
-
-    $javascript_vendor = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js"></script>';
-    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-033a2b5d5cc7a1be36d89c96b7d6b608.js"></script>';
+    $javascript_vendor = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js" integrity="sha256-M+/KRWyBtyTWc9rn6PxhvzD2mlK+kPetkkj4DGujqis= sha512-M7o5+umKQAREno4oYg1Q32EJ8xRzVNLlj1CM9Nie4Uakkyk1D6LY1mQY4n7yIWlZMDuCmiec0Myd7RwqI5qvPg=="></script>';
+    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-2c870a1ec0ea04563b0291d590efeb2e.js" integrity="sha256-n2QMXmZP55qVd1frQQH6pcg2bjxe3A1wp2xyiA7Wi3Q= sha512-TNP0IK30HS7blWZFe7oNgPRCxMRYtpHeD0/U0EuMQTOhwVlRuL4JUnzbzomYwrwsRSuKpcWicYbREUH8+kGWNQ=="></script>';
 
 
     $stylesheet_vendor = '<link rel="stylesheet" type="text/css" href="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-463d4d71894dfde19d720aa6b937502f.css">';

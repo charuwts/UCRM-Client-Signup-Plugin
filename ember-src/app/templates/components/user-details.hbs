@@ -45,25 +45,48 @@
         {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder=translation property="zipCode" required=true}}
       {{/translate-text}}
     </div>
-  </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-4">
-      {{#translate-text key="chooseCountry" as |translation|}}
-        {{#power-select renderInPlace=true searchField="name" placeholder=translation selected=selectedCountry options=model.countries onchange=(action "selectCountry") as |country|}}
-          {{country.name}}
-        {{/power-select}}
+    <div class="col-md-6 mb-2">
+      {{#translate-text key="companyName" as |translation|}}
+        {{form.element controlType="text" id="companyName" placeholder=translation property="companyName" required=false}}
       {{/translate-text}}
     </div>
-    <div class="col-md-6 mb-4">
-      {{#if states}}
-        {{#translate-text key="chooseState" as |translation|}}
-          {{#power-select renderInPlace=true searchField="name" placeholder=translation selected=selectedState options=states onchange=(action "selectState") as |state|}}
-            {{state.name}}
+  </div>
+
+  {{#if model.client.companyName}}
+    <div class="form-row">
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyContactFirstName" as |translation|}}
+          {{form.element controlType="text" id="companyContactFirstName" placeholder=translation property="companyContactFirstName" required=false}}
+        {{/translate-text}}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyContactLastName" as |translation|}}
+          {{form.element controlType="text" id="companyContactLastName" placeholder=translation property="companyContactLastName" required=false}}
+        {{/translate-text}}
+      </div>
+    </div>
+  {{/if}}
+
+  {{#if model.pluginConfig.showCountry}}
+    <div class="form-row">
+      <div class="col-md-6 mb-4">
+        {{#translate-text key="chooseCountry" as |translation|}}
+          {{#power-select renderInPlace=true searchField="name" placeholder=translation selected=selectedCountry options=model.countries onchange=(action "selectCountry") as |country|}}
+            {{country.name}}
           {{/power-select}}
         {{/translate-text}}
-      {{/if}}
+      </div>
+      <div class="col-md-6 mb-4">
+        {{#if states}}
+          {{#translate-text key="chooseState" as |translation|}}
+            {{#power-select renderInPlace=true searchField="name" placeholder=translation selected=selectedState options=states onchange=(action "selectState") as |state|}}
+              {{state.name}}
+            {{/power-select}}
+          {{/translate-text}}
+        {{/if}}
+      </div>
     </div>
-  </div>
+  {{/if}}
 
   {{#unless error}}
     {{#if pending}}

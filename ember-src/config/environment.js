@@ -21,11 +21,12 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       rootElement: '#ember-signup',
-      host: 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php',
-      frontendKey: 'this_key_should_be_improved',
+      // host: 'http://192.168.1.5:8080/_plugins/ucrm-client-signup-plugin/public.php',
+      host: 'http://192.168.1.5:8080/_plugins/ucrm-client-signup-plugin/public.php',
+      frontendKey: 'xHLYmrk8yR5sMfW9uDbaHN74tVbTH2mwan+Ix0xFvWrM7EpuYMY+h8njX+g9CCpE',
       useCountrySelect: 'false',
       isLead: 'no',
-      collectPayment: 'yes'
+      collectPayment: 'no'
     }
   };
 

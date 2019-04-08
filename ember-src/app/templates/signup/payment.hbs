@@ -2,8 +2,12 @@
   <div class="container-fluid">
     <div class="row mb-4">
       <div class="col text-center">
-        <h1>{{translate-text key="payment"}}</h1>
-        <h2 class="h6">{{translate-text key="reviewServiceSignupDetails"}}</h2>
+        {{#if collectPayment}}
+          <h1>{{translate-text key="payment"}}</h1>
+          <h2 class="h6">{{translate-text key="reviewServiceSignupDetails"}}</h2>
+        {{else}}
+          <h1>{{translate-text key="reviewServiceSignupDetails"}}</h1>
+        {{/if}}
       </div>
     </div>
     <div class="row mb-4 justify-content-center">
@@ -24,6 +28,7 @@
                 {{#link-to 'signup.account'}}<h5 class="card-title">{{translate-text key="accountInfo"}}</h5>{{/link-to}}
                 <p>
                   <b>{{translate-text key="name"}}</b>: {{model.client.firstName}} {{model.client.lastName}}<br>
+                  {{#if model.client.companyName}}<b>{{translate-text key="companyName"}}</b>: {{model.client.companyName}}<br>{{/if}}
                   <b>{{translate-text key="email"}}</b>: {{model.client.email}}<br>
                   <b>{{translate-text key="phoneNumber"}}</b>: {{model.client.phone}}<br>
                   <b>{{translate-text key="address"}}</b>: {{model.client.street1}} {{model.client.city}}, {{model.client.zipCode}}

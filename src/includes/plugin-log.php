@@ -8,7 +8,7 @@ if (!empty($_GET['log'])) {
     //   die('You do not have permission to see this page.');
     // }
     if ($_GET['log'] == 'clear') {
-      file_put_contents(\UCSP\Interpreter::$dataUrl.'log.log', '');
+      file_put_contents(\Ucsp\Interpreter::$dataUrl.'log.log', '');
       header("LOCATION: public.php?log=plugin-log");
     }
 
@@ -22,7 +22,7 @@ if (!empty($_GET['log'])) {
     echo '<p>This log is for specific errors and processes and will also be improved in the future to have filters for types of log information. Some logs are also reported on the plugin details page.</p>';
     echo '<a href="public.php?log=clear"><button class="btn btn-danger my-3">Clear Logs</button></a>';
     echo '<pre><div class="code-wrapper">';
-    $logfile = \UCSP\Interpreter::$dataUrl.'log.log';
+    $logfile = \Ucsp\Interpreter::$dataUrl.'log.log';
     if (file_exists($logfile)) {
       echo file_get_contents($logfile);
     }

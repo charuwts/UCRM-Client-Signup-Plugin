@@ -30,12 +30,12 @@
       </div>
       <br clear="all">
     <?php } ?>
-    
+    <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
     <div id="ember-signup"></div>
     <div id="ember-bootstrap-wormhole"></div>
     <div id="ember-basic-dropdown-wormhole"></div>
     
-    <script type="text/javascript" src="<?php echo $publicUrl.'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js'; ?>"></script>
-    <script type="text/javascript" src="<?php echo $publicUrl.'ucrm-client-signup-form-dcc4df10b0ae204e1cbbf52e12bb71f9.js'; ?>"></script>
+    <script type="text/javascript" src="<?php echo $publicUrl.'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js" integrity="sha256-M+/KRWyBtyTWc9rn6PxhvzD2mlK+kPetkkj4DGujqis= sha512-M7o5+umKQAREno4oYg1Q32EJ8xRzVNLlj1CM9Nie4Uakkyk1D6LY1mQY4n7yIWlZMDuCmiec0Myd7RwqI5qvPg=='; ?>"></script>
+    <script type="text/javascript" src="<?php echo $publicUrl.'ucrm-client-signup-form-2c870a1ec0ea04563b0291d590efeb2e.js" integrity="sha256-n2QMXmZP55qVd1frQQH6pcg2bjxe3A1wp2xyiA7Wi3Q= sha512-TNP0IK30HS7blWZFe7oNgPRCxMRYtpHeD0/U0EuMQTOhwVlRuL4JUnzbzomYwrwsRSuKpcWicYbREUH8+kGWNQ=='; ?>"></script>
   </body>
 </html>

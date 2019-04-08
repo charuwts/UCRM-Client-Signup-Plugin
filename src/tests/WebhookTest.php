@@ -196,11 +196,13 @@ class WebhookTest extends TestCase {
   * @covers webhookHandler
   **/
   public function expectSuccessfulServiceCreation($payload) {
+    define('PROJECT_PATH', '/var/www/php-projects/ucrm-client-signup-plugin/src');
     $mock = $this->getMockBuilder(Webhook::class)
-                 ->setMethods(['validateWebhook', 'post'])
+                 ->setMethods(['validateWebhook', 'post', 'get'])
                  ->getMock();
     $mock->method('validateWebhook')->will($this->returnValue(true));
     $mock->method('post')->will($this->returnValue(null));
+    $mock->method('get')->will($this->returnValue(['isLead' => true]));
 
     $this->assertTrue($mock->handleWebhook($payload));
   }

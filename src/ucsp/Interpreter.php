@@ -189,7 +189,6 @@ class Interpreter {
         }
       } elseif (!empty($payloadDecoded->uuid)) {
         try {
-          file_put_contents(self::$dataUrl.'log.log', 'Webhook event received.', FILE_APPEND);
           $webhookHandler = new Webhook();
           $response = $webhookHandler->handleWebhook(json_encode($payloadDecoded));
           if ($response) {

@@ -102,7 +102,17 @@ class Generator {
     return $getAttributeId;
   }
 
-
+  public function getAttribute($attributes, $key) {
+    $attributeValue = null;
+    foreach ($attributes as $attribute) {
+      if ($attribute['key'] == $key) {
+        $attributeValue = $attribute['value'];
+        break;
+      }
+    }
+    return $attributeValue;
+  }
+  
   public function run($type, $data = []) {
 
     if ($type == 'plugin-config') {

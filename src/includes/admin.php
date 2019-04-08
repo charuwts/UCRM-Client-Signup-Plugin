@@ -36,7 +36,7 @@ if (!empty($_GET['admin'])) {
       <script type="text/javascript">
         <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
         <?php include(PROJECT_PATH."/admin-assets/vendor-b243ab3710c152e7c3a92648bca62b18.js"); ?>
-        <?php include(PROJECT_PATH."/admin-assets/ember-admin-44b15c254b0857cd93defaac62965504.js"); ?>
+        <?php include(PROJECT_PATH."/admin-assets/ember-admin-82884245255c1f52aa955bf0687c7879.js"); ?>
       </script>
 
     </body>

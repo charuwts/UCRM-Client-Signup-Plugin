@@ -19,16 +19,20 @@ $dataUrl = PROJECT_PATH.'/data/';
 \Ucsp\Interpreter::setFrontendKey($key);
 
 $generateLead = $config["LEAD"] ? "yes" : "no";
-$stripeKey = !empty($plugin_config["PUBLISHABLE_KEY"]) ? $plugin_config["PUBLISHABLE_KEY"] : "no";
+$stripeKey = !empty($config["STRIPE_PUBLIC_KEY"]) ? $config["STRIPE_PUBLIC_KEY"] : "no";
 $adminRoute = !empty($_GET['admin']) ? $_GET['admin'] : "no";
 
 $envVariables = [
   "host" => $options->pluginPublicUrl,
   "frontendKey" => \Ucsp\Interpreter::getFrontendKey(),
   "isLead" => $generateLead,
-  "collectPayment" => rawurlencode((string)$config["COLLECT_PAYMENT"]),
+  "collectPayment" => $config["COLLECT_PAYMENT"] == true ? 'yes' : 'no',
   "initialRoute" => rawurlencode($adminRoute)
 ];
+if ($config["COLLECT_PAYMENT"] == true) {
+  \Stripe\Stripe::setApiKey($config['STRIPE_SECRET_KEY']);
+}
+
 $stripePublishableKeyEncoded = "%22stripe%22%3A%7B%22publishableKey%22%3A%22".$stripeKey."%22%7D%2C";
 // Encode to json string, remove first and last characters { } and rawurlencode the string
 // $configMetadata = rawurlencode(substr(substr(json_encode($envVariables), 1), 0, -3));

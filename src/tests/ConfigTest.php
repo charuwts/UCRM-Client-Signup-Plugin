@@ -51,8 +51,9 @@ class ConfigTest extends TestCase {
                  ->getMock();
     $mock->method('hasPermission')->will($this->returnValue(true));
 
-    $result = $mock->viewFile('service-filters');
+    $result = $mock->viewFile('plugin-config');
     
+    // $this->assertSame('array', $result['gatewayAttributeId']);
     $this->assertInternalType('array', $result);
   }
 

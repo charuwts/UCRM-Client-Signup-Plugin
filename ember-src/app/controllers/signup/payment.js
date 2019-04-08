@@ -38,6 +38,14 @@ export default Controller.extend({
     return ENV.APP.isLead === 'no' ? false : true;
   }),
 
+  clientType(client) {
+    if (client.get('companyName')) {
+      return 2;
+    } else {
+      return 1;
+    }
+  },
+
   actions: {
     createClient(client) {
       this.set('failure', false);
@@ -59,9 +67,11 @@ export default Controller.extend({
                 type: 'POST',
                 endpoint: 'clients',
                 data: {
-                  "clientType": 1,
+                  "clientType": this.clientType(client),
+                  "organizationId": parseInt(this.get('model.pluginConfig.organizationId')),
                   "isLead": this.get('isLead'),
                   "firstName": client.get('firstName'),
+                  "companyName": client.get('companyName'),
                   "lastName": client.get('lastName'),
                   "street1": client.get('street1'),
                   "street2": client.get('street2'),
@@ -94,15 +104,15 @@ export default Controller.extend({
             } 
           }).catch((resp) => {
             if ((resp.payload !== undefined) && (resp.payload !== null)) {
-              this.set('errors', resp.payload.errors);
-              this.set('errorMessage', resp.payload.message);
+              this.set('errors', JSON.parse(resp.payload).errors);
+              this.set('errorMessage', JSON.parse(resp.payload).message);
             }
 
             this.set('pending', false);
             this.set('failure', true);
           }).then(() => {
             if (this.get('failure') !== true) {
-              this.set('success', true);
+              this.transitionToRoute('signup.complete');
             }
             this.set('pending', false);
           });
@@ -150,7 +160,8 @@ export default Controller.extend({
                 type: 'POST',
                 endpoint: 'clients',
                 data: {
-                  "clientType": 1,
+                  "clientType": this.clientType(client),
+                  "organizationId": parseInt(this.get('model.pluginConfig.organizationId')),
                   "isLead": this.get('isLead'),
                   "firstName": client.get('firstName'),
                   "lastName": client.get('lastName'),
@@ -193,8 +204,8 @@ export default Controller.extend({
                 this.set('failure', false);
                 this.transitionToRoute('signup.account', { queryParams: { expired: true }});
               } else {
-                this.set('errorMessage', resp.payload.message);
-                this.set('errors', resp.payload.errors);
+                this.set('errorMessage', JSON.parse(resp.payload).message);
+                this.set('errors', JSON.parse(resp.payload).errors);
               }
             }
             this.set('pending', false);

@@ -7,6 +7,19 @@ define("WEBHOOK_HANDLER_PATH", __DIR__);
 require_once(WEBHOOK_HANDLER_PATH.'/../includes/custom-exceptions.php');
 
 class Webhook extends Generator {
+  public function __construct() {
+    $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
+  }
+
+  public function get($endpoint, $data = []) {
+    return $this->api->get($endpoint, $data);
+  }
+
+  public function handleToken($client_id, $token, $email) {
+    $stripe_handler = new Stripe();
+    $stripe_handler->createCustomer($client_id, $token, $email);
+  }
+
   public function validateWebhook($uuid) {
     // # If uuid exists
     if ($uuid) {
@@ -41,7 +54,14 @@ class Webhook extends Generator {
         $service_details = [];
         foreach ($payload_decoded['extraData']['entity']['attributes'] as $attr) {
           if ($attr['key'] == 'ucspServiceData') {
-            $service_details = explode(",", $attr['value']);
+            if (!empty($attr)) {
+              $service_details = explode(",", $attr['value']);
+            }
+          }
+          if ($attr['key'] == 'ucspGatewayToken') {
+            if (!empty($payload_decoded['extraData']['entity']['contacts'])) {
+              $this->handleToken($payload_decoded['entityId'], $attr['value'], $payload_decoded['extraData']['entity']['contacts'][0]['email']);
+            }
           }
         }
         if (count($service_details) > 0) {
@@ -49,14 +69,18 @@ class Webhook extends Generator {
           try {
             // ## Set active from and invoicing start to +1 month to give time to adjust service invoice dates manually
             $date = new \DateTime();
-            $date = date('c', strtotime("-1 days"));
-            // $date = date('c', strtotime("+1 months"));
+            // $date = date('c', strtotime("-1 days"));
+            $date = date('c', strtotime("+1 months"));
+
+            $user = $this->get('clients/'.$user_id);
+            $isQuoted = $user['isLead'] ? true : false;
 
             $webhook_event = $this->post('clients/'.$user_id.'/services', [
               "servicePlanId" => (int)$service_details[0],
               "servicePlanPeriodId" => (int)$service_details[1],
               "activeFrom" => $date,
-              "invoicingStart" => $date
+              "invoicingStart" => $date,
+              "isQuoted" => $isQuoted,
             ]);
             return true;
           } catch (\GuzzleHttp\Exception\ClientException $e) {

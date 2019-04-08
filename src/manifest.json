@@ -5,9 +5,9 @@
     "displayName": "UCRM Client Signup Plugin",
     "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "ucrmVersionCompliancy": {
-      "min": "2.14.1",
+      "min": "2.15.0",
       "max": null
     },
     "author": "Charuwts, LLC"
@@ -42,7 +42,19 @@
         "key": "COLLECT_PAYMENT",
         "label": "Collect Payment Info",
         "type": "checkbox",
-        "description": "If turned off, client will not be asked for payment information when signing up.",
+        "description": "If turned off, client will not be asked for payment information via Stripe when signing up.",
+        "required": 0
+    },
+    {
+        "key": "STRIPE_PUBLIC_KEY",
+        "label": "Stripe Public Key",
+        "description": "If collect payment is on, this field is required.",
+        "required": 0
+    },
+    {
+        "key": "STRIPE_SECRET_KEY",
+        "label": "Stripe Secret Key",
+        "description": "If collect payment is on, this field is required.",
         "required": 0
     },
     {
