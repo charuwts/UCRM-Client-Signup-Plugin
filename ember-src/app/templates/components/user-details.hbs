@@ -64,6 +64,11 @@
           {{form.element controlType="text" id="companyContactLastName" placeholder=translation property="companyContactLastName" required=false}}
         {{/translate-text}}
       </div>
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyWebsite" as |translation|}}
+          {{form.element controlType="text" id="companyWebsite" placeholder=translation property="companyWebsite" required=false}}
+        {{/translate-text}}
+      </div>
     </div>
   {{/if}}
 
