@@ -98,7 +98,7 @@ export default Controller.extend({
                       customAttributeId: this.get('model.pluginConfig.formEmailAttributeId')
                     },
                     {
-                      value: this.get('model.servicePlan.id') + ',' + this.get('model.servicePlanPeriodId'),
+                      value: this.get('model.servicePlanId') + ',' + this.get('model.servicePlanPeriodId'),
                       customAttributeId: this.get('model.pluginConfig.serviceDataAttributeId')
                     }
                   ]

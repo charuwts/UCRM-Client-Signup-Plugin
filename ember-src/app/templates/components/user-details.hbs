@@ -13,6 +13,30 @@
   </div>
   <div class="form-row">
     <div class="col-md-6 mb-2">
+      {{#translate-text key="companyName" as |translation|}}
+        {{form.element controlType="text" id="companyName" placeholder=translation property="companyName" required=false}}
+      {{/translate-text}}
+    </div>
+    {{#if model.client.companyName}}
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyContactFirstName" as |translation|}}
+          {{form.element controlType="text" id="companyContactFirstName" placeholder=translation property="companyContactFirstName" required=false}}
+        {{/translate-text}}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyContactLastName" as |translation|}}
+          {{form.element controlType="text" id="companyContactLastName" placeholder=translation property="companyContactLastName" required=false}}
+        {{/translate-text}}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyWebsite" as |translation|}}
+          {{form.element controlType="text" id="companyWebsite" placeholder=translation property="companyWebsite" required=false}}
+        {{/translate-text}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-2">
       {{#translate-text key="email" as |translation|}}
         {{form.element controlType="email" id="email" autocomplete="email" placeholder=translation property="email" required=true}}
       {{/translate-text}}
@@ -45,32 +69,8 @@
         {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder=translation property="zipCode" required=true}}
       {{/translate-text}}
     </div>
-    <div class="col-md-6 mb-2">
-      {{#translate-text key="companyName" as |translation|}}
-        {{form.element controlType="text" id="companyName" placeholder=translation property="companyName" required=false}}
-      {{/translate-text}}
-    </div>
   </div>
 
-  {{#if model.client.companyName}}
-    <div class="form-row">
-      <div class="col-md-6 mb-2">
-        {{#translate-text key="companyContactFirstName" as |translation|}}
-          {{form.element controlType="text" id="companyContactFirstName" placeholder=translation property="companyContactFirstName" required=false}}
-        {{/translate-text}}
-      </div>
-      <div class="col-md-6 mb-2">
-        {{#translate-text key="companyContactLastName" as |translation|}}
-          {{form.element controlType="text" id="companyContactLastName" placeholder=translation property="companyContactLastName" required=false}}
-        {{/translate-text}}
-      </div>
-      <div class="col-md-6 mb-2">
-        {{#translate-text key="companyWebsite" as |translation|}}
-          {{form.element controlType="text" id="companyWebsite" placeholder=translation property="companyWebsite" required=false}}
-        {{/translate-text}}
-      </div>
-    </div>
-  {{/if}}
 
   {{#if model.pluginConfig.showCountry}}
     <div class="form-row">
@@ -134,7 +134,22 @@
       {{#if (v-get model.client "isInvalid")}}
         {{!-- <div class="btn btn-dark disabled" id="proceed"><span>{{translate-text key="provideInfo"}}</span></div> --}}
       {{else}}
-        <button class="btn btn-primary" id="proceed" type="submit"><span>{{translate-text key="proceed"}}</span></button>
+        {{#if model.pluginConfig.termsAndConditions}}
+          {{#if agreedToTerms}}
+            <div class="my-3 btn btn-success rounded-circle" {{action "agreeToTerms"}}>&#10003;</div>
+            <div class="w-100"></div>
+            <button class="btn btn-primary" id="proceed" type="submit"><span>{{translate-text key="proceed"}}</span></button>
+          {{else}}
+            {{#liquid-if showTerms}}
+              {{html-safe content=model.pluginConfig.termsAndConditions}}
+              <div class="my-3 btn btn-light rounded-circle" {{action "agreeToTerms"}}>&#10003;</div>
+            {{/liquid-if}}
+
+            <div class="btn btn-primary" {{action "viewTerms"}}>{{translate-text key="termsAndConditions"}}</div>
+          {{/if}}
+        {{else}}
+          <button class="btn btn-primary" id="proceed" type="submit"><span>{{translate-text key="proceed"}}</span></button>
+        {{/if}}
       {{/if}}
     </div>
   </div>

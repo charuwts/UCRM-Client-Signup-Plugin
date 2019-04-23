@@ -5,7 +5,6 @@ namespace Ucsp;
 class Stripe {
   public function __construct() {
     $this->api = \Ubnt\UcrmPluginSdk\Service\UcrmApi::create();
-    \Stripe\Stripe::setApiKey('sk_test_mrhveUUktyn3akYEKWlC1GtU');
   }
 
   public function __destruct() {
@@ -91,8 +90,7 @@ class Stripe {
               "customAttributeId" => $tokenId
             ]
           ]
-        ]);
-        
+        ]);        
       }
 
     }

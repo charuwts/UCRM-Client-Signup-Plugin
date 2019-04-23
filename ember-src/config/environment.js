@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'ucrm-client-signup-form',
     environment,
     rootURL: '/',
-    locationType: 'none',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimetal features on an ember canary build

@@ -1,4 +1,14 @@
-# 2.1.0
+# 2.3.0 - April 23rd 2019
+Create admin ticket for new signups
+
+# 2.2.1 - April 19th 2019
+Remove hardcoded stripe key
+
+# 2.2.0 - April 19th 2019
+Added terms and conditions
+moved company info to under name on form
+
+# 2.1.0 - April 8th 2019
 
 Company Contact Info
 Hide "Payment" text if no payment info collected.

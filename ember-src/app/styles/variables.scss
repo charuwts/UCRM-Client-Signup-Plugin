@@ -4,10 +4,16 @@ $latoFont: 'Lato', sans-serif;
 $font-family-base: $latoFont;
 $line-height-base: 1.1;
 
+$primary: #00A2D9;
+$secondary: #FFA33A;
+$success: #30AD5C;
+$light: #EEE;
+$dark: #272727;
+
 $theme-colors: (
-  primary: #00A2D9,
-  secondary: #FFA33A,
-  success: #30AD5C,
-  light: #EEE,
-  dark: #272727,
+  primary: $primary,
+  secondary: $secondary,
+  success: $success,
+  light: $light,
+  dark: $dark
 );

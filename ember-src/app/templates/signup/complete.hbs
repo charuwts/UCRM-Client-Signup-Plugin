@@ -1,5 +1,5 @@
 <h1 class="text-center">{{translate-text key="signupComplete"}}</h1>
 <div class="completion-text">
-  {{{model.pluginConfig.completionText}}}
+  {{html-safe content=model.pluginConfig.completionText}}
 </div>
 {{outlet}}

@@ -12,7 +12,7 @@ if (!empty($_GET['embed'])) {
 
 
     $javascript_vendor = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js" integrity="sha256-M+/KRWyBtyTWc9rn6PxhvzD2mlK+kPetkkj4DGujqis= sha512-M7o5+umKQAREno4oYg1Q32EJ8xRzVNLlj1CM9Nie4Uakkyk1D6LY1mQY4n7yIWlZMDuCmiec0Myd7RwqI5qvPg=="></script>';
-    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-3d219662effaa982d59971fa57940d52.js" integrity="sha256-kMT/23WvAuja8shir4oOnD8nlxW9W0hEM0TvZR9MAwc= sha512-Peza3aOzK5ywg6w4RCdl1W7MYrBOD/HxRJmXGQ9c6HyDoZwM3Jv/Jw72CJSsVM09+C57nnv2fLEifoc6x1FhgA=="></script>';
+    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-349bb38dcd8aa6d61a37b5a305477271.js" integrity="sha256-QxUnassKO4Oo7pE9ts0DWpOzoogvM7gAHVZF35cgvc8= sha512-Amrhk8Ruz/9vjDaZSWg8G8zd0AUmVzna9+ZdieP+M2RdTRobxyZO0JxjkAvwAdpcEaGA5/g69wrCNmZ+WB0uKA=="></script>';
 
 
     $stylesheet_vendor = '<link rel="stylesheet" type="text/css" href="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-463d4d71894dfde19d720aa6b937502f.css">';

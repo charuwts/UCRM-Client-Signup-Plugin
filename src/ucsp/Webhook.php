@@ -15,6 +15,10 @@ class Webhook extends Generator {
     return $this->api->get($endpoint, $data);
   }
 
+  public function post($endpoint, $data = []) {
+    return $this->api->post($endpoint, $data);
+  }
+
   public function handleToken($client_id, $token, $email) {
     $stripe_handler = new Stripe();
     $stripe_handler->createCustomer($client_id, $token, $email);
@@ -50,6 +54,23 @@ class Webhook extends Generator {
     if ($isValid) {
       // # If event name is client.add
       if ($payload_decoded['eventName'] == 'client.add' && !empty($payload_decoded['extraData']['entity']['attributes'])) {
+
+        $client = $payload_decoded['extraData']['entity'];
+        $this->post('ticketing/tickets', [
+          "subject" => "New Client Signup",
+          "clientId" => $client['id'],
+          'status' => 0,
+          'public' => false,
+          'activity' => [
+            [
+              'public' => false,
+              'comment' => [
+                'body' => "Client created via Signup Form.",
+              ]
+            ]
+          ]
+        ]);
+
         //# Check for services
         $service_details = [];
         foreach ($payload_decoded['extraData']['entity']['attributes'] as $attr) {

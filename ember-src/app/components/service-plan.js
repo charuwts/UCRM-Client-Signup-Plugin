@@ -12,6 +12,7 @@ export default Component.extend({
         period: period
       });
       this.set('model.servicePlanPeriodId', periodId);
+      this.set('model.servicePlanId', plan.id);
     }, 
   }
 });

@@ -6,6 +6,8 @@ import ENV from "../config/environment";
 export default Component.extend({
   ajax: service(),
   store: service(),
+  showTerms: false,
+  agreedToTerms: false,
 
   classNames: ['container-fluid'],
   states: computed('model.client.countryId', function() {
@@ -38,6 +40,12 @@ export default Component.extend({
     selectState(state) {
       this.set('model.client.stateId', state.id);
       this.set('selectedState', state);
+    },
+    agreeToTerms() {
+      this.toggleProperty('agreedToTerms');
+    },
+    viewTerms() {
+      this.toggleProperty('showTerms');
     },
     submit(client) {
       client.validate().then(({ validations }) => {
