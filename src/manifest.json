@@ -5,7 +5,7 @@
     "displayName": "UCRM Client Signup Plugin",
     "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "ucrmVersionCompliancy": {
       "min": "2.15.0",
       "max": null

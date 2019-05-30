@@ -1,3 +1,7 @@
+# 2.3.1 - May 30th 2019
+Remove integrity attribute
+Add stripe key to embed code
+
 # 2.3.0 - April 23rd 2019
 Create admin ticket for new signups
 
