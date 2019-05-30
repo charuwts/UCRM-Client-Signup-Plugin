@@ -11,8 +11,8 @@ if (!empty($_GET['embed'])) {
     $metatag = '<meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup'.$configMetadata.'%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+5acad376%22%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />';
 
 
-    $javascript_vendor = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js" integrity="sha256-M+/KRWyBtyTWc9rn6PxhvzD2mlK+kPetkkj4DGujqis= sha512-M7o5+umKQAREno4oYg1Q32EJ8xRzVNLlj1CM9Nie4Uakkyk1D6LY1mQY4n7yIWlZMDuCmiec0Myd7RwqI5qvPg=="></script>';
-    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-349bb38dcd8aa6d61a37b5a305477271.js" integrity="sha256-QxUnassKO4Oo7pE9ts0DWpOzoogvM7gAHVZF35cgvc8= sha512-Amrhk8Ruz/9vjDaZSWg8G8zd0AUmVzna9+ZdieP+M2RdTRobxyZO0JxjkAvwAdpcEaGA5/g69wrCNmZ+WB0uKA=="></script>';
+    $javascript_vendor = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js"></script>';
+    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-349bb38dcd8aa6d61a37b5a305477271.js"></script>';
 
 
     $stylesheet_vendor = '<link rel="stylesheet" type="text/css" href="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-463d4d71894dfde19d720aa6b937502f.css">';
