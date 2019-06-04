@@ -71,7 +71,7 @@ class Generator {
 
       // # ...and generate them
       foreach ($missingAttributes as $key => $value) {
-        $this->post('custom-attributes', ['name' => $key, 'attributeType' => 'client']);
+        $this->post('custom-attributes', ['name' => $key, 'attributeType' => 'client', 'clientZoneVisible' => false]);
       }
       $attributes = $this->get('custom-attributes');
 

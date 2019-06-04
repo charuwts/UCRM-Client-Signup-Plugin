@@ -1,22 +1,33 @@
+# 2.3.2 - June 4th 2019
+  Added:
+    unmsVersionCompliancy
+
 # 2.3.1 - May 30th 2019
-Remove integrity attribute
-Add stripe key to embed code
+Fixed:
+  Integrity attribute cors error
+  Stripe Key missing in embed code
 
 # 2.3.0 - April 23rd 2019
-Create admin ticket for new signups
+Added:
+  Create admin ticket for new signups
 
 # 2.2.1 - April 19th 2019
-Remove hardcoded stripe key
+Fixed:
+  Remove hardcoded stripe key
 
 # 2.2.0 - April 19th 2019
-Added terms and conditions
-moved company info to under name on form
+Added:
+  Optional Terms and Conditions
+Changed:
+  Moved Company info to under name on form
 
 # 2.1.0 - April 8th 2019
+Added:
+  Company Contact Info
 
-Company Contact Info
-Hide "Payment" text if no payment info collected.
+Fixed:
+  Hide "Payment" text if no payment info collected.
 
 # 2.0.1
-
-Hotfix compiled assets failure
+Fixed:
+  Hotfix compiled assets failure
