@@ -1,33 +1,52 @@
+# 2.4.2 - June 17th 2019
+Added:
+  * Updated vendor packages
+
+Fixed:
+  * Auto invoice charge stripe key error
+
+# 2.4.1 - June 15th 2019
+Fixed:
+  * Add phone display to config settings
+  
+# 2.4.0 - June 15th 2019
+Added:
+  * Option to skip service selection step with service display disabled
+  * Custom form fields for collecting additional info via a text field or dropdown
+  * Ability to hide optional fields
+  * Option to disable creation of admin tickets associated with new signups
+  * Option to auto send invitation email to new signups.
+
 # 2.3.2 - June 4th 2019
-  Added:
-    unmsVersionCompliancy
+Added:
+  * unmsVersionCompliancy
 
 # 2.3.1 - May 30th 2019
 Fixed:
-  Integrity attribute cors error
-  Stripe Key missing in embed code
+  * Integrity attribute cors error
+  * Stripe Key missing in embed code
 
 # 2.3.0 - April 23rd 2019
 Added:
-  Create admin ticket for new signups
+  * Create admin ticket for new signups
 
 # 2.2.1 - April 19th 2019
 Fixed:
-  Remove hardcoded stripe key
+  * Remove hardcoded stripe key
 
 # 2.2.0 - April 19th 2019
 Added:
-  Optional Terms and Conditions
+  * Optional Terms and Conditions
 Changed:
-  Moved Company info to under name on form
+  * Moved Company info to under name on form
 
 # 2.1.0 - April 8th 2019
 Added:
-  Company Contact Info
+  * Company Contact Info
 
 Fixed:
-  Hide "Payment" text if no payment info collected.
+  * Hide "Payment" text if no payment info collected.
 
 # 2.0.1
 Fixed:
-  Hotfix compiled assets failure
+  * Hotfix compiled assets failure

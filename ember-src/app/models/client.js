@@ -18,9 +18,6 @@ const Validations = buildValidations({
   email: [
     validator('presence', true),
     validator('format', { type: 'email' })
-  ],
-  phone: [
-    validator('presence', true),
   ]
 });
 

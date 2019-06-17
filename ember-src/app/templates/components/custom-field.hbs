@@ -1,0 +1,7 @@
+{{#if isDropdown}}
+  {{#power-select renderInPlace=true placeholder=placeholder selected=selectedOption options=parsedOptions onchange=(action "selectOption") as |selected|}}
+    {{selected}}
+  {{/power-select}}
+{{else}}
+  {{input id=attrId placeholder=placeholder value=value class="form-control"}}
+{{/if}}

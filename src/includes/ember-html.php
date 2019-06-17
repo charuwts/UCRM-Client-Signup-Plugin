@@ -36,6 +36,6 @@
     <div id="ember-basic-dropdown-wormhole"></div>
     
     <script type="text/javascript" src="<?php echo $publicUrl.'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js" integrity="sha256-M+/KRWyBtyTWc9rn6PxhvzD2mlK+kPetkkj4DGujqis= sha512-M7o5+umKQAREno4oYg1Q32EJ8xRzVNLlj1CM9Nie4Uakkyk1D6LY1mQY4n7yIWlZMDuCmiec0Myd7RwqI5qvPg=='; ?>"></script>
-    <script type="text/javascript" src="<?php echo $publicUrl.'ucrm-client-signup-form-349bb38dcd8aa6d61a37b5a305477271.js" integrity="sha256-QxUnassKO4Oo7pE9ts0DWpOzoogvM7gAHVZF35cgvc8= sha512-Amrhk8Ruz/9vjDaZSWg8G8zd0AUmVzna9+ZdieP+M2RdTRobxyZO0JxjkAvwAdpcEaGA5/g69wrCNmZ+WB0uKA=='; ?>"></script>
+    <script type="text/javascript" src="<?php echo $publicUrl.'ucrm-client-signup-form-5c4735c5f8e8c1a6c29189e9911197e9.js" integrity="sha256-0RRh4znl115Z9lwGr3yDZ8ifTudonIOELYJSUYv/Qz8= sha512-dzH3UPv2YLMf0yDSNNiQGXiBTJUSPffyxCiFlSOrl9rsea2etWK+48ZtyOaEoTvwHfIWqEmQRE3JIN2cepV1bw=='; ?>"></script>
   </body>
 </html>

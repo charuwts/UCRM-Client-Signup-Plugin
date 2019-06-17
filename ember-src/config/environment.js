@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'ucrm-client-signup-form',
     environment,
     rootURL: '/',
-    locationType: 'hash',
+    locationType: 'none',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimetal features on an ember canary build
@@ -43,7 +43,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.APP.host = 'http://localhost:8080/_plugins/ucrm-client-signup-plugin/public.php';
+    ENV.APP.host = 'http://192.168.1.5:8080/_plugins/ucrm-client-signup-plugin/public.php';
     ENV.APP.completionText = 'completiontextinformation';
     ENV.APP.frontendKey = 'this_key_should_be_improved';
     // Testem prefers this...

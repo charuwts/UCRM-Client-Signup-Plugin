@@ -11,64 +11,74 @@
       {{/translate-text}}
     </div>
   </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-2">
-      {{#translate-text key="companyName" as |translation|}}
-        {{form.element controlType="text" id="companyName" placeholder=translation property="companyName" required=false}}
-      {{/translate-text}}
+  {{#if model.pluginConfig.showCompany}}
+    <div class="form-row">
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="companyName" as |translation|}}
+          {{form.element controlType="text" id="companyName" placeholder=translation property="companyName" required=false}}
+        {{/translate-text}}
+      </div>
+      {{#if model.client.companyName}}
+        <div class="col-md-6 mb-2">
+          {{#translate-text key="companyContactFirstName" as |translation|}}
+            {{form.element controlType="text" id="companyContactFirstName" placeholder=translation property="companyContactFirstName" required=false}}
+          {{/translate-text}}
+        </div>
+        <div class="col-md-6 mb-2">
+          {{#translate-text key="companyContactLastName" as |translation|}}
+            {{form.element controlType="text" id="companyContactLastName" placeholder=translation property="companyContactLastName" required=false}}
+          {{/translate-text}}
+        </div>
+        <div class="col-md-6 mb-2">
+          {{#translate-text key="companyWebsite" as |translation|}}
+            {{form.element controlType="text" id="companyWebsite" placeholder=translation property="companyWebsite" required=false}}
+          {{/translate-text}}
+        </div>
+      {{/if}}
     </div>
-    {{#if model.client.companyName}}
-      <div class="col-md-6 mb-2">
-        {{#translate-text key="companyContactFirstName" as |translation|}}
-          {{form.element controlType="text" id="companyContactFirstName" placeholder=translation property="companyContactFirstName" required=false}}
-        {{/translate-text}}
-      </div>
-      <div class="col-md-6 mb-2">
-        {{#translate-text key="companyContactLastName" as |translation|}}
-          {{form.element controlType="text" id="companyContactLastName" placeholder=translation property="companyContactLastName" required=false}}
-        {{/translate-text}}
-      </div>
-      <div class="col-md-6 mb-2">
-        {{#translate-text key="companyWebsite" as |translation|}}
-          {{form.element controlType="text" id="companyWebsite" placeholder=translation property="companyWebsite" required=false}}
-        {{/translate-text}}
-      </div>
-    {{/if}}
-  </div>
+  {{/if}}
   <div class="form-row">
     <div class="col-md-6 mb-2">
       {{#translate-text key="email" as |translation|}}
         {{form.element controlType="email" id="email" autocomplete="email" placeholder=translation property="email" required=true}}
       {{/translate-text}}
     </div>
+    {{#if model.pluginConfig.showPhone}}
     <div class="col-md-6 mb-2">
       {{#translate-text key="phoneNumber" as |translation|}}
         {{form.element controlType="phone" id="phone" autocomplete="tel tel-national" placeholder=translation property="phone" required=true}}
       {{/translate-text}}
     </div>
+    {{/if}}
   </div>
 
   <div class="form-row">
-    <div class="col-md-6 mb-2">
-      {{#translate-text key="street1" as |translation|}}
-        {{form.element controlType="text" id="street1" autocomplete="street-address" placeholder=translation property="street1" required=true}}
-      {{/translate-text}}
-    </div>
-    <div class="col-md-6 mb-2">
-      {{#translate-text key="street2" as |translation|}}
-        {{form.element controlType="text" id="street2" autocomplete="" placeholder=translation property="street2" required=true}}
-      {{/translate-text}}
-    </div>
-    <div class="col-md-3 mb-2">
-      {{#translate-text key="city" as |translation|}}
-        {{form.element controlType="text" id="city" autocomplete="address-level2" placeholder=translation property="city" required=true}}
-      {{/translate-text}}
-    </div>
-    <div class="col-md-3 mb-2">
-      {{#translate-text key="postalCode" as |translation|}}
-        {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder=translation property="zipCode" required=true}}
-      {{/translate-text}}
-    </div>
+    {{#if model.pluginConfig.showStreet}}
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="street1" as |translation|}}
+          {{form.element controlType="text" id="street1" autocomplete="street-address" placeholder=translation property="street1" required=true}}
+        {{/translate-text}}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{#translate-text key="street2" as |translation|}}
+          {{form.element controlType="text" id="street2" autocomplete="" placeholder=translation property="street2" required=true}}
+        {{/translate-text}}
+      </div>
+    {{/if}}
+    {{#if model.pluginConfig.showAddress}}
+      <div class="col-md-3 mb-2">
+        {{#translate-text key="city" as |translation|}}
+          {{form.element controlType="text" id="city" autocomplete="address-level2" placeholder=translation property="city" required=true}}
+        {{/translate-text}}
+      </div>
+    {{/if}}
+    {{#if model.pluginConfig.showPostalcode}}
+      <div class="col-md-3 mb-2">
+        {{#translate-text key="postalCode" as |translation|}}
+          {{form.element controlType="text" id="zip" autocomplete="postal-code" placeholder=translation property="zipCode" required=true}}
+        {{/translate-text}}
+      </div>
+    {{/if}}
   </div>
 
 
@@ -93,6 +103,32 @@
     </div>
   {{/if}}
 
+{{!-- dynamic fields --}}
+    <div class="form-row">
+      {{#if model.pluginConfig.CustomFieldOneAttrId}}
+        <div class="col-md-6 mb-2">
+          {{custom-field attrId="custom-attr-one" placeholder=model.pluginConfig.CustomFieldOnePlaceholder value=model.pluginConfig.CustomFieldOneValue options=model.pluginConfig.CustomFieldOneOptions}}
+        </div>
+      {{/if}}
+      {{#if model.pluginConfig.CustomFieldTwoAttrId}}
+        <div class="col-md-6 mb-2">
+          {{custom-field id="custom-attr-one" placeholder=model.pluginConfig.CustomFieldTwoPlaceholder value=model.pluginConfig.CustomFieldTwoValue options=model.pluginConfig.CustomFieldTwoOptions}}
+        </div>
+      {{/if}}
+      {{#if model.pluginConfig.CustomFieldThreeAttrId}}
+        <div class="col-md-6 mb-2">
+          {{custom-field id="custom-attr-one" placeholder=model.pluginConfig.CustomFieldThreePlaceholder value=model.pluginConfig.CustomFieldThreeValue options=model.pluginConfig.CustomFieldThreeOptions}}
+        </div>
+      {{/if}}
+      {{#if model.pluginConfig.CustomFieldFourAttrId}}
+        <div class="col-md-6 mb-2">
+          {{custom-field id="custom-attr-one" placeholder=model.pluginConfig.CustomFieldFourPlaceholder value=model.pluginConfig.CustomFieldFourValue options=model.pluginConfig.CustomFieldFourOptions}}
+        </div>
+      {{/if}}
+    </div>
+  <hr>
+
+{{!-- << dynamic fields --}}
   {{#unless error}}
     {{#if pending}}
       <div class="alert alert-primary" role="alert">{{translate-text key="submittingInformation"}}</div>

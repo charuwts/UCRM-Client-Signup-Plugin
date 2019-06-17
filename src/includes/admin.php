@@ -25,7 +25,7 @@ if (!empty($_GET['admin'])) {
       <style type="text/css">
         <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
         <?php include(PROJECT_PATH."/admin-assets/vendor-d3aa84b783735f00b7be359e81298bf2.css"); ?>
-        <?php include(PROJECT_PATH."/admin-assets/ember-admin-6ecdd174a5269ac03f481d154c7fdeed.css"); ?>
+        <?php include(PROJECT_PATH."/admin-assets/ember-admin-fa8e2ed4928a7dc2bc616153e71b343a.css"); ?>
       </style>
       
     </head>
@@ -36,7 +36,7 @@ if (!empty($_GET['admin'])) {
       <script type="text/javascript">
         <?php // ## UCRM requires file paths, Using PHP include instead of HTML tags to avoid relative URL ?>
         <?php include(PROJECT_PATH."/admin-assets/vendor-b243ab3710c152e7c3a92648bca62b18.js"); ?>
-        <?php include(PROJECT_PATH."/admin-assets/ember-admin-0e15c4e605aad0d2191a072b5a183c85.js"); ?>
+        <?php include(PROJECT_PATH."/admin-assets/ember-admin-3bb660151ea796ca843fd401f22a450a.js"); ?>
       </script>
 
     </body>

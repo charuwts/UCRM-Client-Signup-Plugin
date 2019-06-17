@@ -13,7 +13,56 @@ export default Controller.extend({
       return false;
     }
   }),
-
+  showAddress: computed('model.client.{street1,city,zipCode}', function() {
+    if (this.get('model.client.street1') || this.get('model.client.city') || this.get('model.client.zipCode')) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
+  cityComma: computed('model.client.{city,zipCode}', function() {
+    if (this.get('model.client.city') && this.get('model.client.zipCode')) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
+  CustomFieldOneValue: computed('model.pluginConfig.{CustomFieldOneValue,CustomFieldOneOptions}', function() {
+    if (this.get('model.pluginConfig.CustomFieldOneValue')) {
+      return this.get('model.pluginConfig.CustomFieldOneValue');
+    } else {
+      if ((this.get('model.pluginConfig.CustomFieldOneOptions')) && (!this.get('model.pluginConfig.CustomFieldOnePlaceholder'))) {
+        return this.get('model.pluginConfig.CustomFieldOneOptions').split(",")[0];
+      }
+    }
+  }),
+  CustomFieldTwoValue: computed('model.pluginConfig.{CustomFieldTwoValue,CustomFieldTwoOptions}', function() {
+    if (this.get('model.pluginConfig.CustomFieldTwoValue')) {
+      return this.get('model.pluginConfig.CustomFieldTwoValue');
+    } else {
+      if ((this.get('model.pluginConfig.CustomFieldTwoOptions')) && (!this.get('model.pluginConfig.CustomFieldTwoPlaceholder'))) {
+        return this.get('model.pluginConfig.CustomFieldTwoOptions').split(",")[0];
+      }
+    }
+  }),
+  CustomFieldThreeValue: computed('model.pluginConfig.{CustomFieldThreeValue,CustomFieldThrOptions}', function() {
+    if (this.get('model.pluginConfig.CustomFieldThreeValue')) {
+      return this.get('model.pluginConfig.CustomFieldThreeValue');
+    } else {
+      if ((this.get('model.pluginConfig.CustomFieldThrOptions')) && (!this.get('model.pluginConfig.CustomFieldThrPlaceholder'))) {
+        return this.get('model.pluginConfig.CustomFieldThrOptions').split(",")[0];
+      }
+    }
+  }),
+  CustomFieldFourValue: computed('model.pluginConfig.{CustomFieldFourValue,CustomFieldFouOptions}', function() {
+    if (this.get('model.pluginConfig.CustomFieldFourValue')) {
+      return this.get('model.pluginConfig.CustomFieldFourValue');
+    } else {
+      if ((this.get('model.pluginConfig.CustomFieldFouOptions')) && (!this.get('model.pluginConfig.CustomFieldFouPlaceholder'))) {
+        return this.get('model.pluginConfig.CustomFieldFouOptions').split(",")[0];
+      }
+    }
+  }),
   options: computed('stripev3', function() {
     return {
       hidePostalCode: true,
@@ -36,6 +85,12 @@ export default Controller.extend({
 
   isLead: computed('ENV.APP.isLead', function() {
     return ENV.APP.isLead === 'no' ? false : true;
+  }),
+
+  planIds: computed('model.{servicePlanId,servicePlanPeriodId}', function() {
+    if (this.get('model.servicePlanId') && this.get('model.servicePlanPeriodId')) {
+      return this.get('model.servicePlanId') + ',' + this.get('model.servicePlanPeriodId');
+    }
   }),
 
   clientType(client) {
@@ -98,8 +153,24 @@ export default Controller.extend({
                       customAttributeId: this.get('model.pluginConfig.formEmailAttributeId')
                     },
                     {
-                      value: this.get('model.servicePlanId') + ',' + this.get('model.servicePlanPeriodId'),
+                      value: this.get('planIds'),
                       customAttributeId: this.get('model.pluginConfig.serviceDataAttributeId')
+                    },
+                    {
+                      value: this.get('CustomFieldOneValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldOneAttrId'))
+                    },
+                    {
+                      value: this.get('CustomFieldTwoValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldTwoAttrId'))
+                    },
+                    {
+                      value: this.get('CustomFieldThreeValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldThreeAttrId'))
+                    },
+                    {
+                      value: this.get('CustomFieldFourValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldFourAttrId'))
                     }
                   ]
                 },
@@ -194,13 +265,30 @@ export default Controller.extend({
                       customAttributeId: this.get('model.pluginConfig.formEmailAttributeId')
                     },
                     {
-                      value: this.get('model.servicePlan.id') + ',' + this.get('model.servicePlanPeriodId'),
+                      value: this.get('planIds'),
                       customAttributeId: this.get('model.pluginConfig.serviceDataAttributeId')
                     },
                     {
                       value: String(token.token.id),
                       customAttributeId: this.get('model.pluginConfig.tokenAttributeId')
+                    },
+                    {
+                      value: this.get('CustomFieldOneValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldOneAttrId'))
+                    },
+                    {
+                      value: this.get('CustomFieldTwoValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldTwoAttrId'))
+                    },
+                    {
+                      value: this.get('CustomFieldThreeValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldThreeAttrId'))
+                    },
+                    {
+                      value: this.get('CustomFieldFourValue'),
+                      customAttributeId: parseInt(this.get('model.pluginConfig.CustomFieldFourAttrId'))
                     }
+
                   ]
                 }
               }

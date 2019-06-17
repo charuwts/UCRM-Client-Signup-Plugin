@@ -5,7 +5,7 @@
     "displayName": "UCRM Client Signup Plugin",
     "description": "A UCRM plugin that provides a frontend form for clients to signup, and select payment plans, and submit payment information.",
     "url": "https://www.charuwts.com/plugins/ucrm-signup",
-    "version": "2.3.2",
+    "version": "2.4.2",
     "ucrmVersionCompliancy": {
       "min": "2.16.0",
       "max": null
@@ -66,6 +66,20 @@
         "label": "Create Lead",
         "type": "checkbox",
         "description": "Create Lead instead of Client",
+        "required": 0
+    },
+    {
+        "key": "INVITE",
+        "label": "Invite Automatically.",
+        "type": "checkbox",
+        "description": "Send client zone invitation to new signups automatically.",
+        "required": 0
+    },
+    {
+        "key": "ADMIN_TICKET",
+        "label": "Create Admin Ticket.",
+        "type": "checkbox",
+        "description": "Create private admin ticket for new signups.",
         "required": 0
     }
   ],

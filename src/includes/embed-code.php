@@ -1,18 +1,18 @@
 <?php
 
 if (!empty($_GET['embed'])) {
-    // if (! $user || ! $user->hasViewPermission(\Ubnt\UcrmPluginSdk\Security\PermissionNames::SYSTEM_PLUGINS)) {
-    //   if (! headers_sent()) {
-    //       header("HTTP/1.1 403 Forbidden");
-    //   }
-    //   die('You do not have permission to see this page.');
-    // }
+    if (! $user || ! $user->hasViewPermission(\Ubnt\UcrmPluginSdk\Security\PermissionNames::SYSTEM_PLUGINS)) {
+      if (! headers_sent()) {
+          header("HTTP/1.1 403 Forbidden");
+      }
+      die('You do not have permission to see this page.');
+    }
 
     $metatag = '<meta name="ucrm-client-signup-form/config/environment" content="%7B%22modulePrefix%22%3A%22ucrm-client-signup-form%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22none%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22rootElement%22%3A%22%23ember-signup'.$configMetadata.'%22%2C%22name%22%3A%22ucrm-client-signup-form%22%2C%22version%22%3A%221.0.0+5acad376%22%7D%2C'.$stripePublishableKeyEncoded.'%22exportApplicationGlobal%22%3Afalse%7D" />';
 
 
     $javascript_vendor = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-9bfe2b44f19210a7c1959ef10ea382e2.js"></script>';
-    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-349bb38dcd8aa6d61a37b5a305477271.js"></script>';
+    $javascript = '<script type="text/javascript" src="'.str_replace(".php", "/", $options->pluginPublicUrl).'ucrm-client-signup-form-5c4735c5f8e8c1a6c29189e9911197e9.js"></script>';
 
 
     $stylesheet_vendor = '<link rel="stylesheet" type="text/css" href="'.str_replace(".php", "/", $options->pluginPublicUrl).'vendor-463d4d71894dfde19d720aa6b937502f.css">';

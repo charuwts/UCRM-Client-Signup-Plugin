@@ -19,6 +19,10 @@ class Webhook extends Generator {
     return $this->api->post($endpoint, $data);
   }
 
+  public function patch($endpoint, $data = []) {
+    return $this->api->patch($endpoint, $data);
+  }
+
   public function handleToken($client_id, $token, $email) {
     $stripe_handler = new Stripe();
     $stripe_handler->createCustomer($client_id, $token, $email);
@@ -45,6 +49,11 @@ class Webhook extends Generator {
     }
   }
   public function handleWebhook($payload) {
+
+    $configManager = \Ubnt\UcrmPluginSdk\Service\PluginConfigManager::create();
+    $config = $configManager->loadConfig();
+
+
     // # Get array from payload
     $payload_decoded = json_decode($payload, true);
     
@@ -56,20 +65,29 @@ class Webhook extends Generator {
       if ($payload_decoded['eventName'] == 'client.add' && !empty($payload_decoded['extraData']['entity']['attributes'])) {
 
         $client = $payload_decoded['extraData']['entity'];
-        $this->post('ticketing/tickets', [
-          "subject" => "New Client Signup",
-          "clientId" => $client['id'],
-          'status' => 0,
-          'public' => false,
-          'activity' => [
-            [
-              'public' => false,
-              'comment' => [
-                'body' => "Client created via Signup Form.",
+
+        if ($config["ADMIN_TICKET"]) {
+
+          $this->post('ticketing/tickets', [
+            "subject" => "New Client Signup",
+            "clientId" => $client['id'],
+            'status' => 0,
+            'public' => false,
+            'activity' => [
+              [
+                'public' => false,
+                'comment' => [
+                  'body' => "Client created via Signup Form.",
+                ]
               ]
             ]
-          ]
-        ]);
+          ]);
+
+        }
+        
+        if ($config["INVITE"]) {
+          $this->patch('clients/'.$client['id'].'/send-invitation');
+        }
 
         //# Check for services
         $service_details = [];
@@ -87,26 +105,30 @@ class Webhook extends Generator {
         }
         if (count($service_details) > 0) {
           $user_id = $payload_decoded['entityId'];
-          try {
-            // ## Set active from and invoicing start to +1 month to give time to adjust service invoice dates manually
-            $date = new \DateTime();
-            // $date = date('c', strtotime("-1 days"));
-            $date = date('c', strtotime("+1 months"));
+          if (($service_details[0] !== null) && ($service_details[0] !== 'null')) {
 
-            $user = $this->get('clients/'.$user_id);
-            $isQuoted = $user['isLead'] ? true : false;
+            try {
+              // ## Set active from and invoicing start to +1 month to give time to adjust service invoice dates manually
+              $date = new \DateTime();
+              // $date = date('c', strtotime("-1 days"));
+              $date = date('c', strtotime("+1 months"));
 
-            $webhook_event = $this->post('clients/'.$user_id.'/services', [
-              "servicePlanId" => (int)$service_details[0],
-              "servicePlanPeriodId" => (int)$service_details[1],
-              "activeFrom" => $date,
-              "invoicingStart" => $date,
-              "isQuoted" => $isQuoted,
-            ]);
-            return true;
-          } catch (\GuzzleHttp\Exception\ClientException $e) {
-            file_put_contents(Interpreter::$dataUrl.'log.log', $e->getMessage(), FILE_APPEND);
-            return $e;
+              $user = $this->get('clients/'.$user_id);
+              $isQuoted = $user['isLead'] ? true : false;
+
+              $webhook_event = $this->post('clients/'.$user_id.'/services', [
+                "servicePlanId" => (int)$service_details[0],
+                "servicePlanPeriodId" => (int)$service_details[1],
+                "activeFrom" => $date,
+                "invoicingStart" => $date,
+                "isQuoted" => $isQuoted,
+              ]);
+              return true;
+            } catch (\GuzzleHttp\Exception\ClientException $e) {
+              file_put_contents(Interpreter::$dataUrl.'log.log', $e->getMessage(), FILE_APPEND);
+              return $e;
+            }
+
           }
         } else {
           return false;

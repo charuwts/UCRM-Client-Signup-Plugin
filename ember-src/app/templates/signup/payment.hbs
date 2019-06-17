@@ -11,16 +11,18 @@
       </div>
     </div>
     <div class="row mb-4 justify-content-center">
+      {{#if model.servicePlan}}
       <div class="col-auto">
         <div id="service-details">
           <div class="card mt-2">
             <div class="card-body">
               {{#link-to 'signup.services'}}<h5 class="card-title">{{translate-text key="serviceDetails"}}</h5>{{/link-to}}
-              {{selected-service-details servicePlan=model.servicePlan}}
+                {{selected-service-details servicePlan=model.servicePlan}}
             </div>
           </div>
         </div>
       </div>
+      {{/if}}
       <div class="col-auto">
         <div id="account-info">
             <div class="card mt-2">
@@ -30,8 +32,15 @@
                   <b>{{translate-text key="name"}}</b>: {{model.client.firstName}} {{model.client.lastName}}<br>
                   {{#if model.client.companyName}}<b>{{translate-text key="companyName"}}</b>: {{model.client.companyName}}<br>{{/if}}
                   <b>{{translate-text key="email"}}</b>: {{model.client.email}}<br>
-                  <b>{{translate-text key="phoneNumber"}}</b>: {{model.client.phone}}<br>
-                  <b>{{translate-text key="address"}}</b>: {{model.client.street1}} {{model.client.city}}, {{model.client.zipCode}}
+                  {{#if model.client.phone}}<b>{{translate-text key="phoneNumber"}}</b>: {{model.client.phone}}<br>{{/if}}
+                  {{#if showAddress}}
+                    <b>{{translate-text key="address"}}</b>: {{model.client.street1}} {{model.client.city}}{{if cityComma ","}} {{model.client.zipCode}}
+                  {{else}}
+                  {{/if}}
+                  {{#if CustomFieldOneValue}}<br><b>{{model.pluginConfig.CustomFieldOneLabel}}</b> {{CustomFieldOneValue}}{{/if}}
+                  {{#if CustomFieldTwoValue}}<br><b>{{model.pluginConfig.CustomFieldTwoLabel}}</b> {{CustomFieldTwoValue}}{{/if}}
+                  {{#if CustomFieldThreeValue}}<br><b>{{model.pluginConfig.CustomFieldThreeLabel}}</b> {{CustomFieldThreeValue}}{{/if}}
+                  {{#if CustomFieldFourValue}}<br><b>{{model.pluginConfig.CustomFieldFourLabel}}</b> {{CustomFieldFourValue}}{{/if}}
                 </p>
               </div>
             </div>
