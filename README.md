@@ -1,3 +1,5 @@
+This repository is no longer maintained and was not compatible with UNMS when archived. You can fork the project and continue development if you're interested in maintaining it.
+
 # UCRM Client Signup
 A [UCRM plugin](https://github.com/Ubiquiti-App/UCRM-plugins) that allows a customer to signup via a checkout format.
 
