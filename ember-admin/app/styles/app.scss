@@ -1,0 +1,38 @@
+.fit-image {
+  display: block;
+  max-width: 100%;
+}
+.center-image {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+$siteWidth: 800px;
+$latoFont: 'Lato', sans-serif;
+
+$font-family-base: $latoFont;
+$line-height-base: 1.1;
+
+$primary: #00A2D9;
+$secondary: #009780;
+
+$theme-colors: (
+  primary: $primary,
+  secondary: $secondary,
+  success: #30AD5C,
+  light: #EEE,
+  dark: #272727,
+);
+
+@import "ember-power-select/themes/bootstrap";
+@import "ember-power-select";
+@import "ember-bootstrap/bootstrap";
+
+
+@import "admin";
+
+body {
+  font-family: $latoFont;
+  background-color: #ECF0F2;
+}

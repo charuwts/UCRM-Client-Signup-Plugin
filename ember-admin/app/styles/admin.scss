@@ -1,0 +1,34 @@
+.ucsp {
+  .code-block {
+    overflow: auto;
+    width: 100%;
+    white-space: nowrap;
+    background-color: white;
+    border: 1px solid #CCC;
+    padding: 1rem;
+  }
+  .logo-image {
+    width: 400px;
+  }
+  .plugin-name {
+    font-weight: 700;
+    color: #333;
+    font-size: 2rem;
+    line-height: 2rem;
+    padding-top: 1rem;
+  }
+
+  .main-menu {
+    background-color: white;
+    .navbar {
+      border-bottom: 1px solid $primary;
+      ul {
+        padding: 0;
+      }
+    }
+  }
+
+  // label {
+  //   border-bottom: 1px solid #000;
+  // }
+}

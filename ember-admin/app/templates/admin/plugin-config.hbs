@@ -1,0 +1,52 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    {{tool/admin-alerts notice=notice error=error}}
+    <div class="col-12 pb-2">
+      <h3 class="pb-3">Plugin Config <button class="btn btn-primary mx-2" {{action 'saveChanges'}}>Save Changes</button></h3>
+      <i>(Attribute ID's collected automatically on save based on UCRM Custom attribute)</i>
+      <div class="row">
+        
+        {{#each-in model.pluginConfig as |attr value|}}
+          {{#if (text-includes 'AttributeId' attr)}}
+            <div class="col-auto py-2 my-2 mx-2 bg-white border border-radius">
+              <b>{{attr}}</b>: {{value}}
+            </div>
+          {{/if}}
+        {{/each-in}}
+  
+
+      </div>
+    </div>
+  </div>
+  <div class="row py-3 border bg-white">
+    <div class="col-12 h4 mb-4">Plugin Display</div>
+    <div class="col-12">
+      <div class="row py-2">
+        <div class="col-md-4">
+          <label>Terms and Conditions</label>
+          {{textarea type="text" value=model.pluginConfig.termsAndConditions class="form-control"}}
+        </div>
+        <div class="col-md-4">
+          <label>Text displayed on completion of form</label>
+          {{textarea type="text" value=model.pluginConfig.completionText class="form-control"}}
+        </div>
+        <div class="col-auto">
+          {{tool/toggle-button radioValue=model.pluginConfig.showCountry text="Show Country Selection."}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row py-3 my-1 border bg-white">
+    <div class="col-12 h4 mb-4">Form Data</div>
+    <div class="col-12">
+      <div class="row py-2">
+        <div class="col-auto">
+          <label>Organization ID</label>
+          {{input value=model.pluginConfig.organizationId class="form-control"}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

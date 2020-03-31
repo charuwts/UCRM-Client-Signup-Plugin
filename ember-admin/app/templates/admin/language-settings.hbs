@@ -1,0 +1,52 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    {{tool/admin-alerts notice=notice error=error}}
+    <div class="col-12 pb-2">
+      <h3 class="pb-3">Language Settings</h3>
+      <div class="row">
+        {{#if model.translations}}
+          <div class="col-4">
+            <div class="pb-1">Presets</div>
+            {{#power-select
+              selected=selectedLanguage
+              options=translationOptions
+              onchange=(action 'selectLanguage')
+              renderInPlace=true
+              searchEnabled=false
+              as |selection|
+            }}
+              {{selection}}
+            {{/power-select}}
+          </div>
+        {{else}}
+          <div class="col-12">
+            No translations found.
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  <div class="row py-3 border bg-white">
+    <div class="col-12 h4">Customize Translation <button {{action 'saveChanges'}} class="btn btn-primary mx-2">Save changes</button></div>
+    {{#each-in model.selectedTranslation as |key value|}}
+      <div class="col-sm-6 col-md-4 py-2">
+        {{#if (is-equal key 'languageTranslation')}}
+          <div>Language</div>
+        {{else}}
+          {{translate-from-key key=key translate=model.translations.ENGLISH class="pb-1"}} 
+        {{/if}}
+        {{input value=(mut (get model.selectedTranslation key)) class="form-control"}}
+      </div>
+    {{/each-in}}
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <h4>Submit Translation</h4>
+      <p>If you can translate into a language that is not currently included in the presets and are willing to contribute to the community. Please customize the fields and save changes. Then copy the code snippit below and paste it into the contact form at <a href="https://www.charuwts.com/contact" target="_blank">https://www.charuwts.com/contact</a> with the subject "Submit Plugin Translation".</p>
+    </div>
+    <div class="col-12 code-block">
+      {{json-stringify model.selectedTranslation}}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="btn border border-dark" {{action "toggle"}}>
+  <div class="btn text-dark">{{servicePlan.name}}</div>
+  {{#if radioValue}}
+    <button class="text-center btn btn-success">Display</button>
+  {{else}}
+    <button class="text-center btn btn-dark">Hidden</button>
+  {{/if}}
+</div>

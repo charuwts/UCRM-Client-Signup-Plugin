@@ -1,0 +1,23 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    {{tool/admin-alerts notice=notice error=error}}
+    <div class="col-12 pb-2">
+      <h3 class="pb-3">Service Filters</h3>
+      <div class="row">
+      </div>
+    </div>
+  </div>
+  <div class="row py-3 border bg-white">
+    <div class="col-12 h4 mb-4">Select Services to Display <button class="btn btn-primary mx-2" {{action 'saveChanges'}}>Save Filter Changes</button><button class="btn btn-danger mx-2" {{action 'regenerateServices'}}>Regenerate Service Filters</button></div>
+    {{#if model.servicePlanFilters}}
+      {{#each model.servicePlanFilters as |servicePlan|}}
+        {{tool/service-selection servicePlan=servicePlan radioValue=servicePlan.display}}
+      {{/each}}
+    {{else}}
+      <div class="col-12">
+        No services found. Refresh to check again.
+      </div>
+    {{/if}}
+
+  </div>
+</div>

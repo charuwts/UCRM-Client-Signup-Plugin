@@ -1,0 +1,8 @@
+<div class="btn border border-dark" {{action "toggle"}}>
+  <div class="btn text-dark">{{text}}</div>
+  {{#if radioValue}}
+    <button class="text-center btn btn-success">Yes</button>
+  {{else}}
+    <button class="text-center btn btn-dark">No</button>
+  {{/if}}
+</div>
